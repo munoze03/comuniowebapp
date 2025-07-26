@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en" class="app-background">
+    <head>
+        <meta name="generator" content="Scully 0.0.0">
+        <meta charset="utf-8">
+        <title>Pocket FC | Manage Your Own Football Club</title>
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Manage your favourite football club and watch your team play matches in 2D.">
+        <meta name="”robots”" content="index, follow">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <!-- Google Icons -->
+        <style type="text/css">
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 300;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fCRc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 300;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fABc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 300;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fCBc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+1F00-1FFF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 300;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBxc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0370-03FF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 300;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fCxc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 300;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fChc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 300;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc4AMP6lQ.woff2) format('woff2');
+                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu72xKKTU1Kvnz.woff2) format('woff2');
+                unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu5mxKKTU1Kvnz.woff2) format('woff2');
+                unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu7mxKKTU1Kvnz.woff2) format('woff2');
+                unicode-range: U+1F00-1FFF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4WxKKTU1Kvnz.woff2) format('woff2');
+                unicode-range: U+0370-03FF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu7WxKKTU1Kvnz.woff2) format('woff2');
+                unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu7GxKKTU1Kvnz.woff2) format('woff2');
+                unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2) format('woff2');
+                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fCRc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fABc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fCBc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+1F00-1FFF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBxc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0370-03FF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fCxc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fChc4AMP6lbBP.woff2) format('woff2');
+                unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            }
+
+            @font-face {
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-display: swap;
+                src: url(https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4AMP6lQ.woff2) format('woff2');
+                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+        </style>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <style type="text/css">
+            @font-face {
+                font-family: 'Material Icons';
+                font-style: normal;
+                font-weight: 400;
+                src: url(https://fonts.gstatic.com/s/materialicons/v139/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');
+            }
+
+            .material-icons {
+                font-family: 'Material Icons';
+                font-weight: normal;
+                font-style: normal;
+                font-size: 24px;
+                line-height: 1;
+                letter-spacing: normal;
+                text-transform: none;
+                display: inline-block;
+                white-space: nowrap;
+                word-wrap: normal;
+                direction: ltr;
+                -webkit-font-feature-settings: 'liga';
+                -webkit-font-smoothing: antialiased;
+            }
+        </style>
+        <style>
+            .mat-typography {
+                font: 400 14px/20px Roboto,sans-serif;
+                letter-spacing: .0178571429em
+            }
+
+            .app-background {
+                background-image: url(licensed-grass-field-bg-image-compressed.4d3b4adee5eae594.jpg);
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-attachment: fixed
+            }
+
+            :root {
+                color-scheme: dark
+            }
+
+            html {
+                background-color: #151718
+            }
+
+            body {
+                color: #f0f0f0
+            }
+
+            html,body {
+                height: 100%;
+                -webkit-text-size-adjust: 100%
+            }
+
+            body {
+                margin: 0;
+                font-family: Roboto,Helvetica Neue,sans-serif;
+                background-color: #181a1b00!important
+            }
+        </style>
+        <link rel="stylesheet" href="styles.f1c7da7f32702bf8.css" media="all" onload="this.media='all'">
+        <noscript>
+            <link rel="stylesheet" href="styles.f1c7da7f32702bf8.css">
+        </noscript>
+        <style type="text/css"></style>
+        <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8D9J5K5KGC"></script>
+        <style>
+            mat-toolbar[_ngcontent-ins-c57] {
+                margin-bottom: 1rem
+            }
+
+            .landing-page-navbar[_ngcontent-ins-c57] {
+                height: 50px;
+                background-color: #2f4349
+            }
+
+            .mobile-header-hud-offset-landscape[_ngcontent-ins-c57] {
+                position: relative;
+                top: 8px
+            }
+
+            .mobile-header-hud-offset-portrait[_ngcontent-ins-c57] {
+                position: relative;
+                top: 4px
+            }
+
+            .sticky[_ngcontent-ins-c57] {
+                position: fixed;
+                top: 0
+            }
+
+            .top-layer[_ngcontent-ins-c57] {
+                z-index: 10
+            }
+
+            ul[_ngcontent-ins-c57] {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex
+            }
+
+            a[_ngcontent-ins-c57] {
+                text-decoration: none;
+                color: #fff
+            }
+
+            .spacer[_ngcontent-ins-c57] {
+                flex: 1 1 auto
+            }
+
+            .admin-divider[_ngcontent-ins-c57] {
+                margin-left: 1rem;
+                margin-right: 1rem;
+                position: relative;
+                top: 4px;
+                color: gray
+            }
+
+            .active-world[_ngcontent-ins-c57] {
+                color: #5e77ff;
+                font-size: 85%
+            }
+
+            .slider-toggle[_ngcontent-ins-c57] {
+                position: relative;
+                top: 4px
+            }
+
+            .admin-team-color[_ngcontent-ins-c57] {
+                color: maroon
+            }
+
+            .badge-alert[_ngcontent-ins-c57] {
+                position: relative;
+                bottom: 11px;
+                left: 5px;
+                display: inline-block
+            }
+
+            .app-version-div[_ngcontent-ins-c57] {
+                text-align: center;
+                height: 11px
+            }
+
+            .app-version-font[_ngcontent-ins-c57] {
+                color: #4a4a4a;
+                font-size: 9px;
+                font-weight: 500;
+                position: relative;
+                bottom: 5.5px
+            }
+
+            .request-invite-btn[_ngcontent-ins-c57] {
+                color: #312f2f
+            }
+
+            .super-admin-mobile-menu[_ngcontent-ins-c57] {
+                padding-left: 15px;
+                padding-right: 15px;
+                font-weight: 700;
+                font-style: italic
+            }
+
+            .mobile-logo[_ngcontent-ins-c57] {
+                font-size: 14px
+            }
+
+            .logo-text[_ngcontent-ins-c57] {
+                font-family: fontLandingPageHeader;
+                font-size: 16px
+            }
+
+            .changelog-btn[_ngcontent-ins-c57] {
+                height: 0px;
+                width: 0px;
+                opacity: 0
+            }
+
+            .changelog-icon[_ngcontent-ins-c57] {
+                position: relative;
+                top: 3px
+            }
+
+            .transfers-banner-web[_ngcontent-ins-c57] {
+                top: 50px!important
+            }
+
+            .transfers-banner[_ngcontent-ins-c57] {
+                position: absolute;
+                width: 100%;
+                top: 56px;
+                height: 35px!important;
+                left: 0
+            }
+
+            .login-btn[_ngcontent-ins-c57] {
+                font-family: fontLandingPageHeader;
+                margin-right: 10px
+            }
+
+            .sign-up-btn-offset[_ngcontent-ins-c57] {
+                position: relative;
+                top: 2px
+            }
+        </style>
+        <style type="text/css">
+            /*
+  @angular/flex-layout - workaround for possible browser quirk with mediaQuery listeners
+  see http://bit.ly/2sd4HMP
+*/
+            @media screen and (min-width: 600px), screen and (min-width: 960px), screen and (min-width: 1280px), screen and (min-width: 1920px), screen and (min-width: 1920px) and (max-width: 4999.98px), screen and (max-width: 1919.98px), screen and (min-width: 1280px) and (max-width: 1919.98px), screen and (max-width: 1279.98px), screen and (min-width: 960px) and (max-width: 1279.98px), screen and (max-width: 959.98px), screen and (min-width: 600px) and (max-width: 959.98px), screen and (max-width: 599.98px), screen and (min-width: 0px) and (max-width: 599.98px), print {
+                .fx-query-test {
+                }
+            }
+        </style>
+        <style>
+            .cdk-high-contrast-active .mat-toolbar {
+                outline: solid 1px
+            }
+
+            .mat-toolbar .mat-mdc-button-base.mat-unthemed {
+                --mdc-text-button-label-text-color: inherit;
+                --mdc-outlined-button-label-text-color: inherit
+            }
+
+            .mat-toolbar-row,.mat-toolbar-single-row {
+                display: flex;
+                box-sizing: border-box;
+                padding: 0 16px;
+                width: 100%;
+                flex-direction: row;
+                align-items: center;
+                white-space: nowrap
+            }
+
+            .mat-toolbar-multiple-rows {
+                display: flex;
+                box-sizing: border-box;
+                flex-direction: column;
+                width: 100%
+            }
+        </style>
+        <style>
+            .mdc-touch-target-wrapper {
+                display: inline
+            }
+
+            .mdc-elevation-overlay {
+                position: absolute;
+                border-radius: inherit;
+                pointer-events: none;
+                opacity: var(--mdc-elevation-overlay-opacity, 0);
+                transition: opacity 280ms cubic-bezier(0.4, 0, 0.2, 1)
+            }
+
+            .mdc-button {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                min-width: 64px;
+                border: none;
+                outline: none;
+                line-height: inherit;
+                user-select: none;
+                -webkit-appearance: none;
+                overflow: visible;
+                vertical-align: middle;
+                background: rgba(0,0,0,0)
+            }
+
+            .mdc-button .mdc-elevation-overlay {
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0
+            }
+
+            .mdc-button::-moz-focus-inner {
+                padding: 0;
+                border: 0
+            }
+
+            .mdc-button:active {
+                outline: none
+            }
+
+            .mdc-button:hover {
+                cursor: pointer
+            }
+
+            .mdc-button:disabled {
+                cursor: default;
+                pointer-events: none
+            }
+
+            .mdc-button[hidden] {
+                display: none
+            }
+
+            .mdc-button .mdc-button__icon {
+                margin-left: 0;
+                margin-right: 8px;
+                display: inline-block;
+                position: relative;
+                vertical-align: top
+            }
+
+            [dir=rtl] .mdc-button .mdc-button__icon,.mdc-button .mdc-button__icon[dir=rtl] {
+                margin-left: 8px;
+                margin-right: 0
+            }
+
+            .mdc-button .mdc-button__progress-indicator {
+                font-size: 0;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+                line-height: initial
+            }
+
+            .mdc-button .mdc-button__label {
+                position: relative
+            }
+
+            .mdc-button .mdc-button__focus-ring {
+                pointer-events: none;
+                border: 2px solid rgba(0,0,0,0);
+                border-radius: 6px;
+                box-sizing: content-box;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: calc( 100% + 4px );
+                width: calc( 100% + 4px );
+                display: none
+            }
+
+            @media screen and (forced-colors: active) {
+                .mdc-button .mdc-button__focus-ring {
+                    border-color: CanvasText
+                }
+            }
+
+            .mdc-button .mdc-button__focus-ring::after {
+                content: "";
+                border: 2px solid rgba(0,0,0,0);
+                border-radius: 8px;
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: calc(100% + 4px);
+                width: calc(100% + 4px)
+            }
+
+            @media screen and (forced-colors: active) {
+                .mdc-button .mdc-button__focus-ring::after {
+                    border-color: CanvasText
+                }
+            }
+
+            @media screen and (forced-colors: active) {
+                .mdc-button.mdc-ripple-upgraded--background-focused .mdc-button__focus-ring,.mdc-button:not(.mdc-ripple-upgraded):focus .mdc-button__focus-ring {
+                    display: block
+                }
+            }
+
+            .mdc-button .mdc-button__touch {
+                position: absolute;
+                top: 50%;
+                height: 48px;
+                left: 0;
+                right: 0;
+                transform: translateY(-50%)
+            }
+
+            .mdc-button__label+.mdc-button__icon {
+                margin-left: 8px;
+                margin-right: 0
+            }
+
+            [dir=rtl] .mdc-button__label+.mdc-button__icon,.mdc-button__label+.mdc-button__icon[dir=rtl] {
+                margin-left: 0;
+                margin-right: 8px
+            }
+
+            svg.mdc-button__icon {
+                fill: currentColor
+            }
+
+            .mdc-button--touch {
+                margin-top: 6px;
+                margin-bottom: 6px
+            }
+
+            .mdc-button {
+                padding: 0 8px 0 8px
+            }
+
+            .mdc-button--unelevated {
+                transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+                padding: 0 16px 0 16px
+            }
+
+            .mdc-button--unelevated.mdc-button--icon-trailing {
+                padding: 0 12px 0 16px
+            }
+
+            .mdc-button--unelevated.mdc-button--icon-leading {
+                padding: 0 16px 0 12px
+            }
+
+            .mdc-button--raised {
+                transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+                padding: 0 16px 0 16px
+            }
+
+            .mdc-button--raised.mdc-button--icon-trailing {
+                padding: 0 12px 0 16px
+            }
+
+            .mdc-button--raised.mdc-button--icon-leading {
+                padding: 0 16px 0 12px
+            }
+
+            .mdc-button--outlined {
+                border-style: solid;
+                transition: border 280ms cubic-bezier(0.4, 0, 0.2, 1)
+            }
+
+            .mdc-button--outlined .mdc-button__ripple {
+                border-style: solid;
+                border-color: rgba(0,0,0,0)
+            }
+
+            .mat-mdc-button {
+                height: var(--mdc-text-button-container-height, 36px);
+                border-radius: var(--mdc-text-button-container-shape, var(--mdc-shape-small, 4px))
+            }
+
+            .mat-mdc-button:not(:disabled) {
+                color: var(--mdc-text-button-label-text-color, inherit)
+            }
+
+            .mat-mdc-button:disabled {
+                color: var(--mdc-text-button-disabled-label-text-color, rgba(0, 0, 0, 0.38))
+            }
+
+            .mat-mdc-button .mdc-button__ripple {
+                border-radius: var(--mdc-text-button-container-shape, var(--mdc-shape-small, 4px))
+            }
+
+            .mat-mdc-unelevated-button {
+                height: var(--mdc-filled-button-container-height, 36px);
+                border-radius: var(--mdc-filled-button-container-shape, var(--mdc-shape-small, 4px))
+            }
+
+            .mat-mdc-unelevated-button:not(:disabled) {
+                background-color: var(--mdc-filled-button-container-color, transparent)
+            }
+
+            .mat-mdc-unelevated-button:disabled {
+                background-color: var(--mdc-filled-button-disabled-container-color, rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-unelevated-button:not(:disabled) {
+                color: var(--mdc-filled-button-label-text-color, inherit)
+            }
+
+            .mat-mdc-unelevated-button:disabled {
+                color: var(--mdc-filled-button-disabled-label-text-color, rgba(0, 0, 0, 0.38))
+            }
+
+            .mat-mdc-unelevated-button .mdc-button__ripple {
+                border-radius: var(--mdc-filled-button-container-shape, var(--mdc-shape-small, 4px))
+            }
+
+            .mat-mdc-raised-button {
+                height: var(--mdc-protected-button-container-height, 36px);
+                border-radius: var(--mdc-protected-button-container-shape, var(--mdc-shape-small, 4px));
+                box-shadow: var(--mdc-protected-button-container-elevation, 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-raised-button:not(:disabled) {
+                background-color: var(--mdc-protected-button-container-color, transparent)
+            }
+
+            .mat-mdc-raised-button:disabled {
+                background-color: var(--mdc-protected-button-disabled-container-color, rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-raised-button:not(:disabled) {
+                color: var(--mdc-protected-button-label-text-color, inherit)
+            }
+
+            .mat-mdc-raised-button:disabled {
+                color: var(--mdc-protected-button-disabled-label-text-color, rgba(0, 0, 0, 0.38))
+            }
+
+            .mat-mdc-raised-button .mdc-button__ripple {
+                border-radius: var(--mdc-protected-button-container-shape, var(--mdc-shape-small, 4px))
+            }
+
+            .mat-mdc-raised-button.mdc-ripple-upgraded--background-focused,.mat-mdc-raised-button:not(.mdc-ripple-upgraded):focus {
+                box-shadow: var(--mdc-protected-button-focus-container-elevation, 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-raised-button:hover {
+                box-shadow: var(--mdc-protected-button-hover-container-elevation, 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-raised-button:not(:disabled):active {
+                box-shadow: var(--mdc-protected-button-pressed-container-elevation, 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-raised-button:disabled {
+                box-shadow: var(--mdc-protected-button-disabled-container-elevation, 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-outlined-button {
+                height: var(--mdc-outlined-button-container-height, 36px);
+                border-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
+                padding: 0 15px 0 15px;
+                border-width: var(--mdc-outlined-button-outline-width, 1px)
+            }
+
+            .mat-mdc-outlined-button:not(:disabled) {
+                color: var(--mdc-outlined-button-label-text-color, inherit)
+            }
+
+            .mat-mdc-outlined-button:disabled {
+                color: var(--mdc-outlined-button-disabled-label-text-color, rgba(0, 0, 0, 0.38))
+            }
+
+            .mat-mdc-outlined-button .mdc-button__ripple {
+                border-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px))
+            }
+
+            .mat-mdc-outlined-button:not(:disabled) {
+                border-color: var(--mdc-outlined-button-outline-color, rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-outlined-button:disabled {
+                border-color: var(--mdc-outlined-button-disabled-outline-color, rgba(0, 0, 0, 0.12))
+            }
+
+            .mat-mdc-outlined-button.mdc-button--icon-trailing {
+                padding: 0 11px 0 15px
+            }
+
+            .mat-mdc-outlined-button.mdc-button--icon-leading {
+                padding: 0 15px 0 11px
+            }
+
+            .mat-mdc-outlined-button .mdc-button__ripple {
+                top: -1px;
+                left: -1px;
+                bottom: -1px;
+                right: -1px;
+                border-width: var(--mdc-outlined-button-outline-width, 1px)
+            }
+
+            .mat-mdc-outlined-button .mdc-button__touch {
+                left: calc(-1 * var(--mdc-outlined-button-outline-width, 1px));
+                width: calc(100% + 2 * var(--mdc-outlined-button-outline-width, 1px))
+            }
+
+            .mat-mdc-button,.mat-mdc-unelevated-button,.mat-mdc-raised-button,.mat-mdc-outlined-button {
+                -webkit-tap-highlight-color: rgba(0,0,0,0)
+            }
+
+            .mat-mdc-button .mat-mdc-button-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple,.mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute;
+                pointer-events: none;
+                border-radius: inherit
+            }
+
+            .mat-mdc-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-unelevated-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-raised-button .mat-mdc-button-persistent-ripple::before,.mat-mdc-outlined-button .mat-mdc-button-persistent-ripple::before {
+                content: "";
+                opacity: 0;
+                background-color: var(--mat-mdc-button-persistent-ripple-color)
+            }
+
+            .mat-mdc-button .mat-ripple-element,.mat-mdc-unelevated-button .mat-ripple-element,.mat-mdc-raised-button .mat-ripple-element,.mat-mdc-outlined-button .mat-ripple-element {
+                background-color: var(--mat-mdc-button-ripple-color)
+            }
+
+            .mat-mdc-button .mdc-button__label,.mat-mdc-unelevated-button .mdc-button__label,.mat-mdc-raised-button .mdc-button__label,.mat-mdc-outlined-button .mdc-button__label {
+                z-index: 1
+            }
+
+            .mat-mdc-button .mat-mdc-focus-indicator,.mat-mdc-unelevated-button .mat-mdc-focus-indicator,.mat-mdc-raised-button .mat-mdc-focus-indicator,.mat-mdc-outlined-button .mat-mdc-focus-indicator {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute
+            }
+
+            .mat-mdc-button:focus .mat-mdc-focus-indicator::before,.mat-mdc-unelevated-button:focus .mat-mdc-focus-indicator::before,.mat-mdc-raised-button:focus .mat-mdc-focus-indicator::before,.mat-mdc-outlined-button:focus .mat-mdc-focus-indicator::before {
+                content: ""
+            }
+
+            .mat-mdc-button[disabled],.mat-mdc-unelevated-button[disabled],.mat-mdc-raised-button[disabled],.mat-mdc-outlined-button[disabled] {
+                cursor: default;
+                pointer-events: none
+            }
+
+            .mat-mdc-button .mat-mdc-button-touch-target,.mat-mdc-unelevated-button .mat-mdc-button-touch-target,.mat-mdc-raised-button .mat-mdc-button-touch-target,.mat-mdc-outlined-button .mat-mdc-button-touch-target {
+                position: absolute;
+                top: 50%;
+                height: 48px;
+                left: 0;
+                right: 0;
+                transform: translateY(-50%)
+            }
+
+            .mat-mdc-button._mat-animation-noopable,.mat-mdc-unelevated-button._mat-animation-noopable,.mat-mdc-raised-button._mat-animation-noopable,.mat-mdc-outlined-button._mat-animation-noopable {
+                transition: none !important;
+                animation: none !important
+            }
+
+            .mat-mdc-button>.mat-icon {
+                margin-left: 0;
+                margin-right: 8px;
+                display: inline-block;
+                position: relative;
+                vertical-align: top;
+                font-size: 1.125rem;
+                height: 1.125rem;
+                width: 1.125rem
+            }
+
+            [dir=rtl] .mat-mdc-button>.mat-icon,.mat-mdc-button>.mat-icon[dir=rtl] {
+                margin-left: 8px;
+                margin-right: 0
+            }
+
+            .mat-mdc-button .mdc-button__label+.mat-icon {
+                margin-left: 8px;
+                margin-right: 0
+            }
+
+            [dir=rtl] .mat-mdc-button .mdc-button__label+.mat-icon,.mat-mdc-button .mdc-button__label+.mat-icon[dir=rtl] {
+                margin-left: 0;
+                margin-right: 8px
+            }
+
+            .mat-mdc-unelevated-button>.mat-icon,.mat-mdc-raised-button>.mat-icon,.mat-mdc-outlined-button>.mat-icon {
+                margin-left: 0;
+                margin-right: 8px;
+                display: inline-block;
+                position: relative;
+                vertical-align: top;
+                font-size: 1.125rem;
+                height: 1.125rem;
+                width: 1.125rem;
+                margin-left: -4px;
+                margin-right: 8px
+            }
+
+            [dir=rtl] .mat-mdc-unelevated-button>.mat-icon,[dir=rtl] .mat-mdc-raised-button>.mat-icon,[dir=rtl] .mat-mdc-outlined-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon[dir=rtl],.mat-mdc-raised-button>.mat-icon[dir=rtl],.mat-mdc-outlined-button>.mat-icon[dir=rtl] {
+                margin-left: 8px;
+                margin-right: 0
+            }
+
+            [dir=rtl] .mat-mdc-unelevated-button>.mat-icon,[dir=rtl] .mat-mdc-raised-button>.mat-icon,[dir=rtl] .mat-mdc-outlined-button>.mat-icon,.mat-mdc-unelevated-button>.mat-icon[dir=rtl],.mat-mdc-raised-button>.mat-icon[dir=rtl],.mat-mdc-outlined-button>.mat-icon[dir=rtl] {
+                margin-left: 8px;
+                margin-right: -4px
+            }
+
+            .mat-mdc-unelevated-button .mdc-button__label+.mat-icon,.mat-mdc-raised-button .mdc-button__label+.mat-icon,.mat-mdc-outlined-button .mdc-button__label+.mat-icon {
+                margin-left: 8px;
+                margin-right: -4px
+            }
+
+            [dir=rtl] .mat-mdc-unelevated-button .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-raised-button .mdc-button__label+.mat-icon,[dir=rtl] .mat-mdc-outlined-button .mdc-button__label+.mat-icon,.mat-mdc-unelevated-button .mdc-button__label+.mat-icon[dir=rtl],.mat-mdc-raised-button .mdc-button__label+.mat-icon[dir=rtl],.mat-mdc-outlined-button .mdc-button__label+.mat-icon[dir=rtl] {
+                margin-left: -4px;
+                margin-right: 8px
+            }
+
+            .mat-mdc-outlined-button .mat-mdc-button-ripple,.mat-mdc-outlined-button .mdc-button__ripple {
+                top: -1px;
+                left: -1px;
+                bottom: -1px;
+                right: -1px;
+                border-width: -1px
+            }
+
+            .mat-mdc-unelevated-button .mat-mdc-focus-indicator::before,.mat-mdc-raised-button .mat-mdc-focus-indicator::before {
+                margin: calc(calc(var(--mat-mdc-focus-indicator-border-width, 3px) + 2px) * -1)
+            }
+
+            .mat-mdc-outlined-button .mat-mdc-focus-indicator::before {
+                margin: calc(calc(var(--mat-mdc-focus-indicator-border-width, 3px) + 3px) * -1)
+            }
+        </style>
+        <style>
+            .cdk-high-contrast-active .mat-mdc-button:not(.mdc-button--outlined),.cdk-high-contrast-active .mat-mdc-unelevated-button:not(.mdc-button--outlined),.cdk-high-contrast-active .mat-mdc-raised-button:not(.mdc-button--outlined),.cdk-high-contrast-active .mat-mdc-outlined-button:not(.mdc-button--outlined),.cdk-high-contrast-active .mat-mdc-icon-button {
+                outline: solid 1px
+            }
+        </style>
+        <style>
+            .cta-btn[_ngcontent-ins-c52] {
+                color: #fff;
+                font-family: fontLandingPageHeader;
+                padding: 0 12px;
+                border-radius: 5px;
+                box-shadow: 2px 2px #2828283d;
+                font-size: 14px;
+                background-color: #75bf9f
+            }
+
+            .cta-btn[_ngcontent-ins-c52]:active {
+                transform: scale(.98);
+                box-shadow: 3px 2px 22px 1px #0000003d
+            }
+
+            .full-height[_ngcontent-ins-c52] {
+                height: 100%
+            }
+
+            .text-offset[_ngcontent-ins-c52] {
+                position: relative
+            }
+        </style>
+        <style>
+            .font-conatiner[_ngcontent-ins-c56] {
+                font-family: fontLandingPageBody
+            }
+
+            .hero-background[_ngcontent-ins-c56] {
+                background-image: url(hero-image.5d1f2dad496e5a98.jpg);
+                width: 100%;
+                height: 100vh;
+                box-sizing: border-box;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center
+            }
+
+            .hero-header-mobile-portrait[_ngcontent-ins-c56] {
+                margin-top: 8rem!important
+            }
+
+            .hero-header-mobile-landscape[_ngcontent-ins-c56] {
+                margin-top: 5rem!important;
+                min-height: 200vp;
+                width: 95%!important;
+                font-size: 35px!important
+            }
+
+            .hero-header[_ngcontent-ins-c56] {
+                display: inline-block;
+                margin-top: 15rem;
+                margin-bottom: 0;
+                font-size: 46px;
+                line-height: 1;
+                color: #fff;
+                font-family: fontLandingPageHeader;
+                width: 80%
+            }
+
+            .hero-subheader-mobile-landscape[_ngcontent-ins-c56] {
+                width: 90%!important;
+                font-size: 18px!important
+            }
+
+            .hero-subheader-mobile-portrait[_ngcontent-ins-c56] {
+                width: 80%!important
+            }
+
+            .hero-subheader[_ngcontent-ins-c56] {
+                display: inline-block;
+                margin-top: 14px;
+                margin-bottom: 0;
+                font-size: 21px;
+                font-family: fontLandingPageSubHeader;
+                width: 60%;
+                font-weight: 600;
+                line-height: 1.3;
+                color: #f8f8f8
+            }
+
+            .hero-cta-div[_ngcontent-ins-c56] {
+                margin-top: 3rem
+            }
+
+            .hero-cta-button-mobile[_ngcontent-ins-c56] {
+                width: 80%!important;
+                height: 60px!important;
+                font-size: 30px!important
+            }
+
+            .hero-cta-button[_ngcontent-ins-c56] {
+                width: 240px;
+                height: 55px;
+                font-size: 22px;
+                background-color: #75bf9f;
+                font-family: fontLandingPageHeader
+            }
+
+            .hero-scroll-down-div-mobile-portrait[_ngcontent-ins-c56] {
+                left: 48vw!important
+            }
+
+            .hero-scroll-mobile-landscape-1[_ngcontent-ins-c56] {
+                left: 10vw!important
+            }
+
+            .hero-scroll-mobile-landscape-2[_ngcontent-ins-c56] {
+                left: 88vw!important
+            }
+
+            .hero-scroll-down-div[_ngcontent-ins-c56] {
+                position: absolute;
+                bottom: 0;
+                left: 49vw;
+                margin-bottom: 2rem
+            }
+
+            .hero-scroll-down-icon[_ngcontent-ins-c56] {
+                scale: 2.5;
+                color: #abdfc8
+            }
+
+            .hero-scroll-down-icon-animation[_ngcontent-ins-c56] {
+                animation: _ngcontent-ins-c56_pulse 2s infinite;
+                animation: _ngcontent-ins-c56_MoveUpDown 2s linear infinite
+            }
+
+            @keyframes _ngcontent-ins-c56_pulse {
+                0% {
+                    transform: scale(1.3);
+                    color: #abdfc8
+                }
+
+                70% {
+                    transform: scale(1.5);
+                    color: #75caa4
+                }
+
+                to {
+                    transform: scale(1.3);
+                    color: #abdfc8
+                }
+            }
+
+            @keyframes _ngcontent-ins-c56_MoveUpDown {
+                0%,40%,to {
+                    padding-bottom: 0
+                }
+
+                20% {
+                    padding-bottom: 10px
+                }
+            }
+
+            .main-process-div[_ngcontent-ins-c56] {
+                background-color: #b7d7a8;
+                width: 100%
+            }
+
+            .main-process-div-spacing[_ngcontent-ins-c56] {
+                width: 80%;
+                display: inline-block
+            }
+
+            .main-process-primary-header[_ngcontent-ins-c56] {
+                margin-top: 5rem;
+                margin-bottom: 0;
+                font-size: 35px;
+                line-height: 1;
+                color: #212121;
+                font-family: fontLandingPageHeader
+            }
+
+            .main-process-cta-text[_ngcontent-ins-c56] {
+                margin-top: 5rem;
+                font-size: 30px;
+                margin-bottom: 1.5rem;
+                line-height: 1;
+                color: #212121;
+                font-family: fontLandingPageHeader
+            }
+
+            .main-process-cta-btn[_ngcontent-ins-c56] {
+                width: 240px;
+                height: 55px;
+                font-size: 22px;
+                background-color: #4bca92;
+                font-family: fontLandingPageHeader
+            }
+
+            .main-process-cta-bottom-spacing[_ngcontent-ins-c56] {
+                margin-bottom: 4rem
+            }
+
+            .features-slider[_ngcontent-ins-c56], .seeking-managers-widget[_ngcontent-ins-c56] {
+                display: contents
+            }
+
+            .footer-div[_ngcontent-ins-c56] {
+                background-color: #131c1e;
+                width: 100%
+            }
+
+            .footer-div-spacing[_ngcontent-ins-c56] {
+                width: 80%;
+                display: inline-block
+            }
+        </style>
+        <style>
+            .main-process-subsection[_ngcontent-ins-c53] {
+                margin-top: 7rem
+            }
+
+            .main-process-header[_ngcontent-ins-c53] {
+                font-size: 35px;
+                margin-bottom: 0;
+                line-height: 1;
+                color: #212121;
+                font-family: fontLandingPageHeader
+            }
+
+            .main-process-subheader[_ngcontent-ins-c53] {
+                margin-top: 7px;
+                margin-bottom: 0;
+                font-size: 19px;
+                line-height: 1.2;
+                color: #5e5e5e;
+                font-family: fontLandingPageSubHeader
+            }
+
+            .main-process-image-size[_ngcontent-ins-c53] {
+                width: 370px;
+                border-radius: 25px
+            }
+        </style>
+        <style>
+            .slideshow-background-mobile-landscape[_ngcontent-ins-c54] {
+                background-position: center center!important;
+                height: 600px!important
+            }
+
+            .slideshow-background-mobile-portrait[_ngcontent-ins-c54] {
+                background-position: center center!important;
+                height: 580px!important
+            }
+
+            .slideshow-background[_ngcontent-ins-c54] {
+                background-image: url(dark-stadium-background.2d74c584916b0f4f.jpg);
+                width: 100%;
+                height: 500px;
+                box-sizing: border-box;
+                background-size: cover;
+                background-repeat: no-repeat
+            }
+
+            .contents-spacing-mobile[_ngcontent-ins-c54] {
+                margin-top: 5rem!important
+            }
+
+            .contents-spacing[_ngcontent-ins-c54] {
+                margin-top: 5rem;
+                display: inline-block;
+                width: 100%
+            }
+
+            .image-size-mobile-landscape[_ngcontent-ins-c54] {
+                width: 50%!important
+            }
+
+            .image-size-mobile-portrait[_ngcontent-ins-c54] {
+                width: 90%!important
+            }
+
+            .image-size[_ngcontent-ins-c54] {
+                width: 400px;
+                filter: drop-shadow(0 0 2px #e4fff7)
+            }
+
+            .min-web-image-container-size[_ngcontent-ins-c54] {
+                min-height: 272px;
+                max-height: 272px
+            }
+
+            .min-mobile-image-container-size[_ngcontent-ins-c54] {
+                min-height: 350px;
+                max-height: 350px
+            }
+
+            .first-row-font-mobile[_ngcontent-ins-c54] {
+                font-size: 30px!important
+            }
+
+            .first-row-font[_ngcontent-ins-c54] {
+                font-size: 35px;
+                font-family: fontLandingPageHeader;
+                line-height: 1.6
+            }
+
+            .second-row-font-mobile[_ngcontent-ins-c54] {
+                font-size: 30px!important;
+                margin-left: 0rem!important;
+                color: #63feac!important
+            }
+
+            .second-row-font[_ngcontent-ins-c54] {
+                font-size: 35px;
+                font-family: fontLandingPageHeader;
+                line-height: 1.6;
+                color: #27ff9f;
+                margin-left: 2.5rem
+            }
+
+            .navigation-btn[_ngcontent-ins-c54] {
+                scale: 1.75;
+                background-color: #b7d7a83b
+            }
+
+            .navigation-icon[_ngcontent-ins-c54] {
+                scale: 2;
+                color: #c1ffc1
+            }
+
+            .page-indicator[_ngcontent-ins-c54] {
+                display: inline-block;
+                color: #c1ffc1
+            }
+
+            .page-indicators-mobile[_ngcontent-ins-c54] {
+                position: relative;
+                bottom: 10px
+            }
+        </style>
+        <style>
+            .highlighted-clubs-div[_ngcontent-ins-c55] {
+                background-color: #375d57;
+                width: 100%
+            }
+
+            .highlighted-clubs-div-spacing[_ngcontent-ins-c55] {
+                width: 80%;
+                display: inline-block
+            }
+
+            .top-header[_ngcontent-ins-c55] {
+                margin-top: 3rem;
+                font-size: 35px;
+                line-height: 1.1;
+                color: #fff;
+                font-family: fontLandingPageHeader;
+                margin-bottom: 1rem
+            }
+
+            .teams-list[_ngcontent-ins-c55] {
+                font-size: 18px;
+                line-height: 1.3;
+                color: #fff;
+                font-family: fontLandingPageSubHeader;
+                list-style-type: disclosure-closed
+            }
+
+            .cta-text[_ngcontent-ins-c55] {
+                margin-top: 4rem;
+                font-size: 25px;
+                margin-bottom: 1.5rem;
+                line-height: 1.3;
+                color: whtie;
+                font-family: fontLandingPageHeader
+            }
+
+            .cta-row[_ngcontent-ins-c55] {
+                margin-bottom: 4rem
+            }
+
+            .cta-btn[_ngcontent-ins-c55] {
+                width: 240px;
+                height: 55px;
+                font-size: 22px;
+                background-color: #37b67e;
+                font-family: fontLandingPageHeader
+            }
+
+            .flexWrap[_ngcontent-ins-c55] {
+                flex-wrap: wrap
+            }
+
+            .list-landscape-mode[_ngcontent-ins-c55] {
+                margin-left: 3.5rem
+            }
+        </style>
+        <style>
+            .mat-icon {
+                -webkit-user-select: none;
+                user-select: none;
+                background-repeat: no-repeat;
+                display: inline-block;
+                fill: currentColor;
+                height: 24px;
+                width: 24px;
+                overflow: hidden
+            }
+
+            .mat-icon.mat-icon-inline {
+                font-size: inherit;
+                height: inherit;
+                line-height: inherit;
+                width: inherit
+            }
+
+            .mat-icon.mat-ligature-font[fontIcon]::before {
+                content: attr(fontIcon)
+            }
+
+            [dir=rtl] .mat-icon-rtl-mirror {
+                transform: scale(-1, 1)
+            }
+
+            .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-prefix .mat-icon,.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon {
+                display: block
+            }
+
+            .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-prefix .mat-icon-button .mat-icon,.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button .mat-icon {
+                margin: auto
+            }
+        </style>
+        <style>
+            .mdc-icon-button {
+                font-size: 24px;
+                width: 48px;
+                height: 48px;
+                padding: 12px
+            }
+
+            .mdc-icon-button .mdc-icon-button__focus-ring {
+                max-height: 48px;
+                max-width: 48px
+            }
+
+            .mdc-icon-button.mdc-icon-button--reduced-size .mdc-icon-button__ripple {
+                width: 40px;
+                height: 40px;
+                margin-top: 4px;
+                margin-bottom: 4px;
+                margin-right: 4px;
+                margin-left: 4px
+            }
+
+            .mdc-icon-button.mdc-icon-button--reduced-size .mdc-icon-button__focus-ring {
+                max-height: 40px;
+                max-width: 40px
+            }
+
+            .mdc-icon-button .mdc-icon-button__touch {
+                position: absolute;
+                top: 50%;
+                height: 48px;
+                left: 50%;
+                width: 48px;
+                transform: translate(-50%, -50%)
+            }
+
+            .mdc-icon-button svg,.mdc-icon-button img {
+                width: 24px;
+                height: 24px
+            }
+
+            .mdc-icon-button {
+                display: inline-block;
+                position: relative;
+                box-sizing: border-box;
+                border: none;
+                outline: none;
+                background-color: rgba(0,0,0,0);
+                fill: currentColor;
+                color: inherit;
+                text-decoration: none;
+                cursor: pointer;
+                user-select: none;
+                z-index: 0;
+                overflow: visible
+            }
+
+            .mdc-icon-button .mdc-icon-button__touch {
+                position: absolute;
+                top: 50%;
+                height: 48px;
+                left: 50%;
+                width: 48px;
+                transform: translate(-50%, -50%)
+            }
+
+            @media screen and (forced-colors: active) {
+                .mdc-icon-button.mdc-ripple-upgraded--background-focused .mdc-icon-button__focus-ring,.mdc-icon-button:not(.mdc-ripple-upgraded):focus .mdc-icon-button__focus-ring {
+                    display: block
+                }
+            }
+
+            .mdc-icon-button:disabled {
+                cursor: default;
+                pointer-events: none
+            }
+
+            .mdc-icon-button[hidden] {
+                display: none
+            }
+
+            .mdc-icon-button--display-flex {
+                align-items: center;
+                display: inline-flex;
+                justify-content: center
+            }
+
+            .mdc-icon-button__focus-ring {
+                pointer-events: none;
+                border: 2px solid rgba(0,0,0,0);
+                border-radius: 6px;
+                box-sizing: content-box;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: 100%;
+                width: 100%;
+                display: none
+            }
+
+            @media screen and (forced-colors: active) {
+                .mdc-icon-button__focus-ring {
+                    border-color: CanvasText
+                }
+            }
+
+            .mdc-icon-button__focus-ring::after {
+                content: "";
+                border: 2px solid rgba(0,0,0,0);
+                border-radius: 8px;
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: calc(100% + 4px);
+                width: calc(100% + 4px)
+            }
+
+            @media screen and (forced-colors: active) {
+                .mdc-icon-button__focus-ring::after {
+                    border-color: CanvasText
+                }
+            }
+
+            .mdc-icon-button__icon {
+                display: inline-block
+            }
+
+            .mdc-icon-button__icon.mdc-icon-button__icon--on {
+                display: none
+            }
+
+            .mdc-icon-button--on .mdc-icon-button__icon {
+                display: none
+            }
+
+            .mdc-icon-button--on .mdc-icon-button__icon.mdc-icon-button__icon--on {
+                display: inline-block
+            }
+
+            .mdc-icon-button__link {
+                height: 100%;
+                left: 0;
+                outline: none;
+                position: absolute;
+                top: 0;
+                width: 100%
+            }
+
+            .mat-mdc-icon-button {
+                height: var(--mdc-icon-button-state-layer-size, 48px);
+                width: var(--mdc-icon-button-state-layer-size, 48px);
+                color: var(--mdc-icon-button-icon-color, inherit);
+                border-radius: 50%;
+                flex-shrink: 0;
+                text-align: center;
+                -webkit-tap-highlight-color: rgba(0,0,0,0)
+            }
+
+            .mat-mdc-icon-button .mdc-button__icon {
+                font-size: var(--mdc-icon-button-icon-size, 24px)
+            }
+
+            .mat-mdc-icon-button svg,.mat-mdc-icon-button img {
+                width: var(--mdc-icon-button-icon-size, 24px);
+                height: var(--mdc-icon-button-icon-size, 24px)
+            }
+
+            .mat-mdc-icon-button:disabled {
+                opacity: var(--mdc-icon-button-disabled-icon-opacity, 0.38)
+            }
+
+            .mat-mdc-icon-button:disabled {
+                color: var(--mdc-icon-button-disabled-icon-color, #000)
+            }
+
+            .mat-mdc-icon-button svg {
+                vertical-align: baseline
+            }
+
+            .mat-mdc-icon-button[disabled] {
+                cursor: default;
+                pointer-events: none;
+                opacity: 1
+            }
+
+            .mat-mdc-icon-button .mat-mdc-button-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute;
+                pointer-events: none;
+                border-radius: inherit
+            }
+
+            .mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before {
+                content: "";
+                opacity: 0;
+                background-color: var(--mat-mdc-button-persistent-ripple-color)
+            }
+
+            .mat-mdc-icon-button .mat-ripple-element {
+                background-color: var(--mat-mdc-button-ripple-color)
+            }
+
+            .mat-mdc-icon-button .mdc-button__label {
+                z-index: 1
+            }
+
+            .mat-mdc-icon-button .mat-mdc-focus-indicator {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute
+            }
+
+            .mat-mdc-icon-button:focus .mat-mdc-focus-indicator::before {
+                content: ""
+            }
+
+            .mat-mdc-icon-button .mat-mdc-button-touch-target {
+                position: absolute;
+                top: 50%;
+                height: 48px;
+                left: 50%;
+                width: 48px;
+                transform: translate(-50%, -50%)
+            }
+
+            .mat-mdc-icon-button._mat-animation-noopable {
+                transition: none !important;
+                animation: none !important
+            }
+
+            .mat-mdc-icon-button .mat-mdc-button-persistent-ripple {
+                border-radius: 50%
+            }
+
+            .mat-mdc-icon-button.mat-unthemed:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-primary:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-accent:not(.mdc-ripple-upgraded):focus::before,.mat-mdc-icon-button.mat-warn:not(.mdc-ripple-upgraded):focus::before {
+                background: rgba(0,0,0,0);
+                opacity: 1
+            }
+        </style>
+        <script>
+            window['ScullyIO'] = 'generated';
+        </script>
+    </head>
+    <body class="mat-typography" scully-version="0.0.0">
+        <app-root _nghost-ins-c58="" ng-version="15.1.5">
+            <app-header _ngcontent-ins-c58="" _nghost-ins-c57="">
+                <mat-toolbar _ngcontent-ins-c57="" class="mat-toolbar navbar sticky top-layer landing-page-navbar mat-toolbar-single-row">
+                    <span _ngcontent-ins-c57="" class="clickable">
+                        <a _ngcontent-ins-c57="" tabindex="-1" class="logo-text mobile-logo">Pocket FC</a>
+                    </span>
+                    <span _ngcontent-ins-c57="" class="spacer"></span>
+                    <span _ngcontent-ins-c57="" class="spacer"></span>
+                    <ul _ngcontent-ins-c57="">
+                        <li _ngcontent-ins-c57="">
+                            <a _ngcontent-ins-c57="" mat-button="" class="login-btn white-text mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base" aria-disabled="false">
+                                <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+                                <span class="mdc-button__label">Login</span>
+                                <span class="mat-mdc-focus-indicator"></span>
+                                <span matripple="" class="mat-ripple mat-mdc-button-ripple"></span>
+                                <span class="mat-mdc-button-touch-target"></span>
+                            </a>
+                        </li>
+                        <li _ngcontent-ins-c57="">
+                            <app-cta-button _ngcontent-ins-c57="" width="66px" height="33px" fontsize="14px" class="sign-up-btn-offset" _nghost-ins-c52="">
+                                <div _ngcontent-ins-c52="" class="unhighlightable clickable cta-btn white-text" style="width: 66px; height: 33px; font-size: 14px;">
+                                    <div _ngcontent-ins-c52="" fxlayout="column" fxlayoutalign="center center" class="full-width full-height" style="flex-direction: column; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                        <div _ngcontent-ins-c52="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-height: 100%;">
+                                            <span _ngcontent-ins-c52="" class="text-offset" style="top: 0px;">Play Now</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </app-cta-button>
+                        </li>
+                        <!---->
+                    </ul>
+                </mat-toolbar>
+            </app-header>
+            <!---->
+            <main _ngcontent-ins-c58="" class="content-landing-page">
+                <div _ngcontent-ins-c58="" touranchor="tour-universal-very-top-middle" class="centered-tour-element-very-top"></div>
+                <div _ngcontent-ins-c58="" touranchor="tour-universal-top-middle" class="centered-tour-element"></div>
+                <router-outlet _ngcontent-ins-c58=""></router-outlet>
+                <app-landing-page _nghost-ins-c56="" class="ng-star-inserted">
+                    <div _ngcontent-ins-c56="" fxlayout="column" fxlayoutalign="center center" class="full-width font-conatiner" style="flex-direction: column; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                        <div _ngcontent-ins-c56="" fxlayout="row" fxlayoutalign="start center" class="full-width" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center flex-start; align-items: center;">
+                            <div _ngcontent-ins-c56="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                                <div _ngcontent-ins-c56="" class="hero-background">
+                                    <h1 _ngcontent-ins-c56="" class="hero-header hero-header-mobile-landscape">Manage your favourite football club</h1>
+                                    <h4 _ngcontent-ins-c56="" class="hero-subheader hero-subheader-mobile-landscape">A virtual football manager experience. Build the best team. Outsmart your competition. Win championships - and win respect!</h4>
+                                    <div _ngcontent-ins-c56="" class="hero-cta-div">
+                                        <app-cta-button _ngcontent-ins-c56="" width="250px" height="50px" fontsize="28px" top="13px" class="inlineBlock" _nghost-ins-c52="">
+                                            <div _ngcontent-ins-c52="" class="unhighlightable clickable cta-btn white-text" style="width: 250px; height: 50px; font-size: 28px;">
+                                                <div _ngcontent-ins-c52="" fxlayout="column" fxlayoutalign="center center" class="full-width full-height" style="flex-direction: column; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                                    <div _ngcontent-ins-c52="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-height: 100%;">
+                                                        <span _ngcontent-ins-c52="" class="text-offset" style="top: 13px;">Play Now</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </app-cta-button>
+                                    </div>
+                                    <!---->
+                                    <div _ngcontent-ins-c56="" class="hero-scroll-down-div hero-scroll-mobile-landscape-1 hero-scroll-down-icon-animation ng-star-inserted">
+                                        <mat-icon _ngcontent-ins-c56="" role="img" class="mat-icon notranslate hero-scroll-down-icon clickable material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">keyboard_double_arrow_down</mat-icon>
+                                    </div>
+                                    <!---->
+                                    <div _ngcontent-ins-c56="" class="hero-scroll-down-div hero-scroll-mobile-landscape-2 hero-scroll-down-icon-animation ng-star-inserted">
+                                        <mat-icon _ngcontent-ins-c56="" role="img" class="mat-icon notranslate hero-scroll-down-icon clickable material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">keyboard_double_arrow_down</mat-icon>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+                        </div>
+                        <div _ngcontent-ins-c56="" id="mainProcess" class="main-process-div center">
+                            <div _ngcontent-ins-c56="" class="main-process-div-spacing">
+                                <div _ngcontent-ins-c56="" fxlayout="row" fxlayoutalign="start center" class="full-width main-process-subsection" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center flex-start; align-items: center;">
+                                    <div _ngcontent-ins-c56="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                                        <h2 _ngcontent-ins-c56="" class="main-process-primary-header">You are the manager!</h2>
+                                    </div>
+                                </div>
+                                <app-main-process-row _ngcontent-ins-c56="" _nghost-ins-c53="">
+                                    <div _ngcontent-ins-c53="" fxlayoutalign="start center" fxlayoutgap="20px" class="full-width main-process-subsection" style="flex-direction: column-reverse; box-sizing: border-box; display: flex; place-content: center flex-start; align-items: center;">
+                                        <div _ngcontent-ins-c53="" fxflex="50%" class="left" style="margin-top: 20px; flex: 1 1 100%; box-sizing: border-box; max-height: 50%;">
+                                            <h3 _ngcontent-ins-c53="" class="main-process-header center">Choose a club to manage</h3>
+                                            <h4 _ngcontent-ins-c53="" class="main-process-subheader center">Develop a low-ranked club from one of 54-leagues around the world into a powerhouse. Or jump right into managing one of the most valuable clubs in the world.</h4>
+                                        </div>
+                                        <div _ngcontent-ins-c53="" fxflex="50%" class="right" style="flex: 1 1 100%; box-sizing: border-box; max-height: 50%;">
+                                            <img _ngcontent-ins-c53="" class="main-process-image-size" src="../../../assets/landing-page/main-process-step-0.png">
+                                        </div>
+                                    </div>
+                                </app-main-process-row>
+                                <app-main-process-row _ngcontent-ins-c56="" _nghost-ins-c53="">
+                                    <div _ngcontent-ins-c53="" fxlayoutalign="start center" fxlayoutgap="20px" class="full-width main-process-subsection" style="flex-direction: column-reverse; box-sizing: border-box; display: flex; place-content: center flex-start; align-items: center;">
+                                        <div _ngcontent-ins-c53="" fxflex="50%" class="left" style="margin-top: 20px; flex: 1 1 100%; box-sizing: border-box; max-height: 50%;">
+                                            <h3 _ngcontent-ins-c53="" class="main-process-header center">Curate the best players</h3>
+                                            <h4 _ngcontent-ins-c53="" class="main-process-subheader center">Use your manager prowess to scout and buy the best players from around the world. Develop the club into a world-class team stacked with superstars.</h4>
+                                        </div>
+                                        <div _ngcontent-ins-c53="" fxflex="50%" class="left" style="flex: 1 1 100%; box-sizing: border-box; max-height: 50%;">
+                                            <img _ngcontent-ins-c53="" class="main-process-image-size" src="../../../assets/landing-page/main-process-step-1.png">
+                                        </div>
+                                    </div>
+                                </app-main-process-row>
+                                <app-main-process-row _ngcontent-ins-c56="" _nghost-ins-c53="">
+                                    <div _ngcontent-ins-c53="" fxlayoutalign="start center" fxlayoutgap="20px" class="full-width main-process-subsection" style="flex-direction: column-reverse; box-sizing: border-box; display: flex; place-content: center flex-start; align-items: center;">
+                                        <div _ngcontent-ins-c53="" fxflex="50%" class="left" style="margin-top: 20px; flex: 1 1 100%; box-sizing: border-box; max-height: 50%;">
+                                            <h3 _ngcontent-ins-c53="" class="main-process-header center">Choose the right tactics</h3>
+                                            <h4 _ngcontent-ins-c53="" class="main-process-subheader center">Unleash your strategic side by analyzing your upcoming opponents, setting the tactics, and watching as your strategy plays out on the field.</h4>
+                                        </div>
+                                        <div _ngcontent-ins-c53="" fxflex="50%" class="right" style="flex: 1 1 100%; box-sizing: border-box; max-height: 50%;">
+                                            <img _ngcontent-ins-c53="" class="main-process-image-size" src="../../../assets/landing-page/main-process-step-2.png">
+                                        </div>
+                                    </div>
+                                </app-main-process-row>
+                                <app-main-process-row _ngcontent-ins-c56="" _nghost-ins-c53="">
+                                    <div _ngcontent-ins-c53="" fxlayoutalign="start center" fxlayoutgap="20px" class="full-width main-process-subsection" style="flex-direction: column-reverse; box-sizing: border-box; display: flex; place-content: center flex-start; align-items: center;">
+                                        <div _ngcontent-ins-c53="" fxflex="50%" class="left" style="margin-top: 20px; flex: 1 1 100%; box-sizing: border-box; max-height: 50%;">
+                                            <h3 _ngcontent-ins-c53="" class="main-process-header center">Win league championships</h3>
+                                            <h4 _ngcontent-ins-c53="" class="main-process-subheader center">Win the respect of your friends and managers from around the world by getting promoted to top leagues and winning league championships.</h4>
+                                        </div>
+                                        <div _ngcontent-ins-c53="" fxflex="50%" class="left" style="flex: 1 1 100%; box-sizing: border-box; max-height: 50%;">
+                                            <img _ngcontent-ins-c53="" class="main-process-image-size" src="../../../assets/landing-page/main-process-step-3.png">
+                                        </div>
+                                    </div>
+                                </app-main-process-row>
+                                <div _ngcontent-ins-c56="" fxlayout="row" fxlayoutalign="center center" class="full-width main-process-subsection main-process-cta-bottom-spacing" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                    <div _ngcontent-ins-c56="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                                        <div _ngcontent-ins-c56="" class="main-process-cta-text">Ready to get started?</div>
+                                        <div _ngcontent-ins-c56="">
+                                            <app-cta-button _ngcontent-ins-c56="" width="250px" height="50px" fontsize="28px" top="13px" class="inlineBlock" _nghost-ins-c52="">
+                                                <div _ngcontent-ins-c52="" class="unhighlightable clickable cta-btn white-text" style="width: 250px; height: 50px; font-size: 28px;">
+                                                    <div _ngcontent-ins-c52="" fxlayout="column" fxlayoutalign="center center" class="full-width full-height" style="flex-direction: column; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                                        <div _ngcontent-ins-c52="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-height: 100%;">
+                                                            <span _ngcontent-ins-c52="" class="text-offset" style="top: 13px;">Play Now</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </app-cta-button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <app-automated-slideshow _ngcontent-ins-c56="" class="features-slider ng-tns-c54-0 ng-star-inserted" _nghost-ins-c54="">
+                            <div _ngcontent-ins-c54="" fxlayout="row" fxlayoutalign="start center" class="full-width ng-tns-c54-0" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center flex-start; align-items: center;">
+                                <div _ngcontent-ins-c54="" fxflex="100%" class="center ng-tns-c54-0" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                                    <div _ngcontent-ins-c54="" class="slideshow-background ng-tns-c54-0 slideshow-background-mobile-landscape">
+                                        <div _ngcontent-ins-c54="" class="contents-spacing ng-tns-c54-0 contents-spacing-mobile">
+                                            <!---->
+                                            <div _ngcontent-ins-c54="" fxlayout="column" fxlayoutalign="start center" class="full-width min-mobile-image-container-size ng-tns-c54-0 ng-star-inserted" style="flex-direction: column; box-sizing: border-box; display: flex; place-content: center flex-start; align-items: center;">
+                                                <div _ngcontent-ins-c54="" fxflex="" class="center ng-tns-c54-0 ng-trigger ng-trigger-fadeIn ng-star-inserted ng-animating" style="flex: 1 1 1e-09px; box-sizing: border-box;">
+                                                    <img _ngcontent-ins-c54="" class="ng-tns-c54-0 image-size-mobile-landscape" src="../../../assets/landing-page/slideshow-image-replay.png">
+                                                </div>
+                                                <!---->
+                                                <div _ngcontent-ins-c54="" fxflex="" class="center ng-tns-c54-0 ng-trigger ng-trigger-fadeIn ng-star-inserted ng-animating" style="flex: 1 1 1e-09px; box-sizing: border-box;">
+                                                    <div _ngcontent-ins-c54="" class="first-row-font first-row-font-mobile ng-tns-c54-0">Watch your matches.</div>
+                                                    <div _ngcontent-ins-c54="" class="second-row-font second-row-font-mobile ng-tns-c54-0">Celebrate every goal!</div>
+                                                </div>
+                                                <!---->
+                                            </div>
+                                            <div _ngcontent-ins-c54="" fxlayout="row" fxlayoutalign="center center" class="full-width margin-top-2 ng-tns-c54-0 ng-star-inserted" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                                <div _ngcontent-ins-c54="" fxflex="30" class="center ng-tns-c54-0" style="flex: 1 1 100%; box-sizing: border-box; max-width: 30%;">
+                                                    <button _ngcontent-ins-c54="" mat-icon-button="" class="navigation-btn disable-dbl-tap-zoom ng-tns-c54-0 mdc-icon-button mat-mdc-icon-button mat-unthemed mat-mdc-button-base">
+                                                        <span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+                                                        <mat-icon _ngcontent-ins-c54="" role="img" class="mat-icon notranslate navigation-icon material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">chevron_left</mat-icon>
+                                                        <span class="mat-mdc-focus-indicator"></span>
+                                                        <span matripple="" class="mat-ripple mat-mdc-button-ripple"></span>
+                                                        <span class="mat-mdc-button-touch-target"></span>
+                                                    </button>
+                                                </div>
+                                                <div _ngcontent-ins-c54="" fxflex="50" class="center ng-tns-c54-0" style="flex: 1 1 100%; box-sizing: border-box; max-width: 50%;">
+                                                    <div _ngcontent-ins-c54="" fxlayout="row" fxlayoutalign="center center" class="full-width ng-tns-c54-0" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                                        <div _ngcontent-ins-c54="" fxflex="100%" class="center margin-top-2 page-indicators-mobile ng-tns-c54-0" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                                                            <div _ngcontent-ins-c54="" class="page-indicator ng-tns-c54-0 ng-star-inserted">
+                                                                <mat-icon _ngcontent-ins-c54="" role="img" class="mat-icon notranslate clickable ng-tns-c54-0 material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">radio_button_unchecked </mat-icon>
+                                                            </div>
+                                                            <div _ngcontent-ins-c54="" class="page-indicator ng-tns-c54-0 ng-star-inserted">
+                                                                <mat-icon _ngcontent-ins-c54="" role="img" class="mat-icon notranslate clickable ng-tns-c54-0 material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">radio_button_checked </mat-icon>
+                                                            </div>
+                                                            <div _ngcontent-ins-c54="" class="page-indicator ng-tns-c54-0 ng-star-inserted">
+                                                                <mat-icon _ngcontent-ins-c54="" role="img" class="mat-icon notranslate clickable ng-tns-c54-0 material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">radio_button_unchecked </mat-icon>
+                                                            </div>
+                                                            <div _ngcontent-ins-c54="" class="page-indicator ng-tns-c54-0 ng-star-inserted">
+                                                                <mat-icon _ngcontent-ins-c54="" role="img" class="mat-icon notranslate clickable ng-tns-c54-0 material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">radio_button_unchecked </mat-icon>
+                                                            </div>
+                                                            <!---->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div _ngcontent-ins-c54="" fxflex="30" class="center ng-tns-c54-0" style="flex: 1 1 100%; box-sizing: border-box; max-width: 30%;">
+                                                    <button _ngcontent-ins-c54="" mat-icon-button="" class="navigation-btn disable-dbl-tap-zoom ng-tns-c54-0 mdc-icon-button mat-mdc-icon-button mat-unthemed mat-mdc-button-base">
+                                                        <span class="mat-mdc-button-persistent-ripple mdc-icon-button__ripple"></span>
+                                                        <mat-icon _ngcontent-ins-c54="" role="img" class="mat-icon notranslate navigation-icon material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">chevron_right</mat-icon>
+                                                        <span class="mat-mdc-focus-indicator"></span>
+                                                        <span matripple="" class="mat-ripple mat-mdc-button-ripple"></span>
+                                                        <span class="mat-mdc-button-touch-target"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <!---->
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </app-automated-slideshow>
+                        <app-teams-seeking-managers _ngcontent-ins-c56="" class="seeking-managers-widget" _nghost-ins-c55="">
+                            <div _ngcontent-ins-c55="" class="highlighted-clubs-div center">
+                                <div _ngcontent-ins-c55="" class="highlighted-clubs-div-spacing">
+                                    <div _ngcontent-ins-c55="" fxlayout="row" fxlayoutalign="center center" class="full-width" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                        <div _ngcontent-ins-c55="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                                            <h2 _ngcontent-ins-c55="" class="top-header">Highlighted clubs seeking a manager</h2>
+                                        </div>
+                                    </div>
+                                    <div _ngcontent-ins-c55="" fxlayoutalign="center center" class="full-width flexWrap" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                        <div _ngcontent-ins-c55="" class="left teams-list full-width ng-star-inserted" style="flex: 1 1 50%; box-sizing: border-box; max-width: 50%;">
+                                            <ul _ngcontent-ins-c55="" class="list-landscape-mode">
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">The Gunners</a>
+                                                </li>
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Manchester Citizens</a>
+                                                </li>
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Oxford Utd FC</a>
+                                                </li>
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Rotherham FC</a>
+                                                </li>
+                                                <!---->
+                                            </ul>
+                                        </div>
+                                        <div _ngcontent-ins-c55="" class="left teams-list full-width ng-star-inserted" style="flex: 1 1 50%; box-sizing: border-box; max-width: 50%;">
+                                            <ul _ngcontent-ins-c55="" class="list-landscape-mode">
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Paris SG</a>
+                                                </li>
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Stade Rennais</a>
+                                                </li>
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">US Quevilly</a>
+                                                </li>
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Stade Laval</a>
+                                                </li>
+                                                <!---->
+                                            </ul>
+                                        </div>
+                                        <div _ngcontent-ins-c55="" class="left teams-list full-width ng-star-inserted" style="flex: 1 1 50%; box-sizing: border-box; max-width: 50%;">
+                                            <ul _ngcontent-ins-c55="" class="list-landscape-mode">
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Atlanta FC</a>
+                                                </li>
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">New York Citizens FC</a>
+                                                </li>
+                                                <!---->
+                                            </ul>
+                                        </div>
+                                        <div _ngcontent-ins-c55="" class="left teams-list full-width ng-star-inserted" style="flex: 1 1 50%; box-sizing: border-box; max-width: 50%;">
+                                            <ul _ngcontent-ins-c55="" class="list-landscape-mode">
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Barcelona</a>
+                                                </li>
+                                                <li _ngcontent-ins-c55="" class="ng-star-inserted">
+                                                    <a _ngcontent-ins-c55="">Royal Madrid</a>
+                                                </li>
+                                                <!---->
+                                            </ul>
+                                        </div>
+                                        <!---->
+                                    </div>
+                                    <div _ngcontent-ins-c55="" fxlayout="row" fxlayoutalign="center center" class="full-width" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                        <div _ngcontent-ins-c55="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                                            <div _ngcontent-ins-c55="" class="cta-text">Ready to manage your favourite club?</div>
+                                        </div>
+                                    </div>
+                                    <div _ngcontent-ins-c55="" fxlayout="row" fxlayoutalign="center center" class="full-width cta-row" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                        <div _ngcontent-ins-c55="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-width: 100%;">
+                                            <app-cta-button _ngcontent-ins-c55="" width="250px" height="50px" fontsize="28px" top="13px" class="inlineBlock" _nghost-ins-c52="">
+                                                <div _ngcontent-ins-c52="" class="unhighlightable clickable cta-btn white-text" style="width: 250px; height: 50px; font-size: 28px;">
+                                                    <div _ngcontent-ins-c52="" fxlayout="column" fxlayoutalign="center center" class="full-width full-height" style="flex-direction: column; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                                                        <div _ngcontent-ins-c52="" fxflex="100%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-height: 100%;">
+                                                            <span _ngcontent-ins-c52="" class="text-offset" style="top: 13px;">Play Now</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </app-cta-button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </app-teams-seeking-managers>
+                        <div _ngcontent-ins-c56="" class="footer-div center">
+                            <div _ngcontent-ins-c56="" class="footer-div-spacing">
+                                <div _ngcontent-ins-c56="" style="height: 30px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </app-landing-page>
+                <!---->
+            </main>
+            <!---->
+            <div _ngcontent-ins-c58="" fxlayout="row" fxlayoutalign="center center" class="full-width" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: center; align-items: center;">
+                <div _ngcontent-ins-c58="" fxflex="2%" class="center" style="flex: 1 1 100%; box-sizing: border-box; max-width: 2%;">
+                    <div _ngcontent-ins-c58="" touranchor="tour-universal-bottom" class="bottom-tour-element-v2"></div>
+                </div>
+            </div>
+            <!---->
+        </app-root>
+        <script id="ScullyIO-transfer-state"></script>
+        <script src="runtime.af651bd2e7be83c1.js" type="module"></script>
+        <script src="polyfills.4c97f9435f4530ab.js" type="module"></script>
+        <script src="main.3cc21d6ee9d12f96.js" type="module"></script>
+        <div class="cdk-live-announcer-element cdk-visually-hidden" aria-atomic="true" aria-live="polite" id="cdk-live-announcer-0"></div>
+    </body>
+</html>
