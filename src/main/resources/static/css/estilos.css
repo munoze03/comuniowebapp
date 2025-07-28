@@ -1,145 +1,31 @@
-html, body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-}
-
-body{
-	color:#6a6f8c;
-	background:#c8c8c8;
-	font:600 16px/18px 'Open Sans',sans-serif;
-}
 
 .login-box {
-	width: 100rw;
-	height: 100vh;
-	background: url(https://static.vecteezy.com/system/resources/thumbnails/003/396/140/small_2x/soccer-ball-in-net-with-spotlight-or-stadium-light-background-free-photo.jpg) no-repeat center;
-	background-size: cover; /* para que la imagen cubra todo */
-	position: relative;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: url(https://static.vecteezy.com/system/resources/thumbnails/003/396/140/small_2x/soccer-ball-in-net-with-spotlight-or-stadium-light-background-free-photo.jpg) no-repeat center;
+  background-size: cover;
+  position: relative;
 }
 
 .login-box::before {
-	content: "";
-	position: absolute;
-	top: 0; left: 0; right: 0; bottom: 0;
-	background: rgba(0, 77, 77, 0.9); /* el filtro verdoso semitransparente */
-	z-index: 1;
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 77, 77, 0.9);
+  z-index: 1;
 }
 
-.login-snip{
-	width:100%;
-	height:100%;
-	position:absolute;
-	padding:90px 50px 50px 50px;
-}
-.login-snip .login{
-	top:0;
-	left:0;
-	right:0;
-	bottom:0;
-	position:absolute;
-	backface-visibility:hidden;
-	transition:all .4s linear;
-}
-.login-snip .sign-in,
-.login-space .group .check{
-	display:none;
-	text-align: center;
-}
-.login-snip .tab,
-.login-space .group .label,
-.login-space .group .button{
-	text-transform:uppercase;
-}
-.login-snip .tab{
-	font-size:22px;
-	margin-right:15px;
-	padding-bottom:5px;
-	margin:0 15px 10px 0;
-	display:inline-block;
-	border-bottom:2px solid transparent;
-}
-.login-snip .sign-in:checked + .tab,
-p{
-	color:#fff;
-}
-.login-space{
-	min-height:345px;
-	position:relative;
-	perspective:1000px;
-	transform-style:preserve-3d;
-}
-.login-space .group{
-	margin-bottom:15px;
-}
-.login-space .group .label,
-.login-space .group .input,
-.login-space .group .button{
-	width:100%;
-	color:#fff;
-	display:block;
-}
-.login-space .group .input,
-.login-space .group .button{
-	border:none;
-	padding:15px 20px;
-	border-radius:25px;
-	background:rgba(255,255,255,.1);
-}
-.login-space .group input[data-type="password"]{
-	text-security:circle;
-	-webkit-text-security:circle;
-}
-.login-space .group .label{
-	color:#aaa;
-	font-size:12px;
-}
-.login-space .group .button{
-	background:#1161ee;
-}
-.login-space .group label .icon{
-	width:15px;
-	height:15px;
-	border-radius:2px;
-	position:relative;
-	display:inline-block;
-	background:rgba(255,255,255,.1);
-}
-.login-space .group label .icon:before,
-.login-space .group label .icon:after{
-	content:'';
-	width:10px;
-	height:2px;
-	background:#fff;
-	position:absolute;
-	transition:all .2s ease-in-out 0s;
-}
-.login-space .group label .icon:before{
-	left:3px;
-	width:5px;
-	bottom:6px;
-	transform:scale(0) rotate(0);
-}
-.login-space .group label .icon:after{
-	top:6px;
-	right:0;
-	transform:scale(0) rotate(0);
-}
-.login-space .group .check:checked + label{
-	color:#fff;
-}
-.login-space .group .check:checked + label .icon{
-	background:#1161ee;
-}
-.login-space .group .check:checked + label .icon:before{
-	transform:scale(1) rotate(45deg);
-}
-.login-space .group .check:checked + label .icon:after{
-	transform:scale(1) rotate(-45deg);
+.card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 700px;
+  background: transparent;
+  padding: 40px;
+  box-sizing: border-box;
+  border: none;
 }
 
 .title {
@@ -149,34 +35,123 @@ p{
   margin-bottom: 30px;
 }
 
-*,:after,:before{
-	box-sizing:border-box
+.login-space .group {
+  margin-bottom: 15px;
 }
 
-.clearfix:after,.clearfix:before{
-	content:'';display:table
+.group .label,
+.group .input,
+.group .button {
+  width: 100%;
+  display: block;
+  color: #fff;
 }
 
-.clearfix:after{
-	clear:both;display:block
+.group .label {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 5px;
 }
 
-.hr{
-	height:2px;
-	margin:60px 0 50px 0;
-	background:rgba(255,255,255,.2);
+.group .input,
+.group .button {
+  border: none;
+  padding: 15px 20px;
+  border-radius: 25px;
+  background: rgba(255,255,255,.1);
 }
 
-.foot{
-	text-align:center;
-}
-.card {
-	z-index: 2;
-  	width: 100%;
-  	max-width: 600px; /* quitar máximo */
-  	margin: 0 auto; /* centrar horizontal */
+.group input[type="password"] {
+  text-security: circle;
+  -webkit-text-security: circle;
 }
 
-::placeholder{
-color: #b3b3b3;
-} 
+.group .button {
+  background: #1161ee;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.group label .icon {
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  display: inline-block;
+  background: rgba(255,255,255,.1);
+  position: relative;
+}
+
+.group label .icon:before,
+.group label .icon:after {
+  content: '';
+  position: absolute;
+  background: #fff;
+  transition: all .2s ease-in-out;
+}
+
+.group label .icon:before {
+  width: 5px;
+  height: 2px;
+  left: 3px;
+  bottom: 6px;
+  transform: scale(0) rotate(0);
+}
+
+.group label .icon:after {
+  width: 10px;
+  height: 2px;
+  top: 6px;
+  right: 0;
+  transform: scale(0) rotate(0);
+}
+
+.check:checked + label .icon {
+  background: #1161ee;
+}
+
+.check:checked + label .icon:before {
+  transform: scale(1) rotate(45deg);
+}
+
+.check:checked + label .icon:after {
+  transform: scale(1) rotate(-45deg);
+}
+
+.hr {
+  height: 2px;
+  margin: 40px 0 30px 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.foot {
+  text-align: center;
+  color: white;
+  font-size: 14px;
+}
+
+::placeholder {
+  color: #b3b3b3;
+}
+
+input.check {
+  display: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 500px) {
+  .card {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+}

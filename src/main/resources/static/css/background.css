@@ -1,0 +1,21 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font: 600 16px/18px 'Open Sans', sans-serif;
+  color: #fff;
+}
+
+body {
+  background: url('https://static.vecteezy.com/system/resources/thumbnails/003/396/140/small_2x/soccer-ball-in-net-with-spotlight-or-stadium-light-background-free-photo.jpg') no-repeat center center;
+  background-size: cover;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 77, 77, 0.9);
+  z-index: -1;
+}

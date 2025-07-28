@@ -9,6 +9,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- CSS -->
   <link rel="stylesheet" th:href="@{/css/estilos.css}">
+  <link rel="stylesheet" th:href="@{/css/background.css}">
+
   <!-- JS -->
   <script th:src="@{/js/script.js}"></script>
 </head>
@@ -20,28 +22,26 @@
           <h1>Comunio Jujas</h1>
         </div>
         <div class="login-space">
-          <div class="login">
-            <form id="loginForm" th:action="@{/login}" method="post">
-              <div class="group">
-                <label for="user" class="label">Usuario</label>
-                <input id="user" type="text" class="input" name="username" placeholder="Usuario">
-              </div>
-              <div class="group">
-                <label for="pass" class="label">Contraseña</label>
-                <input id="pass" type="password" class="input" data-type="password" name="password" placeholder="Contraseña">
-              </div>
-              <div class="group">
-                <input id="check" type="checkbox" class="check" checked>
-                <label for="check"><span class="icon"></span> Recuerdame</label>
-              </div>
-              <div class="group">
-                <input type="submit" class="button" value="Loguearse">
-              </div>
-            </form>
-            <div class="hr"></div>
-            <div class="foot">
-              <p>Made By Kikinho</p>
+          <form id="loginForm" th:action="@{/login}" method="post">
+            <div class="group">
+              <label for="user" class="label">Usuario</label>
+              <input id="user" type="text" class="input" name="username" placeholder="Usuario">
             </div>
+            <div class="group">
+              <label for="pass" class="label">Contraseña</label>
+              <input id="pass" type="password" class="input" name="password" placeholder="Contraseña">
+            </div>
+            <div class="group checkbox-group">
+              <input id="check" type="checkbox" class="check" checked>
+              <label for="check"><span class="icon"></span> Recuérdame</label>
+            </div>
+            <div class="group">
+              <input type="submit" class="button" value="Loguearse">
+            </div>
+          </form>
+          <div class="hr"></div>
+          <div class="foot">
+            <p>Made By Kikinho</p>
           </div>
         </div>
       </div>

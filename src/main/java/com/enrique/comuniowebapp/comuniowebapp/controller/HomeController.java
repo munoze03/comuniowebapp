@@ -36,6 +36,10 @@ public class HomeController {
         } catch (Exception e) {
             return "redirect:/login?error=true";
         }
+    }
 
+    @GetMapping("/login")
+    public String loginForm(){
+        return "main";
     }
 }
