@@ -1,5 +1,8 @@
 package com.enrique.comuniowebapp.comuniowebapp.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,22 +24,21 @@ public class ComunioAuthService {
         this.restTemplate = builder.build();
     }
 
-    public TokenResponse login(String username, String password){
-        String url = "https://api.comunio.de/oauth/token";
+    public String getToken(String username, String password){
+        String url = "https://api.comunio.es/login";
+
+        Map<String, String> body = new HashMap<>();
+        body.put("username", username);
+        body.put("password", password);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("grant_type", "password");
-        body.add("username", username);
-        body.add("password", password);
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
+        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
 
-        ResponseEntity<TokenResponse> response = restTemplate.postForEntity(url, request, TokenResponse.class);
-
-        return response.getBody();
+        return (String) response.getBody().get("access_token");
     }
 
     

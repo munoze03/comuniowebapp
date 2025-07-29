@@ -1,6 +1,6 @@
 package com.enrique.comuniowebapp.comuniowebapp.dto;
 
-public class LoginForm {
+public class LoginRequest {
     private String username;
     private String password;
     public String getUsername() {

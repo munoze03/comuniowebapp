@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.enrique.comuniowebapp.comuniowebapp.dto.LoginForm;
+import com.enrique.comuniowebapp.comuniowebapp.dto.LoginRequest;
 import com.enrique.comuniowebapp.comuniowebapp.model.TokenResponse;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
 
@@ -21,25 +21,25 @@ public class HomeController {
         return "index";
     }
 
-    @Autowired
-    private ComunioAuthService authService;
+    // @Autowired
+    // private ComunioAuthService authService;
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute LoginForm form, HttpSession session){
-        System.out.println("Usuario: " + form.getUsername());
-        System.out.println("Contrasena: " + form.getPassword());
+    // @PostMapping("/login")
+    // public String login(@ModelAttribute LoginRequest form, HttpSession session){
+    //     System.out.println("Usuario: " + form.getUsername());
+    //     System.out.println("Contrasena: " + form.getPassword());
 
-        try {
-            TokenResponse token = authService.login(form.getUsername(), form.getPassword());
-            session.setAttribute("access_token", token.getAccess_token());
-            return "redirect:/main"; // o la página que desees
-        } catch (Exception e) {
-            return "redirect:/login?error=true";
-        }
-    }
+    //     try {
+    //         TokenResponse token = authService.login(form.getUsername(), form.getPassword());
+    //         session.setAttribute("access_token", token.getAccess_token());
+    //         return "redirect:/main"; // o la página que desees
+    //     } catch (Exception e) {
+    //         return "redirect:/login?error=true";
+    //     }
+    // }
 
-    @GetMapping("/login")
-    public String loginForm(){
-        return "main";
-    }
+    // @GetMapping("/login")
+    // public String loginForm(){
+    //     return "main";
+    // }
 }

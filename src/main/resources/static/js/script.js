@@ -1,5 +1,5 @@
 document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // <- esta línea está perfectamente bien
+    e.preventDefault(); 
 
     const username = document.getElementById("user").value;
     const password = document.getElementById("pass").value;
@@ -7,12 +7,12 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     console.log("Usuario:", username);
     console.log("Contraseña:", password);
 
-    fetch('/login', {
+    fetch('/api/login', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ username, password })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
   })
-  .then(res => res.text())
+  .then(res => res.json())
   .then(data => {
     console.log("Respuesta del servidor:", data);
     // Aquí puedes redirigir o mostrar mensaje
