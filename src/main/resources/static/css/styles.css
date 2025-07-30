@@ -10975,3 +10975,51 @@ section.resume-section .resume-section-content {
     padding-bottom: 5rem;
   }
 }
+body {
+    background: linear-gradient(rgba(0, 128, 0, 0.5), rgba(0, 128, 0, 0.5)), 
+                url(https://static.vecteezy.com/system/resources/thumbnails/003/396/140/small_2x/soccer-ball-in-net-with-spotlight-or-stadium-light-background-free-photo.jpg) no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    font-family: 'Muli', sans-serif;
+}
+
+.resume-section {
+    padding: 4rem 2rem;
+    background-color: rgba(0, 0, 0, 0.4); /* Paneles oscuros semi-transparentes */
+    border-radius: 12px;
+    margin: 2rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.resume-section-content h1, 
+.resume-section-content h2,
+.resume-section-content h3,
+.resume-section-content .subheading {
+    color: #adebad;
+}
+
+.text-primary {
+    color: #90ee90 !important;
+}
+
+.navbar.bg-primary {
+    background-color: rgba(0, 100, 0, 0.85) !important;
+}
+
+.nav-link,
+.navbar-brand {
+    color: #fff !important;
+}
+
+a.social-icon {
+    color: #adebad;
+    transition: color 0.3s ease;
+}
+a.social-icon:hover {
+    color: #ffffff;
+}
+
+hr {
+    border-color: #ccc;
+    opacity: 0.3;
+}
