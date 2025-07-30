@@ -9,11 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.enrique.comuniowebapp.comuniowebapp.model.TokenResponse;
 
 @Service
 public class ComunioAuthService {
@@ -40,6 +37,4 @@ public class ComunioAuthService {
 
         return (String) response.getBody().get("access_token");
     }
-
-    
 }

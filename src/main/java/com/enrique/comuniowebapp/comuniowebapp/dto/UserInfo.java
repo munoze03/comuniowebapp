@@ -3,8 +3,15 @@ package com.enrique.comuniowebapp.comuniowebapp.dto;
 public class UserInfo {
     private String id;
     private String name;
-    private double budget;
+    private String firtName;
+    private String lastName;
+    private String teamValue;
+    private String teamCount;
+    private String teamCountLinedUp;
+    private String tactic;
+    private String email;
     private String communityId;
+    private String communityName;
 
     public String getId() {
         return id;
@@ -18,11 +25,47 @@ public class UserInfo {
     public void setName(String name) {
         this.name = name;
     }
-    public double getBudget() {
-        return budget;
+    public String getFirtName() {
+        return firtName;
     }
-    public void setBudget(double budget) {
-        this.budget = budget;
+    public void setFirtName(String firtName) {
+        this.firtName = firtName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    public String getTeamValue() {
+        return teamValue;
+    }
+    public void setTeamValue(String teamValue) {
+        this.teamValue = teamValue;
+    }
+    public String getTeamCount() {
+        return teamCount;
+    }
+    public void setTeamCount(String teamCount) {
+        this.teamCount = teamCount;
+    }
+    public String getTeamCountLinedUp() {
+        return teamCountLinedUp;
+    }
+    public void setTeamCountLinedUp(String teamCountLinedUp) {
+        this.teamCountLinedUp = teamCountLinedUp;
+    }
+    public String getTactic() {
+        return tactic;
+    }
+    public void setTactic(String tactic) {
+        this.tactic = tactic;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
     public String getCommunityId() {
         return communityId;
@@ -30,5 +73,10 @@ public class UserInfo {
     public void setCommunityId(String communityId) {
         this.communityId = communityId;
     }
-
+    public String getCommunityName() {
+        return communityName;
+    }
+    public void setCommunityName(String communityName) {
+        this.communityName = communityName;
+    }
 }

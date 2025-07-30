@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:fragment="head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comunio App</title>
+
+    <!-- Estilos -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <!-- FontAwesome (opcional) -->
+    <script src="https://kit.fontawesome.com/yourkit.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header th:fragment="navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/main}">Comunio App</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" th:href="@{/main}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/perfil}">Perfil</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/comunidades}">Comunidades</a></li>
+                    </ul>
+                    <form th:action="@{/logout}" method="post" class="d-flex">
+                        <button class="btn btn-outline-light" type="submit">Cerrar sesión</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main th:fragment="content">
+        <div class="container p-4">
+        <!-- Aquí se inyecta el contenido -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer th:fragment="footer" class="text-center text-white bg-dark py-3 mt-4">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Comunio App. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

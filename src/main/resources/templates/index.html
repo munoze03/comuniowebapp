@@ -10,9 +10,6 @@
   <!-- CSS -->
   <link rel="stylesheet" th:href="@{/css/estilos.css}">
   <link rel="stylesheet" th:href="@{/css/background.css}">
-
-  <!-- JS -->
-  <script th:src="@{/js/script.js}"></script>
 </head>
 <body>
   <div class="login-box">
@@ -22,7 +19,7 @@
           <h1>Comunio Jujas</h1>
         </div>
         <div class="login-space">
-          <form id="loginForm" th:action="@{/api/login}" method="post">
+          <form id:"loginForm" th:action="@{/api/login}" method="post">
             <div class="group">
               <label for="user" class="label">Usuario</label>
               <input id="user" type="text" class="input" name="username" placeholder="Usuario">
@@ -32,20 +29,26 @@
               <input id="pass" type="password" class="input" name="password" placeholder="Contraseña">
             </div>
             <div class="group checkbox-group">
-              <input id="check" type="checkbox" class="check" checked>
+              <input id="check" type="checkbox" class="check">
               <label for="check"><span class="icon"></span> Recuérdame</label>
             </div>
             <div class="group">
               <input type="submit" class="button" value="Loguearse">
             </div>
           </form>
-          <div class="hr"></div>
-          <div class="foot">
-            <p>Made By Kikinho</p>
+        </div>
+        <!-- Modal personalizado de error -->
+        <div th:if="${error}" class="custom-modal-overlay">
+          <div class="custom-modal-content">
+            <h2 class="custom-modal-title">Error de autenticación</h2>
+            <p th:text="${error}" class="custom-modal-message">Ha ocurrido un error.</p>
+            <a href="/" class="custom-modal-button">Aceptar</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- JS -->
+  <script src="\js\scripts.js"></script>
 </body>
 </html>

@@ -1,10 +1,12 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginRequest;
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginResponse;
@@ -12,7 +14,7 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
 
-@RestController
+@Controller
 @RequestMapping("/api")
 public class ComunioController {
 
@@ -25,16 +27,47 @@ public class ComunioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request){
-        String token = authService.getToken(request.getUsername(), request.getPassword());
-        UserInfo userInfo = userService.getUserInfo(token);
+    public String login(@ModelAttribute LoginRequest request, @RequestParam(required=false) boolean rememberMe, Model model){
+        try{
+            String token = authService.getToken(request.getUsername(), request.getPassword());
+            UserInfo userInfo = userService.getUserInfo(token);
 
-        LoginResponse response = new LoginResponse();
-        response.setToken(token);
-        response.setUserId(userInfo.getId());
-        response.setCommunityId(userInfo.getCommunityId());
+            LoginResponse response = new LoginResponse();
+            response.setToken(token);
+            response.setUserId(userInfo.getId());
+            response.setName(userInfo.getName());
+            response.setFirtName(userInfo.getFirtName());
+            response.setLastName(userInfo.getLastName());
+            response.setTeamValue(userInfo.getTeamValue());
+            response.setTeamCount(userInfo.getTeamCount());
+            response.setTeamCountLinedUp(userInfo.getTeamCountLinedUp());
+            response.setTactic(userInfo.getTactic());
+            response.setEmail(userInfo.getEmail());
+            response.setCommunityId(userInfo.getCommunityId());
+            response.setCommunityName(userInfo.getCommunityName());
 
-        return ResponseEntity.ok(response);
+            //Para ver los datos en terminal
+            System.out.println("Usuario: " + request.getUsername());
+            System.out.println("Password: " + request.getPassword());
+            System.out.println("Token: " + token);
+            System.out.println("UserID: " + userInfo.getId());
+            System.out.println("Nombre: " + userInfo.getFirtName());
+            System.out.println("Apellidos: " + userInfo.getLastName());
+            System.out.println("Valor Equipo: " + userInfo.getTeamValue());
+            System.out.println("No Jugadores: " + userInfo.getTeamCount());
+            System.out.println("No jugadores alineacion: " + userInfo.getTeamCountLinedUp());
+            System.out.println("Tactica: " + userInfo.getTactic());
+            System.out.println("Email: " + userInfo.getEmail());
+            System.out.println("ID Comunidad: " + userInfo.getCommunityId());
+            System.out.println("Nombre Comunidad: " + userInfo.getCommunityName());
+
+            return "main";
+        } catch (IllegalArgumentException e){
+            model.addAttribute("error", e.getMessage());
+            return "index";
+        } catch (Exception e){
+            model.addAttribute("error", "Usuario o Contraseña incorrectos");
+            return "index";
+        }
     }
-
 }

@@ -33,10 +33,18 @@ public class ComunioUserService {
         Map data = response.getBody();
 
         UserInfo info = new UserInfo();
-        info.setId(String.valueOf(data.get("user_id")));
+        //info.setId(String.valueOf(data.get("user")));
+        info.setId(String.valueOf(((Map) data.get("user")).get("id")));
+        info.setName(String.valueOf(((Map) data.get("user")).get("name")));
+        info.setFirtName(String.valueOf(((Map) data.get("user")).get("firstName")));
+        info.setLastName(String.valueOf(((Map) data.get("user")).get("lastName")));
+        info.setTeamValue(String.valueOf(((Map) data.get("user")).get("teamValue")));
+        info.setTeamCount(String.valueOf(((Map) data.get("user")).get("teamCount")));
+        info.setTeamCountLinedUp(String.valueOf(((Map) data.get("user")).get("teamCountLinedup")));
+        info.setTactic(String.valueOf(((Map) data.get("user")).get("tactic")));
+        info.setEmail(String.valueOf(((Map) data.get("user")).get("email")));
         info.setCommunityId(String.valueOf(((Map) data.get("community")).get("id")));
-        info.setName(String.valueOf(data.get("user_name")));
-        info.setBudget(Double.parseDouble(String.valueOf(data.get("budget"))));
+        info.setCommunityName(String.valueOf(((Map) data.get("community")).get("name")));
 
         return info;
     }
