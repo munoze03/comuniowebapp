@@ -11,11 +11,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import jakarta.servlet.http.HttpSession;
+
+
 
 @Service
 public class ComunioAuthService {
 
     private final RestTemplate restTemplate;
+    private HttpSession session;
+    
 
     public ComunioAuthService(RestTemplateBuilder builder){
         this.restTemplate = builder.build();
@@ -35,6 +40,8 @@ public class ComunioAuthService {
 
         ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
 
-        return (String) response.getBody().get("access_token");
+        String token = (String) response.getBody().get("access_token");
+
+        return token;
     }
 }

@@ -1,6 +1,8 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginRequest;
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginResponse;
+import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/api")
@@ -27,16 +32,20 @@ public class ComunioController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginRequest request, @RequestParam(required=false) boolean rememberMe, Model model){
+    public String login(@ModelAttribute LoginRequest request, @RequestParam(required=false) boolean rememberMe, Model model, HttpSession session){
         try{
             String token = authService.getToken(request.getUsername(), request.getPassword());
             UserInfo userInfo = userService.getUserInfo(token);
+
+            //Guardamos userInfo con los datos para pasarlos a otros controladores por session
+            session.setAttribute("userInfo", userInfo); 
+            session.setAttribute("token", token);
 
             LoginResponse response = new LoginResponse();
             response.setToken(token);
             response.setUserId(userInfo.getId());
             response.setName(userInfo.getName());
-            response.setFirtName(userInfo.getFirtName());
+            response.setFirstName(userInfo.getFirstName());
             response.setLastName(userInfo.getLastName());
             response.setTeamValue(userInfo.getTeamValue());
             response.setTeamCount(userInfo.getTeamCount());
@@ -51,7 +60,7 @@ public class ComunioController {
             System.out.println("Password: " + request.getPassword());
             System.out.println("Token: " + token);
             System.out.println("UserID: " + userInfo.getId());
-            System.out.println("Nombre: " + userInfo.getFirtName());
+            System.out.println("Nombre: " + userInfo.getFirstName());
             System.out.println("Apellidos: " + userInfo.getLastName());
             System.out.println("Valor Equipo: " + userInfo.getTeamValue());
             System.out.println("No Jugadores: " + userInfo.getTeamCount());
@@ -61,7 +70,12 @@ public class ComunioController {
             System.out.println("ID Comunidad: " + userInfo.getCommunityId());
             System.out.println("Nombre Comunidad: " + userInfo.getCommunityName());
 
-            return "main";
+            //Recuperamos las noticias
+            List<News> news = userService.getUserNews(token, userInfo.getCommunityId(), userInfo.getId());
+            session.setAttribute("news", news);
+
+
+            return "redirect:/main";
         } catch (IllegalArgumentException e){
             model.addAttribute("error", e.getMessage());
             return "index";

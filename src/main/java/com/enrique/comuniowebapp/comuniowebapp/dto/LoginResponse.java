@@ -4,7 +4,7 @@ public class LoginResponse {
     private String token;
     private String userId;
     private String name;
-    private String firtName;
+    private String firstName;
     private String lastName;
     private String teamValue;
     private String teamCount;
@@ -32,11 +32,11 @@ public class LoginResponse {
     public void setName(String name) {
         this.name = name;
     }
-    public String getFirtName() {
-        return firtName;
+    public String getFirstName() {
+        return firstName;
     }
-    public void setFirtName(String firtName) {
-        this.firtName = firtName;
+    public void setFirstName(String firtName) {
+        this.firstName = firtName;
     }
     public String getLastName() {
         return lastName;
