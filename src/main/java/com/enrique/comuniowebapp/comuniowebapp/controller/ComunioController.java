@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginRequest;
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginResponse;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
@@ -72,8 +73,13 @@ public class ComunioController {
 
             //Recuperamos las noticias
             List<News> news = userService.getUserNews(token, userInfo.getCommunityId(), userInfo.getId());
+            //Guardamos las noticias en la sesion
             session.setAttribute("news", news);
 
+            //Recuperamos el mercado de fichajes
+            List<Mercado> mercado = userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId());
+            //Guarcamos el mercado en la sesion
+            session.setAttribute("mercado", mercado);
 
             return "redirect:/main";
         } catch (IllegalArgumentException e){

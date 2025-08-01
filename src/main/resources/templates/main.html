@@ -24,7 +24,7 @@
         <!-- Navegacion -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <span class="d-block d-lg-none" th:text="${userInfo.firstName} + ' ' + ${userInfo.lastName}"></span>
+                <span class="d-block d-lg-none" th:text="${userInfo.firstName} + ' ' + ${userInfo.lastName}" ></span>
                 <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="/assets/logoJujas.png" alt="..." /></span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -50,27 +50,68 @@
                     </div>
 
                     <div th:if="${!#lists.isEmpty(newsList)}">
-                        <div th:each="n : ${newsList}" class="mb-4">
-                            <h3 th:text="${n.title}" class="subheading"></h3>
-                            <h3 class="subheadingFecha mb-1" th:text="${n.date}"></h3>
-                            <div th:utext="${n.messageHtml}" class="text-white-50 small mb-0"></div>
-                            <hr class="bg-light">
+                        <div id="noticiasContainer">
+                            <div th:each="n, iterStat : ${newsList}" 
+                                th:classappend="${iterStat.index >= 3} ? 'd-none extra-noticia' : ''" 
+                                class="mb-4">
+                                <h3 th:text="${n.title}" class="subheading"></h3>
+                                <h3 class="subheadingFecha mb-1" th:text="${n.date}"></h3>
+                                <div th:utext="${n.messageHtml}" class="text-white-50 small mb-0"></div>
+                                <hr class="bg-light">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button class="btn btn-outline-light btn-sm" id="toggleNoticiasBtn" onclick="toggleNoticias()">Mostrar Anteriores</button>
                         </div>
                     </div>
                 </div>
             </section>
             <hr class="m-0" />
-            <!-- Experiencia -->
+            <!-- Mercado -->
             <section class="resume-section" id="mercado">
                 <div class="resume-section-content">
-                    <h2 class="mb-5">Mercado</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Junior Backend Developer</h3>
-                            <div class="subheading mb-3">Crownet Sistemas</div>
-                            <p>Participación activa en el desarrollo y mejora de un ERP Cloud empresarial. Implementación de nuevas funcionalidades y refactorización de módulos existentes utilizando tecnologías como Java, C#, SQL, JavaScript y ASP.NET MVC. Trabajo con arquitecturas basadas en MVC, consultas SQL optimizadas y colaboración en tareas de integración y pruebas funcionales.</p>
+                    <h1 class="mb-0">Mercado de Fichajes</h1>
+
+                    <div th:if="${#lists.isEmpty(mercadoList)}">
+                        <p class="lead mb-5">No hay jugadores en el mercado actualmente.</p>
+                    </div>
+
+                    <div th:if="${!#lists.isEmpty(mercadoList)}">
+                        <div th:each="p : ${mercadoList}" class="mb-4 border-bottom border-light pb-3">
+                            <div class="d-flex align-items-center">
+                                <!-- Foto del jugador -->
+                                <img th:src="${p.urlPhoto}" alt="Foto jugador" class="me-3 rounded-circle" width="60" height="60">
+
+                                <div>
+                                    <h5 class="text-light mb-1" th:text="${p.namePlayer}"></h5>
+
+                                    <!-- Logo del club + nombre -->
+                                    <div class="d-flex align-items-center mb-1">
+                                        <img th:src="${p.urlPhotoClub}" alt="Logo club" class="me-2" width="24" height="24">
+                                        <span class="text-white-50" th:text="${p.club}"></span>
+                                    </div>
+
+                                    <p class="mb-0 text-white-50">
+                                        <span class="label-text">Posición:</span>
+                                        <span th:text="${p.position}"></span>
+                                    </p>
+                                    <p class="mb-0 text-white-50">
+                                        <span class="label-text">Dueño:</span>
+                                        <span th:text="${p.owner}"></span>
+                                        &nbsp;|&nbsp;
+                                        <span class="label-text">Fin:</span>
+                                        <span th:text="${p.remaining} + 'h'"></span>
+                                    </p>
+                                    <p class="mb-0 text-white-50">
+                                        <span class="label-text">Valor:</span>
+                                        <span th:text="${#numbers.formatInteger(p.price, 0, 'POINT')} + ' €'"></span>
+                                        &nbsp;|&nbsp;
+                                        <span class="label-text">Oferta mínima:</span>
+                                        <span th:text="${#numbers.formatInteger(p.recommendedPrice, 0, 'POINT')} + ' €'"></span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex-shrink-0"><span class="text-primary">Septiembre 2023 - Enero 2024</span></div>
                     </div>
                 </div>
             </section>
@@ -130,20 +171,45 @@
                 </div>
             </section>
             <hr class="m-0" />
-            <!-- Proyectos -->
+            <!-- Alineacion -->
             <section class="resume-section" id="alineacion">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Alineación</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-2">APP Android "GIAC"</h3>
-                            <div class="d-flex align-items-center mt-2">
-                                <a href="https://github.com/munoze03/DAM_A.avellaneda-Proyecto_GIAC" target="_blank">
-                                    <img class="img-icon-small rounded-circle mx-auto" src="assets/giac_logo.png" alt="..." href="https://www.https://github.com/munoze03/DAM_A.avellaneda-Proyecto_GIAC" target="_blank"/>
-                                </a>
-                                <p class="mb-0 ms-3">APP para SSOO Android que desarrollé en Java usando Android Studio durante mi proyecto final de DAM. Sirve para gestionar la asistencia en carretera, facilitando registrar y controlar turnos y servicios directamente desde el móvil de forma sencilla.</p>
+                    
+                    <div th:if="${alineacion != null}">
+                        <div class="alineacion-container">
+                            <div class="cancha" id="cancha">
+                                <!-- Elementos del campo -->
+                                <div class="linea-media"></div>
+                                <div class="area-grande"></div>
+                                <div class="area-pequena"></div>
+                                <div class="punto-penal"></div>
+                                <div class="centro-campo"></div>
+                                <div class="punto-centro"></div>
+                                
+                                <!-- Jugadores dinámicos desde el backend -->
+                                <div th:each="jugador, stat : ${alineacion.jugadores}" 
+                                    class="jugador"
+                                    th:style="'left:' + ${jugador.posX} + '%; top:' + ${jugador.posY} + 'px;'"
+                                    th:onclick="'mostrarInfoJugador(\'' + ${jugador.nombre} + '\', \'' + ${jugador.posicion} + '\', \'' + ${jugador.rol} + '\')'"
+                                    th:text="${jugador.dorsal}">
+                                </div>
+                            </div>
+                            
+                            <div class="jugador-info" id="jugador-info">
+                                <h5 class="posicion-titulo">Información del jugador</h5>
+                                <p>Selecciona un jugador para ver sus detalles</p>
                             </div>
                         </div>
+                        
+                        <div class="mt-4">
+                            <h5>Formación: <span th:text="${alineacion.formacion}" class="badge bg-primary"></span></h5>
+                            <p class="mb-0">Esta es tu alineación actual en Comunio. Puedes modificarla desde la app oficial.</p>
+                        </div>
+                    </div>
+                    
+                    <div th:if="${alineacion == null}" class="alert alert-warning">
+                        No tienes una alineación configurada actualmente.
                     </div>
                 </div>
             </section>

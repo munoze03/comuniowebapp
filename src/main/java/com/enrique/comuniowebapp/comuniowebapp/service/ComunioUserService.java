@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 
@@ -96,4 +97,58 @@ public class ComunioUserService {
 
         return news;
     }
+
+    public List<Mercado> getMercado(String token, String communityId, String userId){
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/exchangemarket", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+
+        List<Mercado> jugadores = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Map<String, Object> embedded = (Map<String, Object>) item.get("_embedded");
+            Map<String, Object> jugador = (Map<String, Object>) embedded.get("player");
+            Map<String, Object> club = (Map<String, Object>) jugador.get("club");
+            Map<String, Object> owner = (Map<String, Object>) embedded.get("owner");
+            Map<String, Object> links = (Map<String, Object>) jugador.get("_links");
+            Map<String, Object> linksClub = (Map<String, Object>) club.get("_links");
+            Map<String, Object> foto = (Map<String, Object>) links.get("photo");
+            Map<String, Object> fotoClub = (Map<String, Object>) linksClub.get("logo");
+
+            Mercado m = new Mercado();
+            m.setId(((Number) jugador.get("id")).longValue());
+            m.setNamePlayer((String) jugador.get("name"));
+            m.setClub((String) club.get("name"));
+            m.setUrlPhotoClub((String) fotoClub.get("href"));
+            m.setPosition(traducirPosicion((String) jugador.get("position")));
+            m.setPrice(((Number) jugador.get("quotedPrice")).intValue());
+            m.setRecommendedPrice(((Number) jugador.get("recommendedPrice")).intValue());
+            m.setUrlPhoto((String) foto.get("href"));
+            m.setDate((String) item.get("date"));
+            m.setRemaining(((Number) item.get("remaining")).intValue());
+            m.setOwner((String) owner.get("name"));
+
+            jugadores.add(m);
+        }
+
+        return jugadores;
+    }
+    
+    public static String traducirPosicion(String posicion) {
+        if (posicion == null) return "";
+        switch (posicion.toLowerCase()) {
+            case "keeper": return "Portero";
+            case "defender": return "Defensa";
+            case "midfielder": return "Centrocampista";
+            case "striker": return "Delantero";
+            default: return posicion; // por si hay una nueva no reconocida
+        }
+    }
+
+        
+    
 }
