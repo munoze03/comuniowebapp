@@ -11152,3 +11152,49 @@ hr {
     transform: translate(-50%, -50%);
     opacity: 0.3;
 }
+/* Elementos de clasificacion */
+.tipo-total,
+.tipo-jornada,
+.posicion {
+    text-align: center;
+}
+.table {
+  width: 100%;        /* Que ocupe todo el ancho disponible */
+  max-width: 600px;   /* Máximo ancho deseado, por ejemplo 800px */
+  margin: 0 auto;     /* Centrar horizontalmente la tabla */
+  table-layout: auto; /* Ajusta el ancho de columnas automáticamente */
+  border-collapse: collapse; /* Opcional, para que no haya espacios entre celdas */
+}
+#clasificacion .mb-3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+/* Centramos los titulos */
+#clasificacion h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+#noticias h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+#mercado h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+#plantilla h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+#ofertas h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+#alineacion h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}

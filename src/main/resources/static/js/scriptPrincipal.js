@@ -224,3 +224,22 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 });
+
+// Selector Clasificacion
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('clasificacionTipo');
+
+    if (select) {
+        select.addEventListener('change', () => {
+            const tipo = select.value;
+
+            document.querySelectorAll('.tipo-total').forEach(el => {
+                el.classList.toggle('d-none', tipo !== 'total');
+            });
+
+            document.querySelectorAll('.tipo-jornada').forEach(el => {
+                el.classList.toggle('d-none', tipo !== 'jornada');
+            });
+        });
+    }
+});

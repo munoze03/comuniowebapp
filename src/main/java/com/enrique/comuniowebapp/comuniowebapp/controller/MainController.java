@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
@@ -32,7 +33,11 @@ public class MainController {
         //Recuperamos Mercado desde session
         List<Mercado> mercadoList = (List<Mercado>) session.getAttribute("mercado");
         model.addAttribute("mercadoList", mercadoList);
-        
+
+        //Recuperamos Clasificacion desde session
+        List<Clasificacion> clasificacion = (List<Clasificacion>) session.getAttribute("clasificacion");
+        model.addAttribute("clasificacion", clasificacion);
+
         return "main";
     }
 }
