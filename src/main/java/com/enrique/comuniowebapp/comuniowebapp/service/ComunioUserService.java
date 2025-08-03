@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.naming.factory.OpenEjbFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +17,9 @@ import org.springframework.web.client.RestTemplate;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 
 @Service
 public class ComunioUserService {
@@ -165,6 +168,105 @@ public class ComunioUserService {
 
         return clasificacion;
     }
+
+    public List<Player> getPlantilla(String token, String userId){
+        String url = String.format("https://www.comunio.es/api/users/%s/squad", userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+        
+        List<Player> plantilla = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Map<String, Object> club = (Map<String, Object>) item.get("club");
+            Map<String, Object> links = (Map<String, Object>) club.get("_links");
+            Map<String, Object> logo = (Map<String, Object>) links.get("logo");
+            Map<String, Object> playerLinks = (Map<String, Object>) item.get("_links");
+            Map<String, Object> foto = (Map<String, Object>) playerLinks.get("photo");
+
+            Player p = new Player();
+            p.setClub((String) club.get("name"));
+            p.setHrefClubLogo((String) logo.get("href"));
+            p.setHrefFoto((String) foto.get("href"));
+            if(item.get("averagePoints").getClass()==String.class){
+                p.setMediaPuntos((String) item.get("averagePoints"));
+            }else{
+                int media = ((int) item.get("averagePoints"));
+                p.setMediaPuntos(String.valueOf(media));
+
+            }
+            p.setName((String) item.get("name"));
+            //Modificamos la posicion para la tarjeta
+            String posicion = ((String) item.get("position")).toLowerCase();
+            switch (posicion) {
+            case "keeper" -> p.setPosicion("PO");
+            case "defender" -> p.setPosicion("DF");
+            case "midfielder" -> p.setPosicion("ME");
+            default -> p.setPosicion("DL");
+}
+            p.setPuntosTotales((String) item.get("points"));
+            p.setUltimosPuntos((String) item.get("lastPoints"));
+            p.setValor((int) item.get("quotedprice"));
+
+            plantilla.add(p);
+        }
+
+        return plantilla;
+    }
+
+    public List<Oferta> getOfertas(String token, String communityId, String userId ){
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers?current", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+
+
+        List<Oferta> ofertas = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Map<String, Object> tradable = (Map<String, Object>) item.get("tradable");
+            Map<String, Object> club = (Map<String, Object>) tradable.get("club");
+            Map<String, Object> linksClub = (Map<String, Object>) club.get("_links");
+            Map<String, Object> logo = (Map<String, Object>) linksClub.get("logo");
+            Map<String, Object> links = (Map<String, Object>) tradable.get("_links");
+            Map<String, Object> foto = (Map<String, Object>) links.get("photo");
+            Map<String, Object> user = (Map<String, Object>) item.get("user");
+            Map<String, Object> tradingPartner = (Map<String, Object>) item.get("tradingPartner");
+
+            Oferta o = new Oferta();
+            o.setId((int) item.get("id"));
+            o.setIdPlayer((int) tradable.get("id"));
+            o.setName((String) tradable.get("name"));
+            o.setClubName((String) club.get("name"));
+            o.setLogoClub((String) logo.get("href"));
+            o.setFotoJugador((String) foto.get("href"));
+            o.setTipoOferta((String) item.get("type"));
+            String estado = (String) item.get("state");
+            if(estado.equals("PENDING")){
+                o.setEstado("Pendiente");
+            }
+            o.setPrecio((int) item.get("price"));
+            o.setNombreUsuario((String) user.get("name"));
+            o.setUserId((int) user.get("id"));
+            o.setNombreContraparte((String) tradingPartner.get("name"));
+            o.setCredito((int) response.getBody().get("credit"));
+            if(o.getUserId()==Integer.parseInt(userId)){
+                o.setEsRealizadaPorMi(true);
+            }else{
+                o.setEsRealizadaPorMi(false);
+            }
+
+            ofertas.add(o);
+        }
+
+        return ofertas;
+    }
     
     public static String traducirPosicion(String posicion) {
         if (posicion == null) return "";
@@ -177,6 +279,4 @@ public class ComunioUserService {
         }
     }
 
-        
-    
 }

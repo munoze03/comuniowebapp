@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
 
@@ -37,6 +39,14 @@ public class MainController {
         //Recuperamos Clasificacion desde session
         List<Clasificacion> clasificacion = (List<Clasificacion>) session.getAttribute("clasificacion");
         model.addAttribute("clasificacion", clasificacion);
+
+        //Recuperamos plantilla desde session
+        List<Player> plantilla = (List<Player>) session.getAttribute("plantilla");
+        model.addAttribute("plantilla", plantilla);
+
+        //Recuperamos ofertas desde session
+        List<Oferta> ofertas = (List<Oferta>) session.getAttribute("ofertas");
+        model.addAttribute("ofertas", ofertas);
 
         return "main";
     }

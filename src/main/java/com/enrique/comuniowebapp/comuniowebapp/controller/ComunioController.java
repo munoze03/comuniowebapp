@@ -15,6 +15,8 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.LoginRequest;
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginResponse;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
@@ -64,13 +66,23 @@ public class ComunioController {
 
             //Capturamos el mercado de fichajes
             List<Mercado> mercado = userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId());
-            //Guarcamos el mercado en la sesion
+            //Guardamos el mercado en la sesion
             session.setAttribute("mercado", mercado);
 
             //Capturamos la clasificacion
             List<Clasificacion> clasificacion = userService.getClasificacion(token, userInfo.getCommunityId(), userInfo.getId());
-            //Guarcamos la clasificacion en la sesion
+            //Guardamos la clasificacion en la sesion
             session.setAttribute("clasificacion", clasificacion);            
+
+            //Capturamos la alineacion
+            List<Player> plantilla = userService.getPlantilla(token, userInfo.getId());
+            //Guardamos la clasificacion en la sesion
+            session.setAttribute("plantilla", plantilla);
+
+            //Capturamos las ofertas activas
+            List<Oferta> ofertas = userService.getOfertas(token, userInfo.getCommunityId(), userInfo.getId());
+            //Guardamos las ofertas en la sesion
+            session.setAttribute("ofertas", ofertas);  
 
             return "redirect:/main";
         } catch (IllegalArgumentException e){

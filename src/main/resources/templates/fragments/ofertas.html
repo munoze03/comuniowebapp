@@ -1,0 +1,60 @@
+<div th:fragment="ofertasFragment">
+    <section class="resume-section" id="ofertas">
+        <div class="resume-section-content">
+            <h2 class="mb-3">Ofertas</h2>
+
+            <!-- Botones para elegir tipo de ofertas -->
+            <div class="d-flex justify-content-center mb-3">
+                <div class="btn-group" role="group" aria-label="Selector de ofertas">
+                    <button id="btnOfertasRealizadas" type="button" class="btn btn-success">Realizadas</button>
+                    <button id="btnOfertasRecibidas" type="button" class="btn btn-outline-success">Recibidas</button>
+                    <button id="btnOfertasPasadas" type="button" class="btn btn-outline-success">Pasadas</button>
+                </div>
+            </div>
+
+
+
+            <!-- Contenedor para mostrar las ofertas -->
+            <div id="ofertasContainer">
+                <!-- Aquí se pintarán dinámicamente las ofertas con Thymeleaf o JS -->
+                <div th:if="${not #lists.isEmpty(ofertas)}" id="ofertasRealizadas" class="ofertas-section d-none">
+                    <h3 class="text-light">Ofertas realizadas</h3>
+
+                    <div th:each="o : ${ofertas}" class="mb-4 border-bottom border-light pb-3">
+                        <div class="d-flex align-items-center">
+                            <!-- Foto del jugador -->
+                            <img th:src="${o.fotoJugador}" alt="Foto jugador" class="me-3 rounded-circle" width="60" height="60">
+
+                            <div>
+                                <!-- Nombre del jugador -->
+                                <h5 class="text-light mb-1" th:text="${o.name}">Nombre del jugador</h5>
+
+                                <!-- Logo del club + nombre -->
+                                <div class="d-flex align-items-center mb-1">
+                                    <img th:src="${o.logoClub}" alt="Logo club" class="me-2" width="24" height="24">
+                                    <span class="text-white-50" th:text="${o.clubName}">Nombre del club</span>
+                                </div>
+
+                                <!-- Precio ofertado -->
+                                <p class="mb-0 text-white-50">
+                                    <span class="label-text">Precio ofertado:</span>
+                                    <span th:text="${#numbers.formatInteger(o.precio, 0, 'POINT')} + ' €'">0 €</span>
+                                </p>
+
+                                <!-- Estado -->
+                                <p class="mb-0 text-white-50">
+                                    <span class="label-text">Estado:</span>
+                                    <span th:text="${o.estado}">Pendiente</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ofertasRecibidas" class="d-none">Contenido de recibidas</div>
+                <div id="ofertasPasadas" class="d-none">Contenido de pasadas</div>
+            </div>
+        </div>
+    </section>
+    <hr class="m-0" />
+</div>

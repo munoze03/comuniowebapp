@@ -226,20 +226,68 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Selector Clasificacion
+document.addEventListener("DOMContentLoaded", function () {
+    const btnTotal = document.getElementById("btnTotal");
+    const btnJornada = document.getElementById("btnJornada");
+
+    btnTotal.addEventListener("click", function () {
+        btnTotal.classList.add("btn-success");
+        btnTotal.classList.remove("btn-outline-success");
+        btnJornada.classList.add("btn-outline-success");
+        btnJornada.classList.remove("btn-success");
+
+        document.querySelectorAll(".tipo-total").forEach(e => e.classList.remove("d-none"));
+        document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.add("d-none"));
+    });
+
+    btnJornada.addEventListener("click", function () {
+        btnJornada.classList.add("btn-success");
+        btnJornada.classList.remove("btn-outline-success");
+        btnTotal.classList.add("btn-outline-success");
+        btnTotal.classList.remove("btn-success");
+
+        document.querySelectorAll(".tipo-total").forEach(e => e.classList.add("d-none"));
+        document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.remove("d-none"));
+    });
+});
+
+// Botonoes de seleccion de ofertas
 document.addEventListener('DOMContentLoaded', () => {
-    const select = document.getElementById('clasificacionTipo');
+    const buttons = {
+        realizadas: document.getElementById('btnOfertasRealizadas'),
+        recibidas: document.getElementById('btnOfertasRecibidas'),
+        pasadas: document.getElementById('btnOfertasPasadas')
+    };
 
-    if (select) {
-        select.addEventListener('change', () => {
-            const tipo = select.value;
+    const secciones = {
+        realizadas: document.getElementById('ofertasRealizadas'),
+        recibidas: document.getElementById('ofertasRecibidas'),
+        pasadas: document.getElementById('ofertasPasadas')
+    };
 
-            document.querySelectorAll('.tipo-total').forEach(el => {
-                el.classList.toggle('d-none', tipo !== 'total');
-            });
+    function mostrar(tipoActivo) {
+        // Mostrar/ocultar secciones
+        Object.keys(secciones).forEach(tipo => {
+            secciones[tipo].classList.toggle('d-none', tipo !== tipoActivo);
+        });
 
-            document.querySelectorAll('.tipo-jornada').forEach(el => {
-                el.classList.toggle('d-none', tipo !== 'jornada');
-            });
+        // Actualizar clases de botones
+        Object.keys(buttons).forEach(tipo => {
+            if (tipo === tipoActivo) {
+                buttons[tipo].classList.remove('btn-outline-success');
+                buttons[tipo].classList.add('btn-success');
+            } else {
+                buttons[tipo].classList.remove('btn-success');
+                buttons[tipo].classList.add('btn-outline-success');
+            }
         });
     }
+
+    // Activación inicial
+    mostrar('realizadas');
+
+    // Eventos de los botones
+    buttons.realizadas.addEventListener('click', () => mostrar('realizadas'));
+    buttons.recibidas.addEventListener('click', () => mostrar('recibidas'));
+    buttons.pasadas.addEventListener('click', () => mostrar('pasadas'));
 });

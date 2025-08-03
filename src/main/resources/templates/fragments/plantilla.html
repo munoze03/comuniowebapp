@@ -1,0 +1,55 @@
+<div th:fragment="plantillaFragment">
+    <section class="resume-section" id="plantilla">
+        <div class="resume-section-content">
+            <h2 class="mb-3">Mi Plantilla</h2>
+
+            <div th:if="${#lists.isEmpty(plantilla)}">
+                <p class="lead mb-5">No tienes jugadores en tu plantilla actualmente.</p>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(plantilla)}">
+                <div th:each="p : ${plantilla}" class="mb-4 border-bottom border-light pb-3">
+                    <div class="d-flex align-items-center">
+                        <!-- Foto del jugador -->
+                        <img th:src="${p.hrefFoto}" alt="Foto jugador" class="me-3 rounded-circle" width="60" height="60">
+
+                        <div>
+                            <h5 class="text-light mb-1" th:text="${p.name}">Nombre del jugador</h5>
+
+                            <!-- Logo del club + nombre -->
+                            <div class="d-flex align-items-center mb-1">
+                                <img th:src="${p.hrefClubLogo}" alt="Logo club" class="me-2" width="24" height="24">
+                                <span class="text-white-50" th:text="${p.club}">Nombre del club</span>
+                            </div>
+
+                            <!-- Posición -->
+                            <p class="mb-0 text-white-50">
+                                <span class="label-text">Posición:</span>
+                                <span th:text="${p.posicion}">posición</span>
+                            </p>
+
+                            <!-- Puntos -->
+                            <p class="mb-0 text-white-50">
+                                <span class="label-text">Puntos totales:</span>
+                                <span th:text="${p.puntosTotales}">-</span>
+                                &nbsp;|&nbsp;
+                                <span class="label-text">Últimos:</span>
+                                <span th:text="${p.ultimosPuntos}">0</span>
+                                &nbsp;|&nbsp;
+                                <span class="label-text">Media:</span>
+                                <span th:text="${p.mediaPuntos}">0</span>
+                            </p>
+
+                            <!-- Precio -->
+                            <p class="mb-0 text-white-50">
+                                <span class="label-text">Valor:</span>
+                                <span th:text="${#numbers.formatInteger(p.valor, 0, 'POINT')} + ' €'">0 €</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="m-0" />
+</div>

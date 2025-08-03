@@ -1,0 +1,46 @@
+<div th:fragment="clasificacionFragment">
+    <section class="resume-section" id="clasificacion">
+        <div class="resume-section-content">
+            <h2 class="mb-3">Clasificación</h2>
+
+            <div th:if="${#lists.isEmpty(clasificacion)}">
+                <p class="lead mb-5">No hay datos de clasificación disponibles.</p>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(clasificacion)}">
+                <!-- Botones de selección -->
+                <div class="mb-3">
+                    <div class="btn-group" role="group" aria-label="Selector de clasificación">
+                        <button id="btnTotal" type="button" class="btn btn-success">Puntos Totales</button>
+                        <button id="btnJornada" type="button" class="btn btn-outline-success">Última Jornada</button>
+                    </div>
+                </div>
+
+                <table class="table text-white">
+                    <thead>
+                        <tr class="text-success">
+                            <th>Posición</th>
+                            <th>Usuario</th>
+                            <th class="tipo-total">Puntos</th>
+                            <th class="tipo-jornada d-none">Puntos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c, stat : ${clasificacion}">
+                            <td>
+                                <span th:text="${c.posicion}"></span>
+                                <span th:if="${stat.first}">⭐</span>
+                                <span th:if="${stat.last}">🚨</span>
+                            </td>
+                            <td th:text="${c.name}"></td>
+                            <td class="tipo-total" th:text="${c.totalPoints}"></td>
+                            <td class="tipo-jornada d-none" th:text="${c.totalPointsLastMatchday}"></td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <hr class="m-0" />
+</div>

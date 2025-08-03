@@ -1,0 +1,50 @@
+<div th:fragment="mercadoFragment">
+    <section class="resume-section" id="mercado">
+        <div class="resume-section-content">
+            <h2 class="mb-3">Mercado de Fichajes</h2>
+
+            <div th:if="${#lists.isEmpty(mercadoList)}">
+                <p class="lead mb-5">No hay jugadores en el mercado actualmente.</p>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(mercadoList)}">
+                <div th:each="p : ${mercadoList}" class="mb-4 border-bottom border-light pb-3">
+                    <div class="d-flex align-items-center">
+                        <!-- Foto del jugador -->
+                        <img th:src="${p.urlPhoto}" alt="Foto jugador" class="me-3 rounded-circle" width="60" height="60">
+
+                        <div>
+                            <h5 class="text-light mb-1" th:text="${p.namePlayer}"></h5>
+
+                            <!-- Logo del club + nombre -->
+                            <div class="d-flex align-items-center mb-1">
+                                <img th:src="${p.urlPhotoClub}" alt="Logo club" class="me-2" width="24" height="24">
+                                <span class="text-white-50" th:text="${p.club}"></span>
+                            </div>
+
+                            <p class="mb-0 text-white-50">
+                                <span class="label-text">Posición:</span>
+                                <span th:text="${p.position}"></span>
+                            </p>
+                            <p class="mb-0 text-white-50">
+                                <span class="label-text">Dueño:</span>
+                                <span th:text="${p.owner}"></span>
+                                &nbsp;|&nbsp;
+                                <span class="label-text">Fin:</span>
+                                <span th:text="${p.remaining} + 'h'"></span>
+                            </p>
+                            <p class="mb-0 text-white-50">
+                                <span class="label-text">Valor:</span>
+                                <span th:text="${#numbers.formatInteger(p.price, 0, 'POINT')} + ' €'"></span>
+                                &nbsp;|&nbsp;
+                                <span class="label-text">Oferta mínima:</span>
+                                <span th:text="${#numbers.formatInteger(p.recommendedPrice, 0, 'POINT')} + ' €'"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="m-0" />
+</div>
