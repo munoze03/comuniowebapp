@@ -2,8 +2,10 @@ package com.enrique.comuniowebapp.comuniowebapp.dto;
 
 public class Oferta {
     private int id;
+    private String fecha;
     private int idPlayer;
     private String name;
+    private int valor;
     private String clubName;
     private String logoClub;
     private String fotoJugador;
@@ -100,5 +102,18 @@ public class Oferta {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+    public int getValor() {
+        return valor;
+    }
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
+    public String getFecha() {
+        return fecha;
+    }
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+    
     
 }

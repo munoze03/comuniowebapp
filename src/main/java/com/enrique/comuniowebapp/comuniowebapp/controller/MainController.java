@@ -48,6 +48,10 @@ public class MainController {
         List<Oferta> ofertas = (List<Oferta>) session.getAttribute("ofertas");
         model.addAttribute("ofertas", ofertas);
 
+        //Recuperamos ofertas desde session
+        List<Oferta> historialOfertas = (List<Oferta>) session.getAttribute("historialOfertas");
+        model.addAttribute("historialOfertas", historialOfertas);
+
         return "main";
     }
 }

@@ -84,6 +84,11 @@ public class ComunioController {
             //Guardamos las ofertas en la sesion
             session.setAttribute("ofertas", ofertas);  
 
+            //Capturamos las ofertas activas
+            List<Oferta> historialOfertas = userService.getHistorialOfertas(token, userInfo.getCommunityId(), userInfo.getId());
+            //Guardamos las ofertas en la sesion
+            session.setAttribute("historialOfertas", historialOfertas);  
+
             return "redirect:/main";
         } catch (IllegalArgumentException e){
             model.addAttribute("error", e.getMessage());

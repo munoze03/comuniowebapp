@@ -1,6 +1,8 @@
 package com.enrique.comuniowebapp.comuniowebapp.service;
 
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -74,9 +76,7 @@ public class ComunioUserService {
             News n = new News();
             n.setId(((Number) entry.get("id")).longValue());
             String date = (String) entry.get("date");
-            date = date.replaceAll("T", " ");
-            //date = date.replaceAll("+0200", " ");            
-            n.setDate(date);
+            n.setDate(formatearFecha(date));
 
             n.setTitle((String) entry.get("title"));
 
@@ -202,11 +202,11 @@ public class ComunioUserService {
             //Modificamos la posicion para la tarjeta
             String posicion = ((String) item.get("position")).toLowerCase();
             switch (posicion) {
-            case "keeper" -> p.setPosicion("PO");
-            case "defender" -> p.setPosicion("DF");
-            case "midfielder" -> p.setPosicion("ME");
-            default -> p.setPosicion("DL");
-}
+                case "keeper" -> p.setPosicion("PO");
+                case "defender" -> p.setPosicion("DF");
+                case "midfielder" -> p.setPosicion("ME");
+                default -> p.setPosicion("DL");
+            }
             p.setPuntosTotales((String) item.get("points"));
             p.setUltimosPuntos((String) item.get("lastPoints"));
             p.setValor((int) item.get("quotedprice"));
@@ -252,6 +252,7 @@ public class ComunioUserService {
                 o.setEstado("Pendiente");
             }
             o.setPrecio((int) item.get("price"));
+            o.setValor((int) tradable.get("quotedPrice"));
             o.setNombreUsuario((String) user.get("name"));
             o.setUserId((int) user.get("id"));
             o.setNombreContraparte((String) tradingPartner.get("name"));
@@ -267,6 +268,81 @@ public class ComunioUserService {
 
         return ofertas;
     }
+
+    public List<Oferta> getHistorialOfertas(String token, String communityId, String userId ){
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers?limit=100&sort=datechanged", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+
+
+        List<Oferta> historialOfertas = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Map<String, Object> tradable = (Map<String, Object>) item.get("tradable");
+            Map<String, Object> club = (Map<String, Object>) tradable.get("club");
+            Map<String, Object> linksClub = (Map<String, Object>) club.get("_links");
+            Map<String, Object> logo = (Map<String, Object>) linksClub.get("logo");
+            Map<String, Object> links = (Map<String, Object>) tradable.get("_links");
+            Map<String, Object> foto = (Map<String, Object>) links.get("photo");
+            Map<String, Object> user = (Map<String, Object>) item.get("user");
+            Map<String, Object> tradingPartner = (Map<String, Object>) item.get("tradingPartner");
+
+            Oferta o = new Oferta();
+            o.setId((int) item.get("id"));
+            String fecha = (String) item.get("datecreated");
+            o.setFecha(formatearFecha(fecha));
+            o.setIdPlayer((int) tradable.get("id"));
+            o.setName((String) tradable.get("name"));
+            o.setClubName((String) club.get("name"));
+            o.setLogoClub((String) logo.get("href"));
+            o.setFotoJugador((String) foto.get("href"));
+            if(((String) item.get("type")).equalsIgnoreCase("SALE")){
+                o.setTipoOferta("Venta");
+            }else{
+                o.setTipoOferta("Compra");
+            }
+            String estado = (String) item.get("state");
+            switch (estado.toUpperCase()) {
+                case "PENDING":
+                    o.setEstado("Pendiente");
+                    break;
+                case "DECLINED":
+                    o.setEstado("Rechazada");
+                    break;
+                case "EXPIRED":
+                    o.setEstado("Caducada");
+                    break;
+                case "CANCELLED":
+                    o.setEstado("Cancelada");
+                    break;
+                case "PROCESSED":
+                    o.setEstado("Aceptada");
+                    break;
+                default:
+                    o.setEstado("Desconocido"); // Opcional: por si llega otro estado inesperado
+                    break;
+            }
+            o.setPrecio((int) item.get("price"));
+            o.setValor((int) tradable.get("quotedPrice"));
+            o.setNombreUsuario((String) user.get("name"));
+            o.setUserId((int) user.get("id"));
+            o.setNombreContraparte((String) tradingPartner.get("name"));
+            o.setCredito((int) response.getBody().get("credit"));
+            if(o.getUserId()==Integer.parseInt(userId)){
+                o.setEsRealizadaPorMi(true);
+            }else{
+                o.setEsRealizadaPorMi(false);
+            }
+
+            historialOfertas.add(o);
+        }
+
+        return historialOfertas;
+    }
     
     public static String traducirPosicion(String posicion) {
         if (posicion == null) return "";
@@ -278,5 +354,12 @@ public class ComunioUserService {
             default: return posicion; // por si hay una nueva no reconocida
         }
     }
+
+    public static String formatearFecha(String fechaOriginal) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
+        OffsetDateTime fecha = OffsetDateTime.parse(fechaOriginal, formatter);
+        return fecha.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    }
+
 
 }
