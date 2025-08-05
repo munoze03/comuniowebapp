@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import jakarta.servlet.http.HttpSession;
 
 
 
@@ -19,7 +18,6 @@ import jakarta.servlet.http.HttpSession;
 public class ComunioAuthService {
 
     private final RestTemplate restTemplate;
-    private HttpSession session;
     
 
     public ComunioAuthService(RestTemplateBuilder builder){

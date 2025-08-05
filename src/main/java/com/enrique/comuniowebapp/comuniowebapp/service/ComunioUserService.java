@@ -4,14 +4,15 @@ package com.enrique.comuniowebapp.comuniowebapp.service;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.naming.factory.OpenEjbFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,16 +22,16 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
+
+import jakarta.annotation.PostConstruct;
+
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 
 @Service
 public class ComunioUserService {
 
-    private final RestTemplate restTemplate;
-
-    public ComunioUserService(RestTemplateBuilder builder){
-        this.restTemplate = builder.build();
-    }
+    @Autowired
+    private RestTemplate restTemplate;  
 
     public UserInfo getUserInfo(String token){
         String url = "https://www.comunio.es/api/";
@@ -189,6 +190,7 @@ public class ComunioUserService {
 
             Player p = new Player();
             p.setClub((String) club.get("name"));
+            p.setId((int) item.get("id"));
             p.setHrefClubLogo((String) logo.get("href"));
             p.setHrefFoto((String) foto.get("href"));
             if(item.get("averagePoints").getClass()==String.class){
@@ -344,6 +346,30 @@ public class ComunioUserService {
         return historialOfertas;
     }
     
+    public void ponerJugadorEnVenta(String token, String communityId, String userId, Long tradableId, Integer precio) {
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/exchangemarket/addplayer", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        // JSON que espera la API
+        Map<String, Object> item = new HashMap<>();
+        item.put("tradableId", tradableId);
+        item.put("price", precio);
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("items", List.of(item));
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Error al vender jugador: " + response.getStatusCode());
+        }
+    }
+
     public static String traducirPosicion(String posicion) {
         if (posicion == null) return "";
         switch (posicion.toLowerCase()) {

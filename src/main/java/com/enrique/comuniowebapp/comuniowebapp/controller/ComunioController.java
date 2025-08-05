@@ -41,6 +41,7 @@ public class ComunioController {
             String token = authService.getToken(request.getUsername(), request.getPassword());
             UserInfo userInfo = userService.getUserInfo(token);
 
+
             //Guardamos userInfo con los datos para pasarlos a otros controladores por session
             session.setAttribute("userInfo", userInfo); 
             session.setAttribute("token", token);

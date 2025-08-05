@@ -9,42 +9,62 @@
 
             <div th:if="${!#lists.isEmpty(plantilla)}">
                 <div th:each="p : ${plantilla}" class="mb-4 border-bottom border-light pb-3">
-                    <div class="d-flex align-items-center">
-                        <!-- Foto del jugador -->
-                        <img th:src="${p.hrefFoto}" alt="Foto jugador" class="me-3 rounded-circle" width="60" height="60">
-
-                        <div>
-                            <h5 class="text-light mb-1" th:text="${p.name}">Nombre del jugador</h5>
-
-                            <!-- Logo del club + nombre -->
-                            <div class="d-flex align-items-center mb-1">
-                                <img th:src="${p.hrefClubLogo}" alt="Logo club" class="me-2" width="24" height="24">
-                                <span class="text-white-50" th:text="${p.club}">Nombre del club</span>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <!-- Contenido de la izquierda -->
+                        <div class="d-flex align-items-center">
+                            <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
+                                <img th:src="${p.hrefFoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                <img th:src="${p.hrefClubLogo}" alt="Logo club" class="club-logo" />
                             </div>
 
-                            <!-- Posición -->
-                            <p class="mb-0 text-white-50">
-                                <span class="label-text">Posición:</span>
-                                <span th:text="${p.posicion}">posición</span>
-                            </p>
+                            <div>
+                                <h5 class="text-light mb-1" th:text="${p.name}">Nombre del jugador</h5>
 
-                            <!-- Puntos -->
-                            <p class="mb-0 text-white-50">
-                                <span class="label-text">Puntos totales:</span>
-                                <span th:text="${p.puntosTotales}">-</span>
-                                &nbsp;|&nbsp;
-                                <span class="label-text">Últimos:</span>
-                                <span th:text="${p.ultimosPuntos}">0</span>
-                                &nbsp;|&nbsp;
-                                <span class="label-text">Media:</span>
-                                <span th:text="${p.mediaPuntos}">0</span>
-                            </p>
+                                <!-- Posición -->
+                                <p class="mb-0 text-white-50">
+                                    <span class="label-text">Posición:</span>
+                                    <span th:text="${p.posicion}">posición</span>
+                                </p>
 
-                            <!-- Precio -->
-                            <p class="mb-0 text-white-50">
-                                <span class="label-text">Valor:</span>
-                                <span th:text="${#numbers.formatInteger(p.valor, 0, 'POINT')} + ' €'">0 €</span>
-                            </p>
+                                <!-- Puntos -->
+                                <p class="mb-0 text-white-50">
+                                    <span class="label-text">Puntos totales:</span>
+                                    <span th:text="${p.puntosTotales}">-</span>
+                                    &nbsp;|&nbsp;
+                                    <span class="label-text">Últimos:</span>
+                                    <span th:text="${p.ultimosPuntos}">0</span>
+                                    &nbsp;|&nbsp;
+                                    <span class="label-text">Media:</span>
+                                    <span th:text="${p.mediaPuntos}">0</span>
+                                </p>
+
+                                <!-- Valor -->
+                                <p class="mb-0 text-white-50">
+                                    <span class="label-text">Valor:</span>
+                                    <span th:text="${#numbers.formatInteger(p.valor, 0, 'POINT')} + ' €'">0 €</span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Botón a la derecha -->
+                        <div class="d-flex flex-column align-items-end ms-3">
+                            <form th:action="@{/ofertas/vender}" method="post" class="mb-2 w-100">
+                                <!-- Input visible con formato -->
+                                <div class="mb-2">
+                                    <input type="text" class="form-control form-control-sm text-end precio-formateado"
+                                        placeholder="€" th:attr="data-valor=${p.valor}" />
+                                </div>
+
+                                <!-- Input real oculto (se envía al backend) -->
+                                <input type="hidden" name="precio" class="precio-real" />
+
+                                <!-- Campo oculto con ID del jugador -->
+                                <input type="hidden" name="tradableId" th:value="${p.id}" />
+
+                                <!-- Botón de vender -->
+                                <button type="submit" class="btn btn-success btn-sm w-100 text-center">
+                                    Vender
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

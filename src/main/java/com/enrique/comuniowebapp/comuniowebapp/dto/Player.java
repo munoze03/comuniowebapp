@@ -2,6 +2,7 @@ package com.enrique.comuniowebapp.comuniowebapp.dto;
 
 public class Player {
     private String name;
+    private int id;
     private String club;
     private String hrefClubLogo;
     private String hrefFoto;
@@ -64,5 +65,11 @@ public class Player {
     }
     public void setValor(int valor) {
         this.valor = valor;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 }

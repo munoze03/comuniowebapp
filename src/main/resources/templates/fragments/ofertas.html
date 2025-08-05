@@ -8,12 +8,13 @@
                 <div class="btn-group" role="group" aria-label="Selector de ofertas">
                     <button id="btnOfertasRealizadas" type="button" class="btn btn-success">Realizadas</button>
                     <button id="btnOfertasRecibidas" type="button" class="btn btn-outline-success">Recibidas</button>
-                    <button id="btnOfertasPasadas" type="button" class="btn btn-outline-success">Pasadas</button>
+                    <button id="btnOfertasPasadas" type="button" class="btn btn-outline-success">Historial</button>
                 </div>
             </div>
 
             <!-- Contenedor para mostrar las ofertas -->
             <div id="ofertasContainer">
+                <!-- Ofertas Realizadas -->
                 <div th:if="${#lists.isEmpty(ofertas)}" id="ofertasRealizadas" class="ofertas-section d-none">
                     <p class="text-white-50">No hay ofertas realizadas.</p>
                 </div>
@@ -49,13 +50,21 @@
                                 </div>
                             </div>
                             <!-- Botón a la derecha -->
-                            <form th:action="@{/ofertas/anular}" method="post" class="ms-3">
-                                <input type="hidden" name="offerId" th:value="${o.id}" />
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Anular</button>
-                            </form>
+                            <div class="d-flex flex-column align-items-end ms-3">
+                                <form th:action="@{/ofertas/modificar}" method="post" class="mb-2 w-100">
+                                    <input type="hidden" name="offerId" th:value="${o.id}" />
+                                    <button type="submit" class="btn btn-success btn-sm w-100 text-center">Modificar</button>
+                                </form>
+
+                                <form th:action="@{/ofertas/anular}" method="post" class="w-100">
+                                    <input type="hidden" name="offerId" th:value="${o.id}" />
+                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">Anular</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- Ofertas Recibidas -->
                 <div th:if="${#lists.isEmpty(ofertas)}" id="ofertasRecibidas" class="ofertas-section d-none">
                     <p class="text-white-50">No hay ofertas recibidas.</p>
                 </div>
@@ -63,38 +72,49 @@
                     <h3 class="text-light">Ofertas recibidas</h3>
 
                     <div th:each="o : ${ofertas}" th:if="${o.tipoOferta != 'PURCHASE'}" class="mb-4 border-bottom border-light pb-3">
-                        <div class="d-flex align-items-center">
-                            <!-- Foto del jugador -->
-                            <img th:src="${o.fotoJugador}" alt="Foto jugador" class="me-3 rounded-circle" width="60" height="60">
-
-                            <div>
-                                <!-- Nombre del jugador -->
-                                <h5 class="text-light mb-1" th:text="${o.name}">Nombre del jugador</h5>
-
-                                <!-- Logo del club + nombre -->
-                                <div class="d-flex align-items-center mb-1">
-                                    <img th:src="${o.logoClub}" alt="Logo club" class="me-2" width="24" height="24">
-                                    <span class="text-white-50" th:text="${o.clubName}">Nombre del club</span>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <!-- Contenido de la izquierda -->
+                            <div class="d-flex align-items-center">
+                                <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
+                                    <img th:src="${o.fotoJugador}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                    <img th:src="${o.logoClub}" alt="Logo club" class="club-logo" />
                                 </div>
 
-                                <!-- Precio ofertado -->
-                                <p class="mb-0 text-white-50">
+                                <div>
+                                    <h5 class="text-light mb-1" th:text="${o.name}">Nombre del jugador</h5>
+
+                                    <p class="mb-0 text-white-50">
                                     <span class="label-text">Valor:</span>
                                     <span th:text="${#numbers.formatInteger(o.valor, 0, 'POINT')} + ' €'">0 €</span>
-                                    &nbsp;|&nbsp;
+                                    </p>
+
+                                    <p class="mb-0 text-white-50">
                                     <span class="label-text">Ofertado:</span>
                                     <span th:text="${#numbers.formatInteger(o.precio, 0, 'POINT')} + ' €'">0 €</span>
-                                </p>
+                                    </p>
 
-                                <!-- Estado -->
-                                <p class="mb-0 text-white-50">
+                                    <p class="mb-0 text-white-50">
                                     <span class="label-text">Estado:</span>
                                     <span th:text="${o.estado}">Pendiente</span>
-                                </p>
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Botón a la derecha -->
+                            <div class="d-flex flex-column align-items-end ms-3">
+                                <form th:action="@{/ofertas/aceptar}" method="post" class="mb-2 w-100">
+                                    <input type="hidden" name="offerId" th:value="${o.id}" />
+                                    <button type="submit" class="btn btn-success btn-sm w-100 text-center">Aceptar</button>
+                                </form>
+
+                                <form th:action="@{/ofertas/anular}" method="post" class="w-100">
+                                    <input type="hidden" name="offerId" th:value="${o.id}" />
+                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">Anular</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Historial de Ofertas -->
                 <div th:if="${not #lists.isEmpty(historialOfertas)}" id="ofertasPasadas" class="ofertas-section d-none">
                     <h3 class="text-light">Historial de Ofertas</h3>
 
@@ -111,23 +131,28 @@
                                     <!-- Nombre del jugador -->
                                     <h5 class="text-light mb-1" th:text="${o.name}">Nombre del jugador</h5>
 
-                                    <!-- Precio ofertado -->
+                                    <!-- Valor del jugador -->
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Valor:</span>
                                         <span th:text="${#numbers.formatInteger(o.valor, 0, 'POINT')} + ' €'">0 €</span>
-                                        &nbsp;|&nbsp;
+
+                                    </p>
+                                    <!-- Precio ofertado -->
+                                    <p class="mb-0 text-white-50">
                                         <span class="label-text">Ofertado:</span>
                                         <span th:text="${#numbers.formatInteger(o.precio, 0, 'POINT')} + ' €'">0 €</span>
                                     </p>
 
-                                    <!-- Estado -->
+                                    <!-- Estado y Tipo de transaccion -->
                                     <p class="mb-0 text-white-50">
-                                        <span class="label-text">Tipo:</span>
-                                        <span th:text="${o.tipoOferta}">-</span>
-                                        &nbsp;|&nbsp;
                                         <span class="label-text">Estado:</span>
                                         <span th:text="${o.estado}">Pendiente</span>
                                         &nbsp;|&nbsp;
+                                        <span class="label-text">Tipo:</span>
+                                        <span th:text="${o.tipoOferta}">-</span>
+                                    </p>
+                                    <!-- Fecha -->
+                                    <p class="mb-0 text-white-50">
                                         <span class="label-text">Fecha:</span>
                                         <span th:text="${o.fecha}">-</span>
                                     </p>

@@ -11034,6 +11034,7 @@ hr {
 .label-text { 
         color: #5cd65c; /* Verde claro, cámbialo si prefieres otro tono */
         font-weight: 500;
+        font-size: 14px;
     }
 
 /* Estilos mejorados para la alineación */

@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Botonoes de seleccion de ofertas
+// Botones de seleccion de ofertas
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = {
         realizadas: document.getElementById('btnOfertasRealizadas'),
@@ -290,4 +290,72 @@ document.addEventListener('DOMContentLoaded', () => {
     buttons.realizadas.addEventListener('click', () => mostrar('realizadas'));
     buttons.recibidas.addEventListener('click', () => mostrar('recibidas'));
     buttons.pasadas.addEventListener('click', () => mostrar('pasadas'));
+});
+
+// Botones de seleccion de Mercado
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = {
+        ordenador: document.getElementById('btnMercadoOrdenador'),
+        jugador: document.getElementById('btnMercadoJugador'),
+    };
+
+    const secciones = {
+        ordenador: document.getElementById('MercadoOrdenador'),
+        jugador: document.getElementById('MercadoJugador'),
+    };
+
+    function mostrar(tipoActivo) {
+        // Mostrar/ocultar secciones
+        Object.keys(secciones).forEach(tipo => {
+            secciones[tipo].classList.toggle('d-none', tipo !== tipoActivo);
+        });
+
+        // Actualizar clases de botones
+        Object.keys(buttons).forEach(tipo => {
+            if (tipo === tipoActivo) {
+                buttons[tipo].classList.remove('btn-outline-success');
+                buttons[tipo].classList.add('btn-success');
+            } else {
+                buttons[tipo].classList.remove('btn-success');
+                buttons[tipo].classList.add('btn-outline-success');
+            }
+        });
+    }
+
+    // Activación inicial
+    mostrar('ordenador');
+
+    // Eventos de los botones
+    buttons.ordenador.addEventListener('click', () => mostrar('ordenador'));
+    buttons.jugador.addEventListener('click', () => mostrar('jugador'));
+});
+
+// Controlador para poner directamente en el cuadro de texto de la plantilla el valor del jugador
+document.addEventListener('DOMContentLoaded', () => {
+    const formateados = document.querySelectorAll('.precio-formateado');
+
+    formateados.forEach(input => {
+        const realInput = input.closest('form').querySelector('.precio-real');
+        const valorOriginal = input.dataset.valor;
+
+        // Al enfocar, autocompletar si vacío
+        input.addEventListener('focus', () => {
+            if (!input.value) {
+                const formateado = formatearMiles(valorOriginal);
+                input.value = formateado;
+                realInput.value = valorOriginal;
+            }
+        });
+
+        // Al escribir, actualizar valor sin formato
+        input.addEventListener('input', () => {
+            const sinPuntos = input.value.replace(/\./g, '').replace(/\D/g, '');
+            realInput.value = sinPuntos;
+            input.value = formatearMiles(sinPuntos);
+        });
+    });
+
+    function formatearMiles(valor) {
+        return valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
 });
