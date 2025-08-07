@@ -368,3 +368,14 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.show();
     }
 });
+
+// Boton de Mostrar anteriores de seccion Historial de mercado
+function toggleMercado() {
+    console.log("Si llega aqui");
+    const extras = document.querySelectorAll('.extra-oferta');
+    const btn = document.getElementById('toggleMercadoBtn');
+    const isHidden = extras[0]?.classList.contains('d-none');
+
+    extras.forEach(e => e.classList.toggle('d-none'));
+    btn.textContent = isHidden ? 'Mostrar menos' : 'Mostrar más';
+}

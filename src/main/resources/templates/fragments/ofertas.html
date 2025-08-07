@@ -118,7 +118,7 @@
                 <div th:if="${not #lists.isEmpty(historialOfertas)}" id="ofertasPasadas" class="ofertas-section d-none">
                     <h3 class="text-light">Historial de Ofertas</h3>
 
-                    <div th:each="o : ${historialOfertas}" class="mb-4 border-bottom border-light pb-3">
+                    <div th:each="o, iterStat : ${historialOfertas}" th:classappend="${iterStat.index >= 3} ? 'd-none extra-oferta' : ''" class="mb-4 border-bottom border-light pb-3">
                         <div class="d-flex align-items-center justify-content-between">
                             <!-- Contenido de la izquierda -->
                             <div class="d-flex align-items-center">
@@ -159,6 +159,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-light btn-sm" id="toggleMercadoBtn" onclick="toggleMercado()">Mostrar Anteriores</button>
                     </div>
                 </div>
             </div>
