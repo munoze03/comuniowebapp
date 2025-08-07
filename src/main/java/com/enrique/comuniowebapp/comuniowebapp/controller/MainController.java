@@ -45,6 +45,16 @@ public class MainController {
 
         //Capturamos el mercado de fichajes
         List<Mercado> mercado = userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId());
+        //Ordenamos la plantilla por posicion
+        mercado.sort(Comparator.comparingInt(j -> {
+            switch (j.getPosition()) {
+                case "PO": return 1;
+                case "DF": return 2;
+                case "ME": return 3;
+                case "DL": return 4;
+                default: return Integer.MAX_VALUE;
+            }
+        }));   
         //Guardamos el mercado en la sesion
         session.setAttribute("mercado", mercado);
         //Cargamos el mercado en el modelo
@@ -59,8 +69,6 @@ public class MainController {
 
         //Capturamos la plantilla
         List<Player> plantilla = userService.getPlantilla(token, userInfo.getId());
-        //Guardamos la plantilla en la sesion
-        session.setAttribute("plantilla", plantilla);
         //Ordenamos la plantilla por posicion
         plantilla.sort(Comparator.comparingInt(j -> {
             switch (j.getPosicion()) {
@@ -70,7 +78,9 @@ public class MainController {
                 case "DL": return 4;
                 default: return Integer.MAX_VALUE;
             }
-        }));        
+        }));   
+        //Guardamos la plantilla en la sesion
+        session.setAttribute("plantilla", plantilla);
         //Cargamos la plantilla en el modelo
         model.addAttribute("plantilla", plantilla);
 

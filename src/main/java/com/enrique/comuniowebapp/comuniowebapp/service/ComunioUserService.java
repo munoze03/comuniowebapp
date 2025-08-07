@@ -391,10 +391,10 @@ public class ComunioUserService {
     public static String traducirPosicion(String posicion) {
         if (posicion == null) return "";
         switch (posicion.toLowerCase()) {
-            case "keeper": return "Portero";
-            case "defender": return "Defensa";
-            case "midfielder": return "Centrocampista";
-            case "striker": return "Delantero";
+            case "keeper": return "PO";
+            case "defender": return "DF";
+            case "midfielder": return "ME";
+            case "striker": return "DL";
             default: return posicion; // por si hay una nueva no reconocida
         }
     }
