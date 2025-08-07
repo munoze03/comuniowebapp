@@ -23,8 +23,6 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 
-import jakarta.annotation.PostConstruct;
-
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 
 @Service
@@ -212,6 +210,7 @@ public class ComunioUserService {
             p.setPuntosTotales((String) item.get("points"));
             p.setUltimosPuntos((String) item.get("lastPoints"));
             p.setValor((int) item.get("quotedprice"));
+            p.setOnMarket((Boolean) item.get("onMarket"));
 
             plantilla.add(p);
         }
@@ -368,6 +367,25 @@ public class ComunioUserService {
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Error al vender jugador: " + response.getStatusCode());
         }
+    }
+
+    public void quitarJugadorEnVenta(String token, String communityId, String userId, long tradableId){
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/exchangemarket/removeplayer", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("tradableIds", List.of(tradableId));
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()){
+            throw new RuntimeException("Error al quitar el jugador de mercado: " + response.getStatusCode());
+        }
+        
     }
 
     public static String traducirPosicion(String posicion) {

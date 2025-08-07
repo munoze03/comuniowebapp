@@ -359,3 +359,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
 });
+
+// Muestra Mensaje al poner jugador en venta desde plantilla
+document.addEventListener('DOMContentLoaded', function () {
+    const modalEl = document.getElementById('modalMensajeVenta');
+    if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+    }
+});

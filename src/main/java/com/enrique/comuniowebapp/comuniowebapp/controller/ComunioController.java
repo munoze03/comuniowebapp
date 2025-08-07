@@ -60,35 +60,7 @@ public class ComunioController {
             response.setCommunityId(userInfo.getCommunityId());
             response.setCommunityName(userInfo.getCommunityName());
 
-            //Capturamos las noticias
-            List<News> news = userService.getUserNews(token, userInfo.getCommunityId(), userInfo.getId());
-            //Guardamos las noticias en la sesion
-            session.setAttribute("news", news);
-
-            //Capturamos el mercado de fichajes
-            List<Mercado> mercado = userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId());
-            //Guardamos el mercado en la sesion
-            session.setAttribute("mercado", mercado);
-
-            //Capturamos la clasificacion
-            List<Clasificacion> clasificacion = userService.getClasificacion(token, userInfo.getCommunityId(), userInfo.getId());
-            //Guardamos la clasificacion en la sesion
-            session.setAttribute("clasificacion", clasificacion);            
-
-            //Capturamos la alineacion
-            List<Player> plantilla = userService.getPlantilla(token, userInfo.getId());
-            //Guardamos la clasificacion en la sesion
-            session.setAttribute("plantilla", plantilla);
-
-            //Capturamos las ofertas activas
-            List<Oferta> ofertas = userService.getOfertas(token, userInfo.getCommunityId(), userInfo.getId());
-            //Guardamos las ofertas en la sesion
-            session.setAttribute("ofertas", ofertas);  
-
-            //Capturamos las ofertas activas
-            List<Oferta> historialOfertas = userService.getHistorialOfertas(token, userInfo.getCommunityId(), userInfo.getId());
-            //Guardamos las ofertas en la sesion
-            session.setAttribute("historialOfertas", historialOfertas);  
+            
 
             return "redirect:/main";
         } catch (IllegalArgumentException e){

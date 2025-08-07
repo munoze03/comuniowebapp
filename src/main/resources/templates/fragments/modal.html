@@ -1,0 +1,18 @@
+<div th:fragment="mensajeModal">
+    <div class="modal fade" id="modalMensajeVenta" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true"
+         th:if="${mensajeVenta}">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel"
+                        th:text="${tipoMensaje == 'success' ? '' : 'Error'}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" th:text="${mensajeVenta}"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

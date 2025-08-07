@@ -47,7 +47,9 @@
                         </div>
                         <!-- Botón a la derecha -->
                         <div class="d-flex flex-column align-items-end ms-3">
-                            <form th:action="@{/ofertas/vender}" method="post" class="mb-2 w-100">
+
+                            <!-- FORMULARIO: Poner en venta -->
+                            <form th:action="@{/ofertas/vender}" method="post" class="mb-2 w-100" th:if="${!p.onMarket}">
                                 <!-- Input visible con formato -->
                                 <div class="mb-2">
                                     <input type="text" class="form-control form-control-sm text-end precio-formateado"
@@ -56,13 +58,19 @@
 
                                 <!-- Input real oculto (se envía al backend) -->
                                 <input type="hidden" name="precio" class="precio-real" />
-
-                                <!-- Campo oculto con ID del jugador -->
                                 <input type="hidden" name="tradableId" th:value="${p.id}" />
 
                                 <!-- Botón de vender -->
                                 <button type="submit" class="btn btn-success btn-sm w-100 text-center">
-                                    Vender
+                                    Poner a la venta
+                                </button>
+                            </form>
+
+                            <!-- FORMULARIO: Quitar del mercado -->
+                            <form th:action="@{/ofertas/quitar}" method="post" class="w-100" th:if="${p.onMarket}">
+                                <input type="hidden" name="tradableId" th:value="${p.id}" />
+                                <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
+                                    Quitar de mercado
                                 </button>
                             </form>
                         </div>

@@ -1,19 +1,17 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
 
 import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 @RequestMapping("/ofertas")
@@ -42,11 +40,35 @@ public class OfertasController {
 
         try {
             comunioUserService.ponerJugadorEnVenta(token, communityId, userId, tradableId, precio);
-            redirectAttributes.addFlashAttribute("mensaje", "Jugador puesto a la venta correctamente.");
+            redirectAttributes.addFlashAttribute("mensajeVenta", "Jugador puesto a la venta correctamente.");
+            redirectAttributes.addFlashAttribute("tipoMensaje", "success");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al poner jugador en venta.");
+            redirectAttributes.addFlashAttribute("mensajeVenta", "Error al poner jugador en venta.");
+            redirectAttributes.addFlashAttribute("tipoMensaje", "error");
         }
 
         return "redirect:/main"; // o donde quieras volver
     }
+
+    @PostMapping("/quitar")
+    public String quitarJugadorEnVenta(
+        @RequestParam("tradableId") long tradableId,
+        HttpSession session,
+        RedirectAttributes redirectAttributes) {
+        
+        UserInfo userInfo =  (UserInfo) session.getAttribute("userInfo");
+        String token = (String) session.getAttribute("token");
+
+        try{
+            comunioUserService.quitarJugadorEnVenta(token, userInfo.getCommunityId(), userInfo.getId(), tradableId);
+            redirectAttributes.addFlashAttribute("mensajeVenta", "Jugador retirado del mercado.");
+            redirectAttributes.addFlashAttribute("tipoMensaje", "success");
+        } catch (Exception e){
+            redirectAttributes.addFlashAttribute("mensajeVenta", "Error al quitar jugador del mercado.");
+            redirectAttributes.addFlashAttribute("tipoMensaje", "error");
+        }
+        
+        return "redirect:/main";
+    }
+    
 }

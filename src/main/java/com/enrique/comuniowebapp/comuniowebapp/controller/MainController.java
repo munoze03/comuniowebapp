@@ -1,5 +1,6 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -20,36 +21,71 @@ import jakarta.servlet.http.HttpSession;
 public class MainController {
 
     ComunioUserService comunioUserService;
+    ComunioUserService userService;
+
+    public MainController(ComunioUserService userService){
+        this.userService = userService;
+    }
+
 
     @GetMapping("/main")
     public String mostrarMain(HttpSession session, Model model){
 
-        //Recuperamos UserInfo desde session
-        UserInfo userInfo =  (UserInfo) session.getAttribute("userInfo");
+        String token = (String) session.getAttribute("token");
+        UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
         model.addAttribute("userInfo", userInfo);
 
-        //Recuperamos Noticias desde session
-        List<News> newsList = (List<News>) session.getAttribute("news");
-        model.addAttribute("newsList", newsList);
 
-        //Recuperamos Mercado desde session
-        List<Mercado> mercadoList = (List<Mercado>) session.getAttribute("mercado");
-        model.addAttribute("mercadoList", mercadoList);
+        //Capturamos las noticias
+        List<News> news = userService.getUserNews(token, userInfo.getCommunityId(), userInfo.getId());
+        //Guardamos las noticias en la sesion
+        session.setAttribute("news", news);
+        //Cargamos las noticias en el modelo
+        model.addAttribute("newsList", news);
 
-        //Recuperamos Clasificacion desde session
-        List<Clasificacion> clasificacion = (List<Clasificacion>) session.getAttribute("clasificacion");
-        model.addAttribute("clasificacion", clasificacion);
+        //Capturamos el mercado de fichajes
+        List<Mercado> mercado = userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId());
+        //Guardamos el mercado en la sesion
+        session.setAttribute("mercado", mercado);
+        //Cargamos el mercado en el modelo
+        model.addAttribute("mercadoList", mercado);
 
-        //Recuperamos plantilla desde session
-        List<Player> plantilla = (List<Player>) session.getAttribute("plantilla");
+        //Capturamos la clasificacion
+        List<Clasificacion> clasificacion = userService.getClasificacion(token, userInfo.getCommunityId(), userInfo.getId());
+        //Guardamos la clasificacion en la sesion
+        session.setAttribute("clasificacion", clasificacion);  
+        //Cargamos la clasificacion en el modelo
+        model.addAttribute("clasificacion", clasificacion);          
+
+        //Capturamos la plantilla
+        List<Player> plantilla = userService.getPlantilla(token, userInfo.getId());
+        //Guardamos la plantilla en la sesion
+        session.setAttribute("plantilla", plantilla);
+        //Ordenamos la plantilla por posicion
+        plantilla.sort(Comparator.comparingInt(j -> {
+            switch (j.getPosicion()) {
+                case "PO": return 1;
+                case "DF": return 2;
+                case "ME": return 3;
+                case "DL": return 4;
+                default: return Integer.MAX_VALUE;
+            }
+        }));        
+        //Cargamos la plantilla en el modelo
         model.addAttribute("plantilla", plantilla);
 
-        //Recuperamos ofertas desde session
-        List<Oferta> ofertas = (List<Oferta>) session.getAttribute("ofertas");
+        //Capturamos las ofertas activas
+        List<Oferta> ofertas = userService.getOfertas(token, userInfo.getCommunityId(), userInfo.getId());
+        //Guardamos las ofertas en la sesion
+        session.setAttribute("ofertas", ofertas);  
+        //Cargamos las ofertas en el modelo
         model.addAttribute("ofertas", ofertas);
 
-        //Recuperamos ofertas desde session
-        List<Oferta> historialOfertas = (List<Oferta>) session.getAttribute("historialOfertas");
+        //Capturamos el historial de ofertas
+        List<Oferta> historialOfertas = userService.getHistorialOfertas(token, userInfo.getCommunityId(), userInfo.getId());
+        //Guardamos el historial de ofertas en la sesion
+        session.setAttribute("historialOfertas", historialOfertas);  
+        //Cargamos el historial de ofertas en el modelo
         model.addAttribute("historialOfertas", historialOfertas);
 
         return "main";

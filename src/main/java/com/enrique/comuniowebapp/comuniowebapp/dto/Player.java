@@ -11,6 +11,7 @@ public class Player {
     private String mediaPuntos;
     private String posicion;
     private int valor;
+    private Boolean onMarket;
 
     public String getName() {
         return name;
@@ -71,5 +72,11 @@ public class Player {
     }
     public void setId(int id) {
         this.id = id;
+    }
+    public Boolean getOnMarket() {
+        return onMarket;
+    }
+    public void setOnMarket(Boolean onMarket) {
+        this.onMarket = onMarket;
     }
 }
