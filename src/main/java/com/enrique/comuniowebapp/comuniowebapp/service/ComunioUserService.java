@@ -123,7 +123,7 @@ public class ComunioUserService {
             Map<String, Object> fotoClub = (Map<String, Object>) linksClub.get("logo");
 
             Mercado m = new Mercado();
-            m.setId(((Number) jugador.get("id")).longValue());
+            m.setId(((Number) jugador.get("id")).intValue());
             m.setNamePlayer((String) jugador.get("name"));
             m.setClub((String) club.get("name"));
             m.setUrlPhotoClub((String) fotoClub.get("href"));
@@ -386,6 +386,35 @@ public class ComunioUserService {
             throw new RuntimeException("Error al quitar el jugador de mercado: " + response.getStatusCode());
         }
         
+    }
+
+    public void realizarOferta(String token, String communityId, String userId, long tradableId, Integer precio){
+
+        String url = String.format("Https://www.comunio.es/api/communities/%s/users/%s/offers", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        Map<String, Object> offers = new HashMap<>();
+        offers.put("price", precio);
+        offers.put("type", "NEW");
+        offers.put("tradableid", tradableId);
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("offers", List.of(offers));
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+
+        System.out.println("Error");
+
+        if(!response.getStatusCode().is2xxSuccessful()){
+            throw new RuntimeException("Error al realizar la oferta: " + response.getStatusCode());
+        }
+        // Aquí podrías procesar el response si quieres el offerId
+
     }
 
     public static String traducirPosicion(String posicion) {

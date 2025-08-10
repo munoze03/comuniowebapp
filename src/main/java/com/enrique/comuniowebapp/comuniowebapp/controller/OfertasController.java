@@ -1,6 +1,7 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,5 +71,29 @@ public class OfertasController {
         
         return "redirect:/main";
     }
+
+    @PostMapping("/pujar")
+    public String realizarOferta(
+        @RequestParam("tradableId") Integer tradableId,
+        @RequestParam("precio") Integer precio,
+        HttpSession session,
+        RedirectAttributes redirectAttributes){
+
+            UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+            String token = (String) session.getAttribute("token");
+            String communityId = userInfo.getCommunityId();
+            String userId = userInfo.getId();
+
+            try{
+                comunioUserService.realizarOferta(token, communityId, userId, tradableId, precio);
+                redirectAttributes.addFlashAttribute("mensajeVenta", "Oferta realizada correctamente");
+                redirectAttributes.addFlashAttribute("tipoMensaje", "success");
+            }catch(Exception e){
+                redirectAttributes.addFlashAttribute("mensajeVenta", "Error al realizar la oferta");
+                redirectAttributes.addFlashAttribute("tipoMensaje", "error");
+            }
+
+            return "redirect:/main";
+        }
     
 }

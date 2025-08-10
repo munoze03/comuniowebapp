@@ -19,48 +19,65 @@
                 </div>
                 <div th:if="${!#lists.isEmpty(mercadoList)}" id="MercadoOrdenador">
                     
-                    <div th:each="p : ${mercadoList}" th:if="${p.owner == 'Computer'}" class="mb-4 border-bottom border-light pb-3">
+                    <div th:each="m : ${mercadoList}" th:if="${m.owner == 'Computer'}" class="mb-4 border-bottom border-light pb-3">
                         <div class="d-flex align-items-center justify-content-between">
                             <!-- Contenido de la izquierda -->
                             <div class="d-flex align-items-center">
                                 <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
-                                    <img th:src="${p.urlPhoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
-                                    <img th:src="${p.urlPhotoClub}" alt="Logo club" class="club-logo" />
+                                    <img th:src="${m.urlPhoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                    <img th:src="${m.urlPhotoClub}" alt="Logo club" class="club-logo" />
                                 </div>
 
                                 <div>
-                                    <h5 class="text-light mb-1" th:text="${p.namePlayer}">Nombre del jugador</h5>
+                                    <h5 class="text-light mb-1" th:text="${m.namePlayer}">Nombre del jugador</h5>
 
                                     <p class="mb-0 text-white-50">
                                     <span class="label-text">Posición:</span>
-                                    <span th:text="${p.position}"></span>
+                                    <span th:text="${m.position}"></span>
                                     </p>
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Dueño:</span>
-                                        <span th:text="${p.owner}"></span>
+                                        <span th:text="${m.owner}"></span>
                                         &nbsp;|&nbsp;
                                         <span class="label-text">Fin:</span>
-                                        <span th:text="${p.remaining} + 'h'"></span>
+                                        <span th:text="${m.remaining} + 'h'"></span>
                                     </p>
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Valor:</span>
-                                        <span th:text="${#numbers.formatInteger(p.price, 0, 'POINT')} + ' €'"></span>
+                                        <span th:text="${#numbers.formatInteger(m.price, 0, 'POINT')} + ' €'"></span>
                                         &nbsp;|&nbsp;
                                         <span class="label-text">Oferta mínima:</span>
-                                        <span th:text="${#numbers.formatInteger(p.recommendedPrice, 0, 'POINT')} + ' €'"></span>
+                                        <span th:text="${#numbers.formatInteger(m.recommendedPrice, 0, 'POINT')} + ' €'"></span>
                                     </p>
                                 </div>
                             </div>
                             <!-- Botón a la derecha -->
                             <div class="d-flex flex-column align-items-end ms-3">
-                                <form th:action="@{/ofertas/modificar}" method="post" class="mb-2 w-100">
-                                    <input type="hidden" name="offerId" th:value="${p.price}" />
-                                    <button type="submit" class="btn btn-success btn-sm w-100 text-center">Modificar</button>
+
+                                <!-- FORMULARIO: Poner en venta -->
+                                <form th:action="@{/ofertas/pujar}" method="post" class="mb-2 w-100">
+                                    <!-- Input visible con formato -->
+                                    <div class="mb-2">
+                                        <input type="text" class="form-control form-control-sm text-end precio-formateado"
+                                            placeholder="€" th:attr="data-valor=${m.price}" />
+                                    </div>
+
+                                    <!-- Input real oculto (se envía al backend) -->
+                                    <input type="hidden" name="precio" class="precio-real" />
+                                    <input type="hidden" name="tradableId" th:value="${m.id}" />
+
+                                    <!-- Botón de vender -->
+                                    <button type="submit" class="btn btn-success btn-sm w-100 text-center">
+                                        Pujar
+                                    </button>
                                 </form>
 
-                                <form th:action="@{/ofertas/anular}" method="post" class="w-100">
-                                    <input type="hidden" name="offerId" th:value="${p.price}" />
-                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">Anular</button>
+                                <!-- FORMULARIO: Quitar del mercado -->
+                                <form th:action="@{/ofertas/quitar}" method="post" class="w-100">
+                                    <input type="hidden" name="tradableId" th:value="${m.id}" />
+                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
+                                        Quitar de mercado
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -72,48 +89,65 @@
                 </div>
                 <div th:if="${!#lists.isEmpty(mercadoList)}" id="MercadoJugador">
                     
-                    <div th:each="p : ${mercadoList}" th:if="${p.owner != 'Computer'}" class="mb-4 border-bottom border-light pb-3">
+                    <div th:each="m : ${mercadoList}" th:if="${m.owner != 'Computer'}" class="mb-4 border-bottom border-light pb-3">
                         <div class="d-flex align-items-center justify-content-between">
                             <!-- Contenido de la izquierda -->
                             <div class="d-flex align-items-center">
                                 <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
-                                    <img th:src="${p.urlPhoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
-                                    <img th:src="${p.urlPhotoClub}" alt="Logo club" class="club-logo" />
+                                    <img th:src="${m.urlPhoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                    <img th:src="${m.urlPhotoClub}" alt="Logo club" class="club-logo" />
                                 </div>
 
                                 <div>
-                                    <h5 class="text-light mb-1" th:text="${p.namePlayer}">Nombre del jugador</h5>
+                                    <h5 class="text-light mb-1" th:text="${m.namePlayer}">Nombre del jugador</h5>
 
                                     <p class="mb-0 text-white-50">
                                     <span class="label-text">Posición:</span>
-                                    <span th:text="${p.position}"></span>
+                                    <span th:text="${m.position}"></span>
                                     </p>
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Dueño:</span>
-                                        <span th:text="${p.owner}"></span>
+                                        <span th:text="${m.owner}"></span>
                                         &nbsp;|&nbsp;
                                         <span class="label-text">Fin:</span>
-                                        <span th:text="${p.remaining} + 'h'"></span>
+                                        <span th:text="${m.remaining} + 'h'"></span>
                                     </p>
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Valor:</span>
-                                        <span th:text="${#numbers.formatInteger(p.price, 0, 'POINT')} + ' €'"></span>
+                                        <span th:text="${#numbers.formatInteger(m.price, 0, 'POINT')} + ' €'"></span>
                                         &nbsp;|&nbsp;
                                         <span class="label-text">Oferta mínima:</span>
-                                        <span th:text="${#numbers.formatInteger(p.recommendedPrice, 0, 'POINT')} + ' €'"></span>
+                                        <span th:text="${#numbers.formatInteger(m.recommendedPrice, 0, 'POINT')} + ' €'"></span>
                                     </p>
                                 </div>
                             </div>
                             <!-- Botón a la derecha -->
                             <div class="d-flex flex-column align-items-end ms-3">
-                                <form th:action="@{/ofertas/modificar}" method="post" class="mb-2 w-100">
-                                    <input type="hidden" name="offerId" th:value="${p.price}" />
-                                    <button type="submit" class="btn btn-success btn-sm w-100 text-center">Modificar</button>
+
+                                <!-- FORMULARIO: Poner en venta -->
+                                <form th:action="@{/ofertas/pujar}" method="post" class="mb-2 w-100">
+                                    <!-- Input visible con formato -->
+                                    <div class="mb-2">
+                                        <input type="text" class="form-control form-control-sm text-end precio-formateado"
+                                            placeholder="€" th:attr="data-valor=${m.price}" />
+                                    </div>
+
+                                    <!-- Input real oculto (se envía al backend) -->
+                                    <input type="hidden" name="precio" class="precio-real" />
+                                    <input type="hidden" name="tradableId" th:value="${m.id}" />
+
+                                    <!-- Botón de vender -->
+                                    <button type="submit" class="btn btn-success btn-sm w-100 text-center">
+                                        Pujar
+                                    </button>
                                 </form>
 
-                                <form th:action="@{/ofertas/anular}" method="post" class="w-100">
-                                    <input type="hidden" name="offerId" th:value="${p.price}" />
-                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">Anular</button>
+                                <!-- FORMULARIO: Quitar del mercado -->
+                                <form th:action="@{/ofertas/quitar}" method="post" class="w-100">
+                                    <input type="hidden" name="tradableId" th:value="${m.id}" />
+                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
+                                        Quitar de mercado
+                                    </button>
                                 </form>
                             </div>
                         </div>

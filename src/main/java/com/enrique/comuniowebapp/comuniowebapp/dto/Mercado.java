@@ -1,7 +1,7 @@
 package com.enrique.comuniowebapp.comuniowebapp.dto;
 
 public class Mercado {
-    private long id;
+    private int id;
     private String namePlayer;
     private String club;
     private String urlPhotoClub;
@@ -13,10 +13,10 @@ public class Mercado {
     private int remaining;
     private String owner;
     
-    public long getId() {
+    public int getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getNamePlayer() {
