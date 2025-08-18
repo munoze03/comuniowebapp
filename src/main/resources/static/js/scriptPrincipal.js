@@ -370,12 +370,63 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Boton de Mostrar anteriores de seccion Historial de mercado
-function toggleMercado() {
-    console.log("Si llega aqui");
-    const extras = document.querySelectorAll('.extra-oferta');
-    const btn = document.getElementById('toggleMercadoBtn');
-    const isHidden = extras[0]?.classList.contains('d-none');
+let ofertasMostradas = 3; // Inicialmente mostramos 3
+let mostrandoTodo = false; // Estado del botón
 
-    extras.forEach(e => e.classList.toggle('d-none'));
-    btn.textContent = isHidden ? 'Mostrar menos' : 'Mostrar más';
+function toggleMercado() {
+    const todas = document.querySelectorAll('.extra-oferta');
+    const btn = document.getElementById('toggleMercadoBtn');
+
+    if (!mostrandoTodo) {
+        // Mostrar 3 más
+        let hasta = ofertasMostradas + 3;
+        for (let i = 0; i < hasta && i < todas.length; i++) {
+            todas[i].classList.remove('d-none');
+        }
+        ofertasMostradas += 3;
+
+        // Si hemos mostrado todas, cambiar texto del botón
+        if (ofertasMostradas >= todas.length) {
+            btn.textContent = 'Mostrar menos';
+            mostrandoTodo = true;
+        }
+    } else {
+        // Ocultar todo menos las 3 primeras
+        todas.forEach((e, i) => {
+            if (i >= 0) e.classList.add('d-none');
+        });
+        ofertasMostradas = 3;
+        btn.textContent = 'Mostrar más';
+        mostrandoTodo = false;
+    }
+}
+
+// Activacion de input cuando cambiamos oferta en mercado.
+function activarEdicion(id) {
+    const texto = document.getElementById("oferta-texto-" + id);
+    const input = document.getElementById("oferta-input-" + id);
+    const modificarBtn = document.getElementById("modificar-btn-" + id);
+    const guardarBtn = document.getElementById("guardar-btn-" + id);
+
+    // Coger el valor actual de la oferta
+    const valorActual = document.getElementById("oferta-valor-" + id).innerText.replace(/\./g, "");
+
+    // Mostrar input con el valor actual
+    input.value = valorActual;
+
+    texto.classList.add("d-none");
+    input.classList.remove("d-none");
+
+    modificarBtn.classList.add("d-none");
+    guardarBtn.classList.remove("d-none");
+
+    input.focus();
+}
+
+function guardarOferta(id) {
+    // copiar valor del input al hidden antes de enviar
+    const input = document.getElementById("oferta-input-" + id);
+    const hidden = document.getElementById("precio-real-" + id);
+
+    hidden.value = input.value.replace(/\./g, ""); // limpio puntos de miles
 }

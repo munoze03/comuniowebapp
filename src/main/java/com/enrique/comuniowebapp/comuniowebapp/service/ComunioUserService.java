@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.Alineacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
@@ -99,123 +100,6 @@ public class ComunioUserService {
         }
 
         return news;
-    }
-
-    public List<Mercado> getMercado(String token, String communityId, String userId){
-        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/exchangemarket", communityId, userId);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
-        
-        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
-        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
-
-        List<Mercado> jugadores = new ArrayList<>();
-        for (Map<String, Object> item : items){
-            Map<String, Object> embedded = (Map<String, Object>) item.get("_embedded");
-            Map<String, Object> jugador = (Map<String, Object>) embedded.get("player");
-            Map<String, Object> club = (Map<String, Object>) jugador.get("club");
-            Map<String, Object> owner = (Map<String, Object>) embedded.get("owner");
-            Map<String, Object> links = (Map<String, Object>) jugador.get("_links");
-            Map<String, Object> linksClub = (Map<String, Object>) club.get("_links");
-            Map<String, Object> foto = (Map<String, Object>) links.get("photo");
-            Map<String, Object> fotoClub = (Map<String, Object>) linksClub.get("logo");
-
-            Mercado m = new Mercado();
-            m.setId(((Number) jugador.get("id")).intValue());
-            m.setNamePlayer((String) jugador.get("name"));
-            m.setClub((String) club.get("name"));
-            m.setUrlPhotoClub((String) fotoClub.get("href"));
-            m.setPosition(traducirPosicion((String) jugador.get("position")));
-            m.setPrice(((Number) jugador.get("quotedPrice")).intValue());
-            m.setRecommendedPrice(((Number) jugador.get("recommendedPrice")).intValue());
-            m.setUrlPhoto((String) foto.get("href"));
-            m.setDate((String) item.get("date"));
-            m.setRemaining(((Number) item.get("remaining")).intValue());
-            m.setOwner((String) owner.get("name"));
-
-            jugadores.add(m);
-        }
-
-        return jugadores;
-    }
-
-    public List<Clasificacion> getClasificacion(String token, String communityId, String userId){
-        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/prediction_standings", communityId, userId);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
-        
-        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
-        Map<String, Object> totalMap = (Map<String, Object>) response.getBody().get("total");
-        List<Map<String, Object>> totales = (List<Map<String, Object>>) totalMap.get("standingsPositions");
-
-        List<Clasificacion> clasificacion = new ArrayList<>();
-        for (Map<String, Object> total : totales){
-            Map<String, Object> user = (Map<String, Object>) total.get("user");
-
-            Clasificacion c = new Clasificacion();
-            c.setName((String) user.get("name"));
-            c.setPosicion((int) total.get("position"));
-            c.setTotalPoints((int) total.get("totalPoints"));
-            c.setTotalPointsLastMatchday((int) total.get("totalPoints_lastMatchday"));
-
-            clasificacion.add(c);
-        }
-
-        return clasificacion;
-    }
-
-    public List<Player> getPlantilla(String token, String userId){
-        String url = String.format("https://www.comunio.es/api/users/%s/squad", userId);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
-        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
-        
-        List<Player> plantilla = new ArrayList<>();
-        for (Map<String, Object> item : items){
-            Map<String, Object> club = (Map<String, Object>) item.get("club");
-            Map<String, Object> links = (Map<String, Object>) club.get("_links");
-            Map<String, Object> logo = (Map<String, Object>) links.get("logo");
-            Map<String, Object> playerLinks = (Map<String, Object>) item.get("_links");
-            Map<String, Object> foto = (Map<String, Object>) playerLinks.get("photo");
-
-            Player p = new Player();
-            p.setClub((String) club.get("name"));
-            p.setId((int) item.get("id"));
-            p.setHrefClubLogo((String) logo.get("href"));
-            p.setHrefFoto((String) foto.get("href"));
-            if(item.get("averagePoints").getClass()==String.class){
-                p.setMediaPuntos((String) item.get("averagePoints"));
-            }else{
-                int media = ((int) item.get("averagePoints"));
-                p.setMediaPuntos(String.valueOf(media));
-
-            }
-            p.setName((String) item.get("name"));
-            //Modificamos la posicion para la tarjeta
-            String posicion = ((String) item.get("position")).toLowerCase();
-            switch (posicion) {
-                case "keeper" -> p.setPosicion("PO");
-                case "defender" -> p.setPosicion("DF");
-                case "midfielder" -> p.setPosicion("ME");
-                default -> p.setPosicion("DL");
-            }
-            p.setPuntosTotales((String) item.get("points"));
-            p.setUltimosPuntos((String) item.get("lastPoints"));
-            p.setValor((int) item.get("quotedprice"));
-            p.setOnMarket((Boolean) item.get("onMarket"));
-
-            plantilla.add(p);
-        }
-
-        return plantilla;
     }
 
     public List<Oferta> getOfertas(String token, String communityId, String userId ){
@@ -345,6 +229,180 @@ public class ComunioUserService {
         return historialOfertas;
     }
     
+    public List<Mercado> getMercado(String token, String communityId, String userId, String userName){
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/exchangemarket", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+
+        List<Mercado> jugadores = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Map<String, Object> embedded = (Map<String, Object>) item.get("_embedded");
+            Map<String, Object> jugador = (Map<String, Object>) embedded.get("player");
+            Map<String, Object> club = (Map<String, Object>) jugador.get("club");
+            Map<String, Object> owner = (Map<String, Object>) embedded.get("owner");
+            Map<String, Object> links = (Map<String, Object>) jugador.get("_links");
+            Map<String, Object> linksClub = (Map<String, Object>) club.get("_links");
+            Map<String, Object> foto = (Map<String, Object>) links.get("photo");
+            Map<String, Object> fotoClub = (Map<String, Object>) linksClub.get("logo");
+
+            Mercado m = new Mercado();
+            m.setId(((Number) jugador.get("id")).intValue());
+            m.setNamePlayer((String) jugador.get("name"));
+            m.setClub((String) club.get("name"));
+            m.setUrlPhotoClub((String) fotoClub.get("href"));
+            m.setPosition(traducirPosicion((String) jugador.get("position")));
+            m.setPrice(((Number) jugador.get("quotedPrice")).intValue());
+            m.setRecommendedPrice(((Number) jugador.get("recommendedPrice")).intValue());
+            m.setUrlPhoto((String) foto.get("href"));
+            m.setDate((String) item.get("date"));
+            m.setRemaining(((Number) item.get("remaining")).intValue());
+            m.setOwner((String) owner.get("name"));
+            m.setOwnerId((int) owner.get("id"));
+            if (m.getOwnerId() == Integer.parseInt(userId)){
+                m.setEsMio(true);
+            }else{
+                m.setEsMio(false);
+            }
+
+            //Llamamos a ofertas para ver si algun jugador del mercado tiene ofertas realizadas por el mismo
+            List<Oferta> listaOfertas = getOfertas(token, communityId, userId);
+
+            for(Oferta o : listaOfertas){
+                if (o.getIdPlayer()==m.getId()){
+                    m.setTieneOferta(true);
+                    m.setMiOferta(o.getPrecio());
+                    break;
+                }else{
+                    m.setTieneOferta(false);
+                }
+            }
+
+            jugadores.add(m);
+        }
+
+        return jugadores;
+    }
+
+    public List<Clasificacion> getClasificacion(String token, String communityId, String userId){
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/prediction_standings", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        Map<String, Object> totalMap = (Map<String, Object>) response.getBody().get("total");
+        List<Map<String, Object>> totales = (List<Map<String, Object>>) totalMap.get("standingsPositions");
+
+        List<Clasificacion> clasificacion = new ArrayList<>();
+        for (Map<String, Object> total : totales){
+            Map<String, Object> user = (Map<String, Object>) total.get("user");
+
+            Clasificacion c = new Clasificacion();
+            c.setName((String) user.get("name"));
+            c.setPosicion((int) total.get("position"));
+            c.setTotalPoints((int) total.get("totalPoints"));
+            c.setTotalPointsLastMatchday((int) total.get("totalPoints_lastMatchday"));
+
+            clasificacion.add(c);
+        }
+
+        return clasificacion;
+    }
+    
+    public List<Alineacion> getClasificacionLife(String token, String communityId, String userId){
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/lineup",communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        Map<String, Object> items = (Map<String, Object>) response.getBody().get("items");
+        Map<String, Object> lineup = (Map<String, Object>) items.get("lineup");
+
+        List<Alineacion> alineacion = new ArrayList<>();
+        for(Object obj : lineup.values()){
+            Map<String, Object> line = (Map<String, Object>) obj;
+
+            Map<String, Object> club = (Map<String, Object>) line.get("club");
+            Map<String, Object> clubLinks = (Map<String, Object>) club.get("_links");
+            Map<String, Object> logo = (Map<String, Object>) clubLinks.get("logo");
+            Map<String, Object> links = (Map<String, Object>) line.get("_links");
+            Map<String, Object> playerPhoto = (Map<String, Object>) links.get("photo");
+
+            Alineacion a = new Alineacion();
+            a.setId((int) line.get("id"));
+            a.setName((String) line.get("name"));
+            a.setPosition((int) line.get("position"));
+            a.setPhoto((String) playerPhoto.get("href"));
+            a.setClubName((String) club.get("name"));
+            a.setClubLogo((String) logo.get("href"));
+            a.setPoints((int) line.get("points"));
+            a.setLivePoints((String) line.get("livePoints"));
+            a.setType((String) line.get("type"));
+
+            alineacion.add(a);
+        }
+
+        return alineacion;
+    }
+
+    public List<Player> getPlantilla(String token, String userId){
+        String url = String.format("https://www.comunio.es/api/users/%s/squad", userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+        
+        List<Player> plantilla = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Map<String, Object> club = (Map<String, Object>) item.get("club");
+            Map<String, Object> links = (Map<String, Object>) club.get("_links");
+            Map<String, Object> logo = (Map<String, Object>) links.get("logo");
+            Map<String, Object> playerLinks = (Map<String, Object>) item.get("_links");
+            Map<String, Object> foto = (Map<String, Object>) playerLinks.get("photo");
+
+            Player p = new Player();
+            p.setClub((String) club.get("name"));
+            p.setId((int) item.get("id"));
+            p.setHrefClubLogo((String) logo.get("href"));
+            p.setHrefFoto((String) foto.get("href"));
+            if(item.get("averagePoints").getClass()==String.class){
+                p.setMediaPuntos((String) item.get("averagePoints"));
+            }else{
+                int media = ((int) item.get("averagePoints"));
+                p.setMediaPuntos(String.valueOf(media));
+
+            }
+            p.setName((String) item.get("name"));
+            //Modificamos la posicion para la tarjeta
+            String posicion = ((String) item.get("position")).toLowerCase();
+            switch (posicion) {
+                case "keeper" -> p.setPosicion("PO");
+                case "defender" -> p.setPosicion("DF");
+                case "midfielder" -> p.setPosicion("ME");
+                default -> p.setPosicion("DL");
+            }
+            p.setPuntosTotales((String) item.get("points"));
+            p.setUltimosPuntos((String) item.get("lastPoints"));
+            p.setValor((int) item.get("quotedprice"));
+            p.setOnMarket((Boolean) item.get("onMarket"));
+
+            plantilla.add(p);
+        }
+
+        return plantilla;
+    }
+
     public void ponerJugadorEnVenta(String token, String communityId, String userId, Long tradableId, Integer precio) {
         String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/exchangemarket/addplayer", communityId, userId);
 

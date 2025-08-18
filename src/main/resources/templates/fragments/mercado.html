@@ -53,32 +53,67 @@
                             </div>
                             <!-- Botón a la derecha -->
                             <div class="d-flex flex-column align-items-end ms-3">
-
-                                <!-- FORMULARIO: Poner en venta -->
-                                <form th:action="@{/ofertas/pujar}" method="post" class="mb-2 w-100">
-                                    <!-- Input visible con formato -->
-                                    <div class="mb-2">
-                                        <input type="text" class="form-control form-control-sm text-end precio-formateado"
-                                            placeholder="€" th:attr="data-valor=${m.price}" />
+                                <!-- SI YA TENGO OFERTA ACTIVA -->
+                                <div th:if="${m.tieneOferta}">
+                                    <div class="mb-2 w-100">
+                                        <!-- Texto con la oferta actual -->
+                                        <p th:id="'oferta-texto-' + ${m.id}" class="text-white-50 mb-1">
+                                            Tu oferta: <span th:id="'oferta-valor-' + ${m.id}"
+                                                th:text="${#numbers.formatInteger(m.miOferta, 0, 'POINT')}"></span> €
+                                        </p>
+                                        <!-- Input oculto -->
+                                        <input type="text"
+                                            th:id="'oferta-input-' + ${m.id}"
+                                            class="form-control form-control-sm text-end oferta-edicion d-none"
+                                            placeholder="Nueva oferta" />
                                     </div>
 
-                                    <!-- Input real oculto (se envía al backend) -->
-                                    <input type="hidden" name="precio" class="precio-real" />
-                                    <input type="hidden" name="tradableId" th:value="${m.id}" />
+                                    <!-- FORMULARIO -->
+                                    <form th:action="@{/ofertas/modificar}" method="post" class="mb-2 w-100">
+                                        <input type="hidden" name="precio" class="precio-real" th:id="'precio-real-' + ${m.id}" />
+                                        <input type="hidden" name="tradableId" th:value="${m.id}" />
 
-                                    <!-- Botón de vender -->
-                                    <button type="submit" class="btn btn-success btn-sm w-100 text-center">
-                                        Pujar
-                                    </button>
-                                </form>
+                                        <!-- Botón modificar -->
+                                        <button type="button"
+                                                th:id="'modificar-btn-' + ${m.id}"
+                                                class="btn btn-warning btn-sm w-100 text-center"
+                                                th:onclick="'activarEdicion(' + ${m.id} + ')'">
+                                            Modificar oferta
+                                        </button>
 
-                                <!-- FORMULARIO: Quitar del mercado -->
-                                <form th:action="@{/ofertas/quitar}" method="post" class="w-100">
-                                    <input type="hidden" name="tradableId" th:value="${m.id}" />
-                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
-                                        Quitar de mercado
-                                    </button>
-                                </form>
+                                        <!-- Botón guardar -->
+                                        <button type="submit"
+                                                th:id="'guardar-btn-' + ${m.id}"
+                                                class="btn btn-success btn-sm w-100 text-center d-none"
+                                                th:onclick="'guardarOferta(' + ${m.id} + ')'">
+                                            Guardar nueva oferta
+                                        </button>
+                                    </form>
+
+                                    <!-- Botón retirar -->
+                                    <form th:action="@{/ofertas/retirar}" method="post" class="w-100 mt-1">
+                                        <input type="hidden" name="tradableId" th:value="${m.id}" />
+                                        <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
+                                            Retirar oferta
+                                        </button>
+                                    </form>
+                                </div>
+                                
+
+                                <!-- SI AÚN NO HE HECHO OFERTA -->
+                                <div th:if="${!m.tieneOferta}">
+                                    <form th:action="@{/ofertas/pujar}" method="post" class="mb-2 w-100">
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control form-control-sm text-end precio-formateado"
+                                                placeholder="€" th:attr="data-valor=${m.recommendedPrice}" />
+                                        </div>
+                                        <input type="hidden" name="precio" class="precio-real" />
+                                        <input type="hidden" name="tradableId" th:value="${m.id}" />
+                                        <button type="submit" class="btn btn-success btn-sm w-100 text-center">
+                                            Pujar
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,8 +159,16 @@
                             <!-- Botón a la derecha -->
                             <div class="d-flex flex-column align-items-end ms-3">
 
-                                <!-- FORMULARIO: Poner en venta -->
-                                <form th:action="@{/ofertas/pujar}" method="post" class="mb-2 w-100">
+                                <!-- SI EL JUGADOR ES MÍO: Solo "Quitar del mercado" -->
+                                <form th:if="${m.esMio}" th:action="@{/ofertas/quitar}" method="post" class="w-100">
+                                    <input type="hidden" name="tradableId" th:value="${m.id}" />
+                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
+                                        Quitar de mercado
+                                    </button>
+                                </form>
+
+                                <!-- SI EL JUGADOR NO ES MÍO: Solo "Pujar" -->
+                                <form th:if="${!m.esMio}" th:action="@{/ofertas/pujar}" method="post" class="mb-2 w-100">
                                     <!-- Input visible con formato -->
                                     <div class="mb-2">
                                         <input type="text" class="form-control form-control-sm text-end precio-formateado"
@@ -136,19 +179,11 @@
                                     <input type="hidden" name="precio" class="precio-real" />
                                     <input type="hidden" name="tradableId" th:value="${m.id}" />
 
-                                    <!-- Botón de vender -->
+                                    <!-- Botón de pujar -->
                                     <button type="submit" class="btn btn-success btn-sm w-100 text-center">
                                         Pujar
                                     </button>
-                                </form>
-
-                                <!-- FORMULARIO: Quitar del mercado -->
-                                <form th:action="@{/ofertas/quitar}" method="post" class="w-100">
-                                    <input type="hidden" name="tradableId" th:value="${m.id}" />
-                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
-                                        Quitar de mercado
-                                    </button>
-                                </form>
+                                </form> 
                             </div>
                         </div>
                     </div>

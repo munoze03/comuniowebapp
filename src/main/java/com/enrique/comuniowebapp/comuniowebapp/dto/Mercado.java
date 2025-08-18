@@ -12,6 +12,10 @@ public class Mercado {
     private String date;
     private int remaining;
     private String owner;
+    private int ownerId;
+    private boolean esMio;
+    private boolean tieneOferta;
+    private int miOferta;
     
     public int getId() {
         return id;
@@ -78,6 +82,30 @@ public class Mercado {
     }
     public void setUrlPhotoClub(String urlPhotoClub) {
         this.urlPhotoClub = urlPhotoClub;
+    }
+    public Boolean getEsMio() {
+        return esMio;
+    }
+    public int getOwnerId() {
+        return ownerId;
+    }
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+    public void setEsMio(boolean esMio) {
+        this.esMio = esMio;
+    }
+    public boolean isTieneOferta() {
+        return tieneOferta;
+    }
+    public void setTieneOferta(boolean tieneOferta) {
+        this.tieneOferta = tieneOferta;
+    }
+    public int getMiOferta() {
+        return miOferta;
+    }
+    public void setMiOferta(int miOferta) {
+        this.miOferta = miOferta;
     }
 
 }

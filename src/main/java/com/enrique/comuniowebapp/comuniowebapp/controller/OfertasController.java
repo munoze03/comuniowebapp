@@ -1,7 +1,6 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

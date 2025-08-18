@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.Alineacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
@@ -44,7 +45,7 @@ public class MainController {
         model.addAttribute("newsList", news);
 
         //Capturamos el mercado de fichajes
-        List<Mercado> mercado = userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId());
+        List<Mercado> mercado = userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId(), userInfo.getName());
         //Ordenamos la plantilla por posicion
         mercado.sort(Comparator.comparingInt(j -> {
             switch (j.getPosition()) {
@@ -65,7 +66,14 @@ public class MainController {
         //Guardamos la clasificacion en la sesion
         session.setAttribute("clasificacion", clasificacion);  
         //Cargamos la clasificacion en el modelo
-        model.addAttribute("clasificacion", clasificacion);          
+        model.addAttribute("clasificacion", clasificacion);        
+        
+        //Capturamos la clasificacion Live
+        List<Alineacion> alineacion = userService.getClasificacionLife(token, userInfo.getCommunityId(), userInfo.getId());
+        //Guardamos la clasificacion Live en la sesion
+        session.setAttribute("clasificacionLive", alineacion);
+        //Cargamos la clasificacion Live en el modelo
+        model.addAttribute("clasificacionLive", alineacion);
 
         //Capturamos la plantilla
         List<Player> plantilla = userService.getPlantilla(token, userInfo.getId());
