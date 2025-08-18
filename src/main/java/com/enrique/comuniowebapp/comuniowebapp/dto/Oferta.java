@@ -17,6 +17,7 @@ public class Oferta {
     private String nombreContraparte;
     private boolean esRealizadaPorMi;
     private int credito;
+    private int offerId;
 
     public int getId() {
         return id;
@@ -113,6 +114,12 @@ public class Oferta {
     }
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+    public int getOfferId() {
+        return offerId;
+    }
+    public void setOfferId(int offerId) {
+        this.offerId = offerId;
     }
     
     

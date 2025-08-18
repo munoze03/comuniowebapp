@@ -466,12 +466,69 @@ public class ComunioUserService {
 
         ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
 
-        System.out.println("Error");
-
         if(!response.getStatusCode().is2xxSuccessful()){
             throw new RuntimeException("Error al realizar la oferta: " + response.getStatusCode());
         }
-        // Aquí podrías procesar el response si quieres el offerId
+
+    }
+
+    public void retirarOferta(String token, String communityId, String userId, long tradableId, Integer precio){
+
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        // Recuperamos OfferId
+        int offerId = buscarOfferId(tradableId, token, communityId, userId);
+
+        Map<String, Object> offer = new HashMap<>();
+        offer.put("price", precio);
+        offer.put("type", "DELETE");
+        offer.put("offerid", offerId);
+        offer.put("tradableid", tradableId);
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("offers", List.of(offer));
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Error al retirar la oferta: " + response.getStatusCode());
+        }
+
+    }
+
+    public void modificarOferta(String token, String communityId, String userId, long tradableId, Integer precio){
+
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        // Recuperamos OfferId
+        int offerId = buscarOfferId(tradableId, token, communityId, userId);
+
+        Map<String, Object> offer = new HashMap<>();
+        offer.put("price", precio);
+        offer.put("type", "CHANGE");
+        offer.put("offerid", offerId);
+        offer.put("tradableid", tradableId);
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("offers", List.of(offer));
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Error al retirar la oferta: " + response.getStatusCode());
+        }
 
     }
 
@@ -492,5 +549,19 @@ public class ComunioUserService {
         return fecha.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
+    public int buscarOfferId(long tradeableId, String token, String communityId, String userId ){
+
+        List<Oferta> listaOfertas = getOfertas(token, communityId, userId);
+
+        int offerId = 0;
+
+        for (Oferta o : listaOfertas){
+            if(Integer.valueOf(o.getIdPlayer()) == tradeableId){
+                offerId=o.getId();
+            }
+        }
+
+        return offerId;
+    }
 
 }
