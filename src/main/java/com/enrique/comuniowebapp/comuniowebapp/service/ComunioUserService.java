@@ -55,6 +55,7 @@ public class ComunioUserService {
         info.setEmail(String.valueOf(((Map) data.get("user")).get("email")));
         info.setCommunityId(String.valueOf(((Map) data.get("community")).get("id")));
         info.setCommunityName(String.valueOf(((Map) data.get("community")).get("name")));
+        info.setBudget(String.valueOf(((Map) data.get("user")).get("budget")));
 
         return info;
     }
@@ -70,6 +71,11 @@ public class ComunioUserService {
         Map<String, Object> newsListMap = (Map<String, Object>) response.getBody().get("newsList");
 
         List<Map<String, Object>> entries = (List<Map<String, Object>>) newsListMap.get("entries");
+        // Tomamos solo las 10 primeras
+        if (entries.size() > 10) {
+            entries = entries.subList(0, 10);
+        }
+
         List<News> news = new ArrayList<>();
 
         for (Map<String, Object> entry : entries){
@@ -91,8 +97,6 @@ public class ComunioUserService {
             cleanedHtml = cleanedHtml.replaceAll("to", "a");
             cleanedHtml = cleanedHtml.replaceAll("<br /><br />", " ");
             cleanedHtml = cleanedHtml.replaceAll("\\b\\d{1,2}:\\d{2}\\b - ", " ");
-
-            System.out.println(cleanedHtml);
 
             n.setMessageHtml(cleanedHtml);
 

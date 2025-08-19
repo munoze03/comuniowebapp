@@ -12,6 +12,7 @@ public class UserInfo {
     private String email;
     private String communityId;
     private String communityName;
+    private String budget;
 
     public String getId() {
         return id;
@@ -78,5 +79,11 @@ public class UserInfo {
     }
     public void setCommunityName(String communityName) {
         this.communityName = communityName;
+    }
+    public String getBudget() {
+        return budget;
+    }
+    public void setBudget(String budget) {
+        this.budget = budget;
     }
 }
