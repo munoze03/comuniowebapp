@@ -11,6 +11,7 @@ public class Alineacion {
     private int points;
     private String livePoints;
     private String type;
+    private String tactic;
 
     public int getPosition() {
         return position;
@@ -65,6 +66,12 @@ public class Alineacion {
     }
     public void setType(String type) {
         this.type = type;
+    }
+    public String getTactic() {
+        return tactic;
+    }
+    public void setTactic(String tactic) {
+        this.tactic = tactic;
     }
     
 }

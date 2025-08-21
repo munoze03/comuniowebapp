@@ -32,10 +32,16 @@ public class MainController {
     @GetMapping("/main")
     public String mostrarMain(HttpSession session, Model model){
 
-        String token = (String) session.getAttribute("token");
         UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
-        model.addAttribute("userInfo", userInfo);
 
+        // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
+        if (userInfo == null) {
+        // redirigir al login si no hay sesión
+        return "redirect:/api/login";
+        }
+
+        String token = (String) session.getAttribute("token");
+        model.addAttribute("userInfo", userInfo);
 
         //Capturamos las noticias
         List<News> news = userService.getUserNews(token, userInfo.getCommunityId(), userInfo.getId());
@@ -62,18 +68,18 @@ public class MainController {
         model.addAttribute("mercadoList", mercado);
 
         //Capturamos la clasificacion
-        List<Clasificacion> clasificacion = userService.getClasificacion(token, userInfo.getCommunityId(), userInfo.getId());
+        List<Clasificacion> clasificacion = userService.getClasificacion(token, userInfo.getCommunityId());
         //Guardamos la clasificacion en la sesion
         session.setAttribute("clasificacion", clasificacion);  
         //Cargamos la clasificacion en el modelo
         model.addAttribute("clasificacion", clasificacion);        
         
-        //Capturamos la clasificacion Live
-        List<Alineacion> alineacion = userService.getClasificacionLife(token, userInfo.getCommunityId(), userInfo.getId());
-        //Guardamos la clasificacion Live en la sesion
-        session.setAttribute("clasificacionLive", alineacion);
-        //Cargamos la clasificacion Live en el modelo
-        model.addAttribute("clasificacionLive", alineacion);
+        //Capturamos la alineacion
+        List<Alineacion> alineacion = userService.getAlineacion(token, userInfo.getCommunityId(), userInfo.getId());
+        //Guardamos la alineacion en la sesion
+        session.setAttribute("alineacion", alineacion);
+        //Cargamos la alineacion en el modelo
+        model.addAttribute("alineacion", alineacion);
 
         //Capturamos la plantilla
         List<Player> plantilla = userService.getPlantilla(token, userInfo.getId());

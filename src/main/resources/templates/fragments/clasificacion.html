@@ -28,7 +28,7 @@
                     <tbody>
                         <tr th:each="c, stat : ${clasificacion}">
                             <td>
-                                <span th:text="${c.posicion}"></span>
+                                <span th:text="${stat.count}"></span>
                                 <span th:if="${stat.first}">⭐</span>
                                 <span th:if="${stat.last}">🚨</span>
                             </td>

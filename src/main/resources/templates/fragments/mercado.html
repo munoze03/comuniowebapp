@@ -78,7 +78,7 @@
                                                 th:id="'modificar-btn-' + ${m.id}"
                                                 class="btn btn-warning btn-sm w-100 text-center"
                                                 th:onclick="'activarEdicion(' + ${m.id} + ')'">
-                                            Modificar oferta
+                                            Modificar
                                         </button>
 
                                         <!-- Botón guardar -->
@@ -86,7 +86,7 @@
                                                 th:id="'guardar-btn-' + ${m.id}"
                                                 class="btn btn-success btn-sm w-100 text-center d-none"
                                                 th:onclick="'guardarOferta(' + ${m.id} + ')'">
-                                            Guardar nueva oferta
+                                            Guardar
                                         </button>
                                     </form>
 
@@ -95,7 +95,7 @@
                                         <input type="hidden" name="price" th:value="${m.miOferta}" />
                                         <input type="hidden" name="tradableId" th:value="${m.id}" />
                                         <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
-                                            Retirar oferta
+                                            Retirar
                                         </button>
                                     </form>
                                 </div>
@@ -196,14 +196,14 @@
                                                     th:id="'modificar-btn-' + ${m.id}"
                                                     class="btn btn-warning btn-sm w-100 text-center"
                                                     th:onclick="'activarEdicion(' + ${m.id} + ')'">
-                                                Modificar oferta
+                                                Modificar
                                             </button>
 
                                             <!-- Botón guardar -->
                                             <button type="submit"
                                                     th:id="'guardar-btn-' + ${m.id}"
                                                     class="btn btn-success btn-sm w-100 text-center d-none">
-                                                Guardar nueva oferta
+                                                Guardar
                                             </button>
                                         </form>
 
@@ -212,7 +212,7 @@
                                             <input type="hidden" name="price" th:value="${m.miOferta}" />
                                             <input type="hidden" name="tradableId" th:value="${m.id}" />
                                             <button type="submit" class="btn btn-danger btn-sm w-100 text-center">
-                                                Retirar oferta
+                                                Retirar
                                             </button>
                                         </form>
                                     </div>

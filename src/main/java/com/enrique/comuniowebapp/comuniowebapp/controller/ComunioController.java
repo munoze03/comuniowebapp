@@ -53,8 +53,6 @@ public class ComunioController {
             response.setCommunityId(userInfo.getCommunityId());
             response.setCommunityName(userInfo.getCommunityName());
 
-            
-
             return "redirect:/main";
         } catch (IllegalArgumentException e){
             model.addAttribute("error", e.getMessage());

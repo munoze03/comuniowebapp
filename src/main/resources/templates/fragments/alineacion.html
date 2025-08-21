@@ -2,39 +2,35 @@
     <section class="resume-section" id="alineacion">
         <div class="resume-section-content">
             <h2 class="mb-3">Alineación</h2>
-            
+
             <div th:if="${alineacion != null}">
                 <div class="alineacion-container">
                     <div class="cancha" id="cancha">
-                        <!-- Elementos del campo -->
+                        <!-- Elementos gráficos del campo -->
                         <div class="linea-media"></div>
                         <div class="area-grande"></div>
                         <div class="area-pequena"></div>
                         <div class="punto-penal"></div>
                         <div class="centro-campo"></div>
                         <div class="punto-centro"></div>
-                        
-                        <!-- Jugadores dinámicos desde el backend -->
-                        <div th:each="jugador, stat : ${alineacion.jugadores}" 
-                            class="jugador"
-                            th:style="'left:' + ${jugador.posX} + '%; top:' + ${jugador.posY} + 'px;'"
-                            th:onclick="'mostrarInfoJugador(\'' + ${jugador.nombre} + '\', \'' + ${jugador.posicion} + '\', \'' + ${jugador.rol} + '\')'"
-                            th:text="${jugador.dorsal}">
-                        </div>
                     </div>
-                    
+
+                    <!-- Info jugador -->
                     <div class="jugador-info" id="jugador-info">
                         <h5 class="posicion-titulo">Información del jugador</h5>
                         <p>Selecciona un jugador para ver sus detalles</p>
                     </div>
                 </div>
-                
+
                 <div class="mt-4">
-                    <h5>Formación: <span th:text="${alineacion.formacion}" class="badge bg-primary"></span></h5>
+                    <h5>
+                        Formación: 
+                        <span th:text="${alineacion[0].tactic}" class="badge bg-primary"></span>
+                    </h5>
                     <p class="mb-0">Esta es tu alineación actual en Comunio. Puedes modificarla desde la app oficial.</p>
                 </div>
             </div>
-            
+
             <div th:if="${alineacion == null}" class="alert alert-warning">
                 No tienes una alineación configurada actualmente.
             </div>
@@ -42,3 +38,13 @@
     </section>
     <hr class="m-0" />
 </div>
+
+<!-- Thymeleaf -> pasa jugadores y táctica a JS -->
+<script th:inline="javascript">
+    const jugadores = /*[[${alineacion}]]*/ [];
+    const jugadoresJson = /*[[@json(${alineacion})]]*/ [];
+    const tactica = jugadoresJson.length > 0 ? jugadoresJson[0].tactic : null;
+    if (tactica) {
+        dibujarAlineacion(tactica, jugadoresJson);
+    }
+</script>

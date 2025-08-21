@@ -292,26 +292,26 @@ public class ComunioUserService {
         return jugadores;
     }
 
-    public List<Clasificacion> getClasificacion(String token, String communityId, String userId){
-        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/prediction_standings", communityId, userId);
+    public List<Clasificacion> getClasificacion(String token, String communityId){
+        String url = String.format("https://www.comunio.es/api/communities/%s/standings?period=total&wpe=true", communityId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         
         ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
-        Map<String, Object> totalMap = (Map<String, Object>) response.getBody().get("total");
-        List<Map<String, Object>> totales = (List<Map<String, Object>>) totalMap.get("standingsPositions");
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
 
         List<Clasificacion> clasificacion = new ArrayList<>();
-        for (Map<String, Object> total : totales){
-            Map<String, Object> user = (Map<String, Object>) total.get("user");
+        for (Map<String, Object> item : items){
+            Map<String, Object> embedded = (Map<String, Object>) item.get("_embedded");
+            Map<String, Object> user = (Map<String, Object>) embedded.get("user");
 
             Clasificacion c = new Clasificacion();
             c.setName((String) user.get("name"));
-            c.setPosicion((int) total.get("position"));
-            c.setTotalPoints((int) total.get("totalPoints"));
-            c.setTotalPointsLastMatchday((int) total.get("totalPoints_lastMatchday"));
+            c.setPosicion((int) user.get("position"));
+            c.setTotalPoints((int) item.get("totalPoints"));
+            c.setTotalPointsLastMatchday((int) item.get("lastPoints"));
 
             clasificacion.add(c);
         }
@@ -319,7 +319,7 @@ public class ComunioUserService {
         return clasificacion;
     }
     
-    public List<Alineacion> getClasificacionLife(String token, String communityId, String userId){
+    public List<Alineacion> getAlineacion(String token, String communityId, String userId){
         String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/lineup",communityId, userId);
 
         HttpHeaders headers = new HttpHeaders();
@@ -350,6 +350,7 @@ public class ComunioUserService {
             a.setPoints((int) line.get("points"));
             a.setLivePoints((String) line.get("livePoints"));
             a.setType((String) line.get("type"));
+            a.setTactic((String) response.getBody().get("tactic"));
 
             alineacion.add(a);
         }
