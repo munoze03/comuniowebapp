@@ -24,6 +24,7 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 
+
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 
 @Service
@@ -84,7 +85,17 @@ public class ComunioUserService {
             String date = (String) entry.get("date");
             n.setDate(formatearFecha(date));
 
-            n.setTitle((String) entry.get("title"));
+            String title = (String) entry.get("title");
+            System.out.println(title);
+            switch (title.toLowerCase()) {
+                case "transaction" -> title = "Transacción";
+                default -> {
+                    if (title.matches("La alineación se ha cambiad.*")) {
+                        title = "Cambio en la alineación";
+                    }
+                }
+            }
+            n.setTitle(title);
 
             Map<String, Object> message = (Map<String, Object>) entry.get("message");
             String messageHtml = (String) message.get("text");
@@ -93,6 +104,7 @@ public class ComunioUserService {
             String cleanedHtml = messageHtml.replaceAll("(?i)<a[^>]*>(.*?)</a>", "$1");
             //Cambiamos palabras en ingles a espanol
             cleanedHtml = cleanedHtml.replaceAll("transfers for", "cambia por");
+            cleanedHtml = cleanedHtml.replaceAll("TRANSACTION", "TRANSACCION");
             cleanedHtml = cleanedHtml.replaceAll("from", "de");
             cleanedHtml = cleanedHtml.replaceAll("to", "a");
             cleanedHtml = cleanedHtml.replaceAll("<br /><br />", " ");
@@ -159,7 +171,7 @@ public class ComunioUserService {
     }
 
     public List<Oferta> getHistorialOfertas(String token, String communityId, String userId ){
-        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers?limit=100&sort=datechanged", communityId, userId);
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers?limit=20&sort=datechanged", communityId, userId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -349,7 +361,7 @@ public class ComunioUserService {
             a.setClubLogo((String) logo.get("href"));
             a.setPoints((int) line.get("points"));
             a.setLivePoints((String) line.get("livePoints"));
-            a.setType((String) line.get("type"));
+            a.setType(traducirPosicion((String) line.get("type")));
             a.setTactic((String) response.getBody().get("tactic"));
 
             alineacion.add(a);
@@ -535,6 +547,62 @@ public class ComunioUserService {
             throw new RuntimeException("Error al retirar la oferta: " + response.getStatusCode());
         }
 
+    }
+
+    public void rechazarOferta(String token, String communityId, String userId, long tradableId, Integer precio){
+
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        int offerId = buscarOfferId(tradableId, token, communityId, userId);
+
+        Map<String, Object> offer = new HashMap<>();
+        offer.put("price", precio);
+        offer.put("type", "DECLINE");
+        offer.put("offerid", offerId);
+        offer.put("tradableid", tradableId);
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("offers", List.of(offer));
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Error al rechazar la oferta: " + response.getStatusCode());
+        }
+    }
+
+    public void aceptarOferta(String token, String communityId, String userId, long tradableId, Integer precio){
+
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        int offerId = buscarOfferId(tradableId, token, communityId, userId);
+
+        Map<String, Object> offer = new HashMap<>();
+        offer.put("price", precio);
+        offer.put("type", "ACCEPT");
+        offer.put("offerid", offerId);
+        offer.put("tradableid", tradableId);
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("offers", List.of(offer));
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Error al aceptar la oferta: " + response.getStatusCode());
+        }
     }
 
     public static String traducirPosicion(String posicion) {

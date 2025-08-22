@@ -3,6 +3,7 @@ package com.enrique.comuniowebapp.comuniowebapp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,11 @@ public class ComunioController {
     public ComunioController(ComunioAuthService authService, ComunioUserService userService){
         this.authService = authService;
         this.userService = userService;
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "index"; 
     }
 
     @PostMapping("/login")

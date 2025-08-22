@@ -4,30 +4,48 @@
             <h2 class="mb-3">Alineación</h2>
 
             <div th:if="${alineacion != null}">
+                <!-- Selector de táctica -->
+                <div class="mb-3">
+                    <label for="tactica" class="form-label">Elige táctica:</label>
+                    <select id="tactica" class="form-select form-select-sm w-auto"
+                            onchange="cambiarFormacion(this.value)">
+                        <option value="343" th:selected="${alineacion[0].tactic == '343'}">3-4-3</option>
+                        <option value="352" th:selected="${alineacion[0].tactic == '352'}">3-5-2</option>
+                        <option value="433" th:selected="${alineacion[0].tactic == '433'}">4-3-3</option>
+                        <option value="442" th:selected="${alineacion[0].tactic == '442'}">4-4-2</option>
+                        <option value="451" th:selected="${alineacion[0].tactic == '451'}">4-5-1</option>
+                    </select>
+                </div>
+
+                <!-- Cancha -->
                 <div class="alineacion-container">
                     <div class="cancha" id="cancha">
-                        <!-- Elementos gráficos del campo -->
+                        <!-- Elementos del campo -->
                         <div class="linea-media"></div>
-                        <div class="area-grande"></div>
-                        <div class="area-pequena"></div>
-                        <div class="punto-penal"></div>
                         <div class="centro-campo"></div>
                         <div class="punto-centro"></div>
+                        <div class="area-grande area-grande-top"></div>
+                        <div class="area-pequena area-pequena-top"></div>
+                        <div class="area-grande area-grande-bottom"></div>
+                        <div class="area-pequena area-pequena-bottom"></div>
                     </div>
 
-                    <!-- Info jugador -->
                     <div class="jugador-info" id="jugador-info">
                         <h5 class="posicion-titulo">Información del jugador</h5>
                         <p>Selecciona un jugador para ver sus detalles</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="mt-4">
-                    <h5>
-                        Formación: 
-                        <span th:text="${alineacion[0].tactic}" class="badge bg-primary"></span>
-                    </h5>
-                    <p class="mb-0">Esta es tu alineación actual en Comunio. Puedes modificarla desde la app oficial.</p>
+            <div id="popupJugador" class="popup-jugador d-none">
+                <div class="popup-content">
+                    <img id="popupFoto" src="" alt="Jugador" class="foto">
+                    <div class="popup-info">
+                    <h6 id="popupNombre" class="mb-1"></h6>
+                    <small id="popupClub" class="text-muted"></small>
+                    <p class="mb-0"><strong>Puntos:</strong> <span id="popupPuntos"></span></p>
+                    <p class="mb-0"><strong>Live:</strong> <span id="popupLive"></span></p>
+                    </div>
                 </div>
             </div>
 
@@ -37,14 +55,10 @@
         </div>
     </section>
     <hr class="m-0" />
-</div>
 
-<!-- Thymeleaf -> pasa jugadores y táctica a JS -->
-<script th:inline="javascript">
-    const jugadores = /*[[${alineacion}]]*/ [];
-    const jugadoresJson = /*[[@json(${alineacion})]]*/ [];
-    const tactica = jugadoresJson.length > 0 ? jugadoresJson[0].tactic : null;
-    if (tactica) {
-        dibujarAlineacion(tactica, jugadoresJson);
-    }
-</script>
+
+    <!-- Inyectamos jugadores desde Thymeleaf en JSON -->
+    <script th:inline="javascript">
+        window.jugadores = /*[[${alineacion}]]*/ [];
+    </script>
+</div>

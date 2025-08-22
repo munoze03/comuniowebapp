@@ -143,4 +143,51 @@ public class OfertasController {
             return "redirect:/main";
         }
     
+    @PostMapping("/rechazar")
+    public String rechazarOferta(
+        @RequestParam("price") Integer price,
+        @RequestParam("tradableId") Integer tradableId,
+        HttpSession session,
+        RedirectAttributes redirectAttributes){
+
+            UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+            String token = (String) session.getAttribute("token");
+            String communityId = userInfo.getCommunityId();
+            String userId = userInfo.getId();
+
+            try{
+                comunioUserService.rechazarOferta(token, communityId, userId, tradableId, price);
+                redirectAttributes.addFlashAttribute("mensajeVenta", "Oferta rechazada correctamente");
+                redirectAttributes.addFlashAttribute("tipoMensaje", "success");
+            }catch (Exception e){
+                redirectAttributes.addFlashAttribute("mensajeVenta", "Error al rechazar la oferta");
+                redirectAttributes.addFlashAttribute("tipoMensaje", "error");
+            }
+
+            return "redirect:/main";
+        }   
+
+    @PostMapping("/aceptar")
+    public String aceptarOferta(
+        @RequestParam("price") Integer price,
+        @RequestParam("tradableId") Integer tradableId,
+        HttpSession session,
+        RedirectAttributes redirectAttributes){
+
+            UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+            String token = (String) session.getAttribute("token");
+            String communityId = userInfo.getCommunityId();
+            String userId = userInfo.getId();
+
+            try{
+                comunioUserService.aceptarOferta(token, communityId, userId, tradableId, price);
+                redirectAttributes.addFlashAttribute("mensajeVenta", "Oferta aceptada correctamente");
+                redirectAttributes.addFlashAttribute("tipoMensaje", "success");
+            }catch (Exception e){
+                redirectAttributes.addFlashAttribute("mensajeVenta", "Error al aceptar la oferta");
+                redirectAttributes.addFlashAttribute("tipoMensaje", "error");
+            }
+
+            return "redirect:/main";
+        }   
 }

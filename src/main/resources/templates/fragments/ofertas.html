@@ -102,13 +102,15 @@
                             <!-- Botón a la derecha -->
                             <div class="d-flex flex-column align-items-end ms-3">
                                 <form th:action="@{/ofertas/aceptar}" method="post" class="mb-2 w-100">
-                                    <input type="hidden" name="offerId" th:value="${o.id}" />
+                                    <input type="hidden" name="tradableId" th:value="${o.idPlayer}" />
+                                    <input type="hidden" name="price" th:value="${o.precio}" />
                                     <button type="submit" class="btn btn-success btn-sm w-100 text-center">Aceptar</button>
                                 </form>
 
-                                <form th:action="@{/ofertas/anular}" method="post" class="w-100">
-                                    <input type="hidden" name="offerId" th:value="${o.id}" />
-                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">Anular</button>
+                                <form th:action="@{/ofertas/rechazar}" method="post" class="w-100">
+                                    <input type="hidden" name="tradableId" th:value="${o.idPlayer}" />
+                                    <input type="hidden" name="price" th:value="${o.precio}" />
+                                    <button type="submit" class="btn btn-danger btn-sm w-100 text-center">Rechazar</button>
                                 </form>
                             </div>
                         </div>

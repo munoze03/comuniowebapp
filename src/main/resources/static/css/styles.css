@@ -11037,121 +11037,6 @@ hr {
         font-size: 14px;
     }
 
-/* Estilos mejorados para la alineación */
-.alineacion-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-}
-.cancha {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    height: 400px;
-    background: linear-gradient(to bottom, #4CAF50, #2E8B57);
-    border: 2px solid #333;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    overflow: hidden;
-}
-.jugador {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    color: #000;
-    transition: transform 0.2s;
-    transform: translate(-50%, -50%);
-}
-.jugador:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    z-index: 10;
-}
-.jugador-info {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #343a40;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 600px;
-    color: #fff;
-}
-.posicion-titulo {
-    color: #20c997;
-    font-weight: bold;
-}
-/* Elementos del campo */
-.linea-media {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background-color: #fff;
-    top: 50%;
-    opacity: 0.3;
-}
-.area-grande {
-    position: absolute;
-    width: 80%;
-    height: 120px;
-    border: 2px solid #fff;
-    border-radius: 10px;
-    top: 20px;
-    left: 10%;
-    opacity: 0.3;
-    border-bottom: none;
-}
-.area-pequena {
-    position: absolute;
-    width: 50%;
-    height: 60px;
-    border: 2px solid #fff;
-    border-radius: 10px;
-    top: 20px;
-    left: 25%;
-    opacity: 0.3;
-    border-bottom: none;
-}
-.punto-penal {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #fff;
-    border-radius: 50%;
-    top: 110px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.3;
-}
-.centro-campo {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.3;
-}
-.punto-centro {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #fff;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.3;
-}
 /* Elementos de clasificacion */
 .tipo-total,
 .tipo-jornada,
@@ -11214,4 +11099,154 @@ hr {
   height: 24px;
   border-radius: 4px;
   object-fit: contain;
+}
+
+/* Estilos de alineacion */
+.alineacion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.cancha {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    background: linear-gradient(to bottom, #4CAF50, #2E8B57);
+    border: 2px solid #333;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.jugador {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.jugador img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.jugador:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 10;
+}
+
+.jugador-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #343a40;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 600px;
+    color: #fff;
+}
+
+.posicion-titulo {
+    color: #20c997;
+    font-weight: bold;
+}
+
+/* Campo con líneas estilo premium */
+.linea-media {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    top: 50%;
+    opacity: 0.4;
+}
+
+.centro-campo {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.4;
+}
+
+.punto-centro {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.area-grande {
+    position: absolute;
+    width: 60%;
+    height: 100px;
+    border: 2px solid #fff;
+    left: 20%;
+    opacity: 0.4;
+}
+
+.area-pequena {
+    position: absolute;
+    width: 30%;
+    height: 50px;
+    border: 2px solid #fff;
+    left: 35%;
+    opacity: 0.4;
+}
+
+.area-grande-top { top: 0; border-bottom: none; }
+.area-pequena-top { top: 0; border-bottom: none; }
+
+.area-grande-bottom { bottom: 0; border-top: none; }
+.area-pequena-bottom { bottom: 0; border-top: none; }
+
+/* Popup flotante */
+.popup-jugador {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 100;
+    min-width: 180px;
+    max-width: 220px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: opacity 0.2s ease-in-out;
+}
+.popup-jugador.d-none {
+    display: none;
+}
+
+.popup-content {
+    display: flex;
+    align-items: center;
+}
+
+.popup-content .foto {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #20c997;
+}
+
+.popup-info h6 {
+    font-size: 1rem;
+    margin: 0;
 }

@@ -34,89 +34,6 @@ function toggleNoticias() {
     btn.textContent = isHidden ? 'Mostrar menos' : 'Mostrar más';
 }
 
-// Configuración de formaciones (posiciones en el campo)
-const formaciones = {
-    "4-4-2": {
-        defensores: [ {x:15,y:100}, {x:15,y:200}, {x:15,y:300}, {x:15,y:400} ],
-        mediocampistas: [ {x:35,y:100}, {x:35,y:200}, {x:35,y:300}, {x:35,y:400} ],
-        delanteros: [ {x:55,y:200}, {x:55,y:300} ],
-        portero: {x:5,y:250}
-    },
-    "4-3-3": {
-        defensores: [ {x:15,y:100}, {x:15,y:200}, {x:15,y:300}, {x:15,y:400} ],
-        mediocampistas: [ {x:35,y:150}, {x:35,y:250}, {x:35,y:350} ],
-        delanteros: [ {x:55,y:150}, {x:55,y:250}, {x:55,y:350} ],
-        portero: {x:5,y:250}
-    },
-    "3-5-2": {
-        defensores: [ {x:15,y:150}, {x:15,y:250}, {x:15,y:350} ],
-        mediocampistas: [ {x:25,y:100}, {x:25,y:200}, {x:35,y:250}, {x:25,y:300}, {x:25,y:400} ],
-        delanteros: [ {x:55,y:200}, {x:55,y:300} ],
-        portero: {x:5,y:250}
-    },
-    "3-4-3": {
-        defensores: [ {x:15,y:150}, {x:15,y:250}, {x:15,y:350} ],
-        mediocampistas: [ {x:35,y:150}, {x:35,y:250}, {x:35,y:350}, {x:35,y:450} ],
-        delanteros: [ {x:55,y:150}, {x:55,y:250}, {x:55,y:350} ],
-        portero: {x:5,y:250}
-    },
-    "4-5-1": {
-        defensores: [ {x:15,y:100}, {x:15,y:200}, {x:15,y:300}, {x:15,y:400} ],
-        mediocampistas: [ {x:35,y:100}, {x:35,y:175}, {x:35,y:250}, {x:35,y:325}, {x:35,y:400} ],
-        delanteros: [ {x:55,y:250} ],
-        portero: {x:5,y:250}
-    }
-};
-
-// Dibuja la alineación en el campo
-function dibujarAlineacion(formacion, jugadores) {
-    const cancha = document.getElementById("cancha");
-    if (!cancha || !formaciones[formacion]) return;
-
-    // Elimina jugadores anteriores
-    cancha.querySelectorAll(".jugador").forEach(j => j.remove());
-
-    const config = formaciones[formacion];
-    let idx = 0;
-
-    // Portero
-    crearJugador(jugadores[idx++], config.portero, cancha);
-
-    // Defensas
-    config.defensores.forEach(pos => crearJugador(jugadores[idx++], pos, cancha));
-
-    // Medios
-    config.mediocampistas.forEach(pos => crearJugador(jugadores[idx++], pos, cancha));
-
-    // Delanteros
-    config.delanteros.forEach(pos => crearJugador(jugadores[idx++], pos, cancha));
-}
-
-// Crea y coloca un jugador en el campo
-function crearJugador(jugador, pos, cancha) {
-    if (!jugador) return;
-    const div = document.createElement("div");
-    div.className = "jugador";
-    div.style.left = `${pos.x}%`;
-    div.style.top = `${pos.y}px`;
-    div.textContent = jugador.name.charAt(0); // Inicial del jugador
-    div.onclick = () => mostrarInfoJugador(jugador);
-    cancha.appendChild(div);
-}
-
-// Muestra la info de un jugador
-function mostrarInfoJugador(jugador) {
-    document.getElementById("jugador-info").innerHTML = `
-        <h5 class="posicion-titulo">${jugador.name} 
-            <span class="badge bg-secondary">${jugador.type}</span></h5>
-        <p><img src="${jugador.photo}" alt="${jugador.name}" width="50" class="me-2 rounded-circle">
-        <strong>${jugador.clubName}</strong> 
-        <img src="${jugador.clubLogo}" alt="${jugador.clubName}" width="30"></p>
-        <p><strong>Puntos:</strong> ${jugador.points} (${jugador.livePoints || 0} en vivo)</p>
-        <p><strong>Posición en campo:</strong> ${jugador.position}</p>
-    `;
-}
-
 // Selector Clasificacion
 document.addEventListener("DOMContentLoaded", function () {
     const btnTotal = document.getElementById("btnTotal");
@@ -354,3 +271,125 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// JS de alineacion
+// Posiciones predefinidas para cada táctica
+const posiciones = {
+    "343": [
+        {x: 50, y: 370}, // Portero
+        {x: 30, y: 270}, {x: 50, y: 270}, {x: 70, y: 270}, // 3 DEF
+        {x: 20, y: 170}, {x: 40, y: 170}, {x: 60, y: 170}, {x: 80, y: 170}, // 4 MED
+        {x: 30, y: 70}, {x: 50, y: 70}, {x: 70, y: 70}  // 3 DEL
+    ],
+    "352": [
+        {x: 50, y: 370},
+        {x: 30, y: 270}, {x: 50, y: 270}, {x: 70, y: 270},
+        {x: 20, y: 170}, {x: 35, y: 170}, {x: 50, y: 150}, {x: 65, y: 170}, {x: 80, y: 170},
+        {x: 40, y: 70}, {x: 60, y: 70}
+    ],
+    "433": [
+        {x: 50, y: 370},
+        {x: 20, y: 270}, {x: 40, y: 270}, {x: 60, y: 270}, {x: 80, y: 270},
+        {x: 30, y: 170}, {x: 50, y: 150}, {x: 70, y: 170},
+        {x: 25, y: 70}, {x: 50, y: 60}, {x: 75, y: 70}
+    ],
+    "442": [
+        {x: 50, y: 370},
+        {x: 20, y: 270}, {x: 40, y: 270}, {x: 60, y: 270}, {x: 80, y: 270},
+        {x: 20, y: 170}, {x: 40, y: 170}, {x: 60, y: 170}, {x: 80, y: 170},
+        {x: 40, y: 70}, {x: 60, y: 70}
+    ],
+    "451": [
+        {x: 50, y: 370},
+        {x: 20, y: 270}, {x: 40, y: 270}, {x: 60, y: 270}, {x: 80, y: 270},
+        {x: 20, y: 170}, {x: 35, y: 150}, {x: 50, y: 140}, {x: 65, y: 150}, {x: 80, y: 170},
+        {x: 50, y: 70}
+    ]
+};
+
+function renderAlineacion(jugadores, tactica) {
+    const cancha = document.getElementById("cancha");
+
+    // Mantener las líneas del campo
+    cancha.innerHTML = `
+        <div class="linea-media"></div>
+        <div class="centro-campo"></div>
+        <div class="punto-centro"></div>
+        <div class="area-grande area-grande-top"></div>
+        <div class="area-pequena area-pequena-top"></div>
+        <div class="area-grande area-grande-bottom"></div>
+        <div class="area-pequena area-pequena-bottom"></div>
+    `;
+
+    const coords = posiciones[tactica];
+    if (!coords) return;
+
+    const total = jugadores.length;
+
+    jugadores.forEach(jugador => {
+        // Invertir: 1 = delantero, 11 = portero
+        const realPos = total - jugador.position + 1;
+
+        const pos = coords[realPos - 1];
+        if (!pos) return;
+
+        const div = document.createElement("div");
+        div.className = "jugador";
+        div.style.left = pos.x + "%";
+        div.style.top = pos.y + "px";
+        div.innerHTML = `<img src="${jugador.photo}" title="${jugador.name}">`;
+        div.onclick = () => mostrarInfoJugador(jugador);
+        cancha.appendChild(div);
+    });
+}
+
+function mostrarInfoJugador(jugador, event) {
+    const popup = document.getElementById("popupJugador");
+
+    // Rellenar datos
+    document.getElementById("popupFoto").src = jugador.photo;
+    document.getElementById("popupNombre").textContent = jugador.name;
+    document.getElementById("popupClub").textContent = jugador.clubName;
+    document.getElementById("popupPuntos").textContent = jugador.points;
+    document.getElementById("popupLive").textContent = jugador.livePoints;
+
+    // Posicionar al lado del jugador (arriba a la derecha)
+    const rect = event.target.getBoundingClientRect();
+    popup.style.top = (window.scrollY + rect.top - 10) + "px";   // un poco más arriba
+    popup.style.left = (window.scrollX + rect.right + 10) + "px"; // a la derecha
+
+    // Mostrar popup
+    popup.classList.remove("d-none");
+}
+
+// Cerrar popup al hacer click fuera
+document.addEventListener("click", function(e) {
+    const popup = document.getElementById("popupJugador");
+    if (!popup.contains(e.target) && !e.target.classList.contains("jugador")) {
+        popup.classList.add("d-none");
+    }
+});
+
+function cambiarFormacion(nueva) {
+    renderAlineacion(window.jugadores, nueva);
+}
+
+// Inicializamos cuando cargue la página
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.jugadores && window.jugadores.length > 0) {
+        const tactica = document.getElementById("tactica").value;
+        renderAlineacion(window.jugadores, tactica);
+    }
+});
+
+// Script para esconder en el navegador #id
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+link.addEventListener('click', function(e) {
+    const targetId = this.getAttribute('href').substring(1);
+    const target = document.getElementById(targetId);
+
+    if (target) {
+    e.preventDefault(); // Evita que aparezca #en la URL
+    target.scrollIntoView({ behavior: 'smooth' }); // Scroll suave
+    }
+});
+});
