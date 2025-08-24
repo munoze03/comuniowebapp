@@ -271,6 +271,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Script para esconder en el navegador #id
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+link.addEventListener('click', function(e) {
+    const targetId = this.getAttribute('href').substring(1);
+    const target = document.getElementById(targetId);
+
+    if (target) {
+    e.preventDefault(); // Evita que aparezca #en la URL
+    target.scrollIntoView({ behavior: 'smooth' }); // Scroll suave
+    }
+});
+});
+
 // JS de alineacion
 // Posiciones predefinidas para cada táctica
 const posiciones = {
@@ -306,10 +319,38 @@ const posiciones = {
     ]
 };
 
+const tiposPorTactica = {
+    "343": ["portero", "defensa","defensa","defensa",
+            "centrocampista","centrocampista","centrocampista","centrocampista",
+            "delantero","delantero","delantero"],
+    "352": ["portero", "defensa","defensa","defensa",
+            "centrocampista","centrocampista","centrocampista","centrocampista","centrocampista",
+            "delantero","delantero"],
+    "433": ["portero", "defensa","defensa","defensa","defensa",
+            "centrocampista","centrocampista","centrocampista",
+            "delantero","delantero","delantero"],
+    "442": ["portero", "defensa","defensa","defensa","defensa",
+            "centrocampista","centrocampista","centrocampista","centrocampista",
+            "delantero","delantero"],
+    "451": ["portero", "defensa","defensa","defensa","defensa",
+            "centrocampista","centrocampista","centrocampista","centrocampista","centrocampista",
+            "delantero"]
+};
+
+// Mapeo abreviaturas a tipos completos
+const tipoMap = {
+    PO: "portero",
+    DF: "defensa",
+    ME: "centrocampista",
+    DL: "delantero"
+};
+
+// Función de renderizado de alineación
 function renderAlineacion(jugadores, tactica) {
     const cancha = document.getElementById("cancha");
+    if(!cancha) return;
 
-    // Mantener las líneas del campo
+    // Líneas del campo
     cancha.innerHTML = `
         <div class="linea-media"></div>
         <div class="centro-campo"></div>
@@ -321,59 +362,145 @@ function renderAlineacion(jugadores, tactica) {
     `;
 
     const coords = posiciones[tactica];
-    if (!coords) return;
+    const tipos = tiposPorTactica[tactica];
+    if (!coords || !tipos) return;
 
-    const total = jugadores.length;
+    const jugadoresPorTipo = {
+        portero: jugadores.filter(j => tipoMap[j.type] === 'portero'),
+        defensa: jugadores.filter(j => tipoMap[j.type] === 'defensa'),
+        centrocampista: jugadores.filter(j => tipoMap[j.type] === 'centrocampista'),
+        delantero: jugadores.filter(j => tipoMap[j.type] === 'delantero')
+    };
 
-    jugadores.forEach(jugador => {
-        // Invertir: 1 = delantero, 11 = portero
-        const realPos = total - jugador.position + 1;
+    const contadores = { portero:0, defensa:0, centrocampista:0, delantero:0 };
 
-        const pos = coords[realPos - 1];
-        if (!pos) return;
+    tipos.forEach((tipo, index) => {
+        const pos = coords[index];
+        if(!pos) return;
+
+        const jugadoresTipo = jugadoresPorTipo[tipo];
+        const jugador = jugadoresTipo[contadores[tipo]] || null;
+        contadores[tipo]++;
 
         const div = document.createElement("div");
         div.className = "jugador";
         div.style.left = pos.x + "%";
         div.style.top = pos.y + "px";
-        div.innerHTML = `<img src="${jugador.photo}" title="${jugador.name}">`;
-        div.onclick = () => mostrarInfoJugador(jugador);
+
+        if(jugador){
+            div.className = "jugador-container"; // ahora usamos este contenedor
+            div.innerHTML = `
+                <img src="${jugador.photo}" class="foto-jugador" title="${jugador.name}">
+                <div class="live-points" style="background-color: ${getBgColorLivePoints(jugador.livePoints)};">
+                    ${jugador.livePoints}
+                </div>
+                <img src="${jugador.clubLogo}" class="club-logo" alt="${jugador.clubName}">
+            `;
+            div.onclick = () => mostrarInfoJugador(jugador);
+        } else {
+            div.className = "jugador-container";
+            div.style.backgroundColor = 'rgba(255,255,255,0.2)';
+            div.style.border = '1px dashed rgba(255,255,255,0.4)';
+            div.style.borderRadius = '50%';
+
+            // click para seleccionar jugador libre en ese slot
+            div.onclick = () => mostrarInfoJugador({
+                id: null,
+                name: "Vacío",
+                clubName: "",
+                photo: "",
+                clubLogo: "",
+                points: "-",
+                livePoints: "-",
+                type: tipo,        // este viene de tiposPorTactica[index]
+                position: index,   // posición concreta en el campo
+                tactic: tactica
+            });
+        }
+
         cancha.appendChild(div);
     });
+
+    // Actualizamos la suma de puntos live global
+    actualizarPuntosLive();
 }
 
-function mostrarInfoJugador(jugador, event) {
-    const popup = document.getElementById("popupJugador");
+function mostrarInfoJugador(jugador) {
+    const infoJugador = document.getElementById("infoJugador");
+    const infoVacio = document.getElementById("infoVacio");
 
-    // Rellenar datos
-    document.getElementById("popupFoto").src = jugador.photo;
-    document.getElementById("popupNombre").textContent = jugador.name;
-    document.getElementById("popupClub").textContent = jugador.clubName;
-    document.getElementById("popupPuntos").textContent = jugador.points;
-    document.getElementById("popupLive").textContent = jugador.livePoints;
+    if (jugador.id) {
+        // Caso: jugador alineado
+        infoJugador.classList.remove("d-none");
+        infoVacio.classList.add("d-none");
 
-    // Posicionar al lado del jugador (arriba a la derecha)
-    const rect = event.target.getBoundingClientRect();
-    popup.style.top = (window.scrollY + rect.top - 10) + "px";   // un poco más arriba
-    popup.style.left = (window.scrollX + rect.right + 10) + "px"; // a la derecha
+        document.getElementById("jugadorFoto").src = jugador.photo;
+        document.getElementById("jugadorNombre").textContent = jugador.name;
+        document.getElementById("jugadorClub").textContent = jugador.clubName;
+        document.getElementById("jugadorPosicion").textContent = jugador.type;
+        document.getElementById("jugadorPuntos").textContent = jugador.points;
+        document.getElementById("jugadorLive").textContent = jugador.livePoints;
+    } else {
+        // Caso: hueco vacío
+        infoJugador.classList.add("d-none");
+        infoVacio.classList.remove("d-none");
 
-    // Mostrar popup
-    popup.classList.remove("d-none");
-}
-
-// Cerrar popup al hacer click fuera
-document.addEventListener("click", function(e) {
-    const popup = document.getElementById("popupJugador");
-    if (!popup.contains(e.target) && !e.target.classList.contains("jugador")) {
-        popup.classList.add("d-none");
+        // Mostrar tipo de posición en el título
+        document.getElementById("jugadorModalLabel").textContent = 
+            "Hueco en " + jugador.type.charAt(0).toUpperCase() + jugador.type.slice(1);
     }
-});
+
+    // Filtrar sustitutos disponibles
+    const disponibles = (window.plantilla || []).filter(p =>
+        tipoMap[p.posicion] === jugador.type &&
+        !p.linedup
+    );
+
+    const lista = document.getElementById("jugadoresDisponibles");
+    lista.innerHTML = "";
+    if (disponibles.length === 0) {
+        lista.innerHTML = `<small class="text-muted">No hay sustitutos disponibles</small>`;
+    } else {
+        disponibles.forEach(p => {
+            const item = document.createElement("button");
+            item.className = "list-group-item list-group-item-action d-flex align-items-center";
+            item.innerHTML = `
+                <img src="${p.hrefFoto}" class="rounded me-2" width="30" height="30">
+                <div class="flex-fill">
+                    <strong>${p.name}</strong> <small class="text-muted">(${p.club})</small>
+                </div>
+                <span class="badge bg-info">${p.mediaPuntos}</span>
+            `;
+            item.onclick = () => cambiarJugador(jugador, p);
+            lista.appendChild(item);
+        });
+    }
+
+    // Mostrar modal
+    const modal = new bootstrap.Modal(document.getElementById("jugadorModal"));
+    modal.show();
+}
 
 function cambiarFormacion(nueva) {
+    // Primero liberamos a todos los jugadores de plantilla
+    if (window.plantilla) {
+        window.plantilla.forEach(p => p.linedup = false);
+    }
+
+    // Y luego marcamos como linedup solo los que están realmente en la nueva alineación
+    if (window.jugadores) {
+        window.jugadores.forEach(j => {
+            const jugadorPlantilla = (window.plantilla || []).find(p => p.id === j.id);
+            if (jugadorPlantilla) {
+                jugadorPlantilla.linedup = true;
+            }
+        });
+    }
+
     renderAlineacion(window.jugadores, nueva);
 }
 
-// Inicializamos cuando cargue la página
+// Inicialización al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
     if (window.jugadores && window.jugadores.length > 0) {
         const tactica = document.getElementById("tactica").value;
@@ -381,15 +508,75 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Script para esconder en el navegador #id
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-link.addEventListener('click', function(e) {
-    const targetId = this.getAttribute('href').substring(1);
-    const target = document.getElementById(targetId);
+// Función para actualizar la suma de puntos live de Alineacion
+// Actualizar puntos live global
+function actualizarPuntosLive() {
+    if (!window.jugadores || window.jugadores.length === 0) return;
 
-    if (target) {
-    e.preventDefault(); // Evita que aparezca #en la URL
-    target.scrollIntoView({ behavior: 'smooth' }); // Scroll suave
+    const totalLive = window.jugadores.reduce((sum, j) => {
+        const puntos = parseFloat(j.livePoints);
+        return sum + (isNaN(puntos) ? 0 : puntos);
+    }, 0);
+
+    const span = document.getElementById("livePoints");
+    if(span) span.textContent = totalLive;
+}
+
+// Actualizamos los puntos live cada 30 segundos
+setInterval(() => {
+    // Aquí podrías recargar window.jugadores desde tu API si quieres puntos live reales
+    actualizarPuntosLive();
+}, 30000);
+
+// Funcion para colorear puntos Live de alineacion 
+function getBgColorLivePoints(puntos) {
+    const p = parseFloat(puntos);
+    if (isNaN(p)) return 'rgba(255,255,255,0.6)'; // neutro para "-"
+    if (p < 0) return '#dc3545';      // rojo
+    if (p <= 4) return '#fd7e14';     // naranja
+    return '#28a745';                  // verde
+}
+
+function cambiarJugador(sale, entra) {
+    // Marcar estados
+    if (sale && sale.id) {
+        const jugadorPlantillaSale = window.plantilla.find(p => p.id === sale.id);
+        if (jugadorPlantillaSale) jugadorPlantillaSale.linedup = false;
     }
-});
-});
+    entra.linedup = true;
+
+    // Buscar posición en alineación
+    if (sale && sale.id) {
+        const index = window.jugadores.findIndex(j => j.id === sale.id);
+        if (index !== -1) {
+            window.jugadores[index] = convertirPlayerAlineacion(entra, sale.position, sale.tactic);
+        }
+    } else {
+        // era un hueco vacío → añadimos en esa position
+        window.jugadores.push(convertirPlayerAlineacion(entra, sale.position, sale.tactic));
+    }
+
+    // Re-render
+    const tactica = document.getElementById("tactica").value;
+    renderAlineacion(window.jugadores, tactica);
+
+    // Cerrar modal
+    const modalEl = document.getElementById("jugadorModal");
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    modal.hide();
+}
+
+function convertirPlayerAlineacion(player, position, tactic) {
+    return {
+        position: position,
+        id: player.id,
+        name: player.name,
+        photo: player.hrefFoto,
+        clubName: player.club,
+        clubLogo: player.hrefClubLogo,
+        points: parseInt(player.puntosTotales),
+        livePoints: player.ultimosPuntos,
+        type: tipoMap[player.posicion],
+        tactic: tactic
+    };
+}

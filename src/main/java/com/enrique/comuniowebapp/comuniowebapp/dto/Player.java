@@ -12,6 +12,7 @@ public class Player {
     private String posicion;
     private int valor;
     private Boolean onMarket;
+    private Boolean linedup;
 
     public String getName() {
         return name;
@@ -79,4 +80,11 @@ public class Player {
     public void setOnMarket(Boolean onMarket) {
         this.onMarket = onMarket;
     }
+    public Boolean getLinedup() {
+        return linedup;
+    }
+    public void setLinedup(Boolean linedup) {
+        this.linedup = linedup;
+    }
+    
 }

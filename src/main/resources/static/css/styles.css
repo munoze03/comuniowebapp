@@ -11157,7 +11157,6 @@ hr {
     color: #20c997;
     font-weight: bold;
 }
-
 /* Campo con líneas estilo premium */
 .linea-media {
     position: absolute;
@@ -11209,44 +11208,88 @@ hr {
     opacity: 0.4;
 }
 
-.area-grande-top { top: 0; border-bottom: none; }
-.area-pequena-top { top: 0; border-bottom: none; }
+.area-grande-top { top: 0}
+.area-pequena-top { top: 0}
 
-.area-grande-bottom { bottom: 0; border-top: none; }
-.area-pequena-bottom { bottom: 0; border-top: none; }
+.area-grande-bottom { bottom: 0}
+.area-pequena-bottom { bottom: 0}
 
-/* Popup flotante */
-.popup-jugador {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.9);
-    color: #fff;
-    border-radius: 10px;
-    padding: 10px;
-    z-index: 100;
-    min-width: 180px;
-    max-width: 220px;
-    font-size: 0.85rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    transition: opacity 0.2s ease-in-out;
-}
-.popup-jugador.d-none {
-    display: none;
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-.popup-content {
-    display: flex;
-    align-items: center;
-}
-
-.popup-content .foto {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
+#jugadorFoto {
     border: 2px solid #20c997;
 }
 
-.popup-info h6 {
-    font-size: 1rem;
-    margin: 0;
+.selector-tactica {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* centra horizontalmente */
+    gap: 10px; /* espacio entre label y select */
+    margin-bottom: 20px;
+}
+
+.selector-tactica label {
+    color: #20c997; /* mismo verde que tus títulos */
+    font-weight: bold;
+}
+
+.jugador-container {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    transform: translate(-50%, -50%);
+}
+
+.foto-jugador {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    z-index: 1;
+}
+
+.live-points {
+    color: #fff;               /* número siempre blanco */
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;        /* pequeño redondeo si quieres */
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    z-index: 10;
+    min-width: 18px;
+    text-align: center;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.club-logo {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+
+/* Estilo para el saldo en la barra lateral */
+.budget-fixed {
+    position: absolute;      /* Fijo en la barra lateral */
+    bottom: 20px;            /* Se puede cambiar a 'top: 20px;' si quieres arriba */
+    left: 50%;               /* Centrado horizontal */
+    transform: translateX(-50%);
+    background-color: rgba(40, 167, 69, 0.9); /* Verde semitransparente */
+    padding: 4px 8px;
+    border-radius: 10px;
+    pointer-events: none;    /* No se puede pulsar */
+    font-weight: bold;
 }

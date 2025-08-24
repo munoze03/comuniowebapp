@@ -5,8 +5,8 @@
 
             <div th:if="${alineacion != null}">
                 <!-- Selector de táctica -->
-                <div class="mb-3">
-                    <label for="tactica" class="form-label">Elige táctica:</label>
+                <div class="selector-tactica">
+                    <label for="tactica">Elige táctica:</label>
                     <select id="tactica" class="form-select form-select-sm w-auto"
                             onchange="cambiarFormacion(this.value)">
                         <option value="343" th:selected="${alineacion[0].tactic == '343'}">3-4-3</option>
@@ -29,23 +29,12 @@
                         <div class="area-grande area-grande-bottom"></div>
                         <div class="area-pequena area-pequena-bottom"></div>
                     </div>
-
-                    <div class="jugador-info" id="jugador-info">
-                        <h5 class="posicion-titulo">Información del jugador</h5>
-                        <p>Selecciona un jugador para ver sus detalles</p>
-                    </div>
                 </div>
-            </div>
 
-            <div id="popupJugador" class="popup-jugador d-none">
-                <div class="popup-content">
-                    <img id="popupFoto" src="" alt="Jugador" class="foto">
-                    <div class="popup-info">
-                    <h6 id="popupNombre" class="mb-1"></h6>
-                    <small id="popupClub" class="text-muted"></small>
-                    <p class="mb-0"><strong>Puntos:</strong> <span id="popupPuntos"></span></p>
-                    <p class="mb-0"><strong>Live:</strong> <span id="popupLive"></span></p>
-                    </div>
+                <!-- Puntos Live -->
+                <div class="selector-tactica">
+                    <label for="livePoints">Puntos Live:</label>
+                    <span id="livePoints" style="color: #20c997; font-weight: bold;">0</span>
                 </div>
             </div>
 
@@ -56,9 +45,46 @@
     </section>
     <hr class="m-0" />
 
+    <!-- Modal de información del jugador -->
+    <div class="modal fade" id="jugadorModal" tabindex="-1" aria-labelledby="jugadorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="posicion-titulo" id="jugadorModalLabel">Información del jugador</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <!-- Datos jugador alineado -->
+                    <div id="infoJugador">
+                        <div class="d-flex align-items-center mb-3">
+                            <img id="jugadorFoto" src="" alt="Jugador" class="rounded me-3" width="60">
+                            <div>
+                            <h6 id="jugadorNombre" class="mb-0"></h6>
+                            <small id="jugadorClub" class="text-muted"></small>
+                            </div>
+                        </div>
+                        <p><strong>Posición:</strong> <span id="jugadorPosicion"></span></p>
+                        <p><strong>Puntos:</strong> <span id="jugadorPuntos"></span></p>
+                        <p><strong>Puntos en vivo:</strong> <span id="jugadorLive"></span></p>
+                    </div>
 
+                    <!-- Mensaje para hueco vacío -->
+                    <div id="infoVacio" class="text-center my-3 d-none">
+                        <p class="text-muted mb-1">No hay jugador en esta posición.</p>
+                        <p class="fw-bold text-success">Selecciona uno de tu plantilla:</p>
+                    </div>
+
+                    <hr>
+                    <h6 class="text-success">Cambiar por:</h6>
+                    <div id="jugadoresDisponibles" class="list-group small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Inyectamos jugadores desde Thymeleaf en JSON -->
     <script th:inline="javascript">
         window.jugadores = /*[[${alineacion}]]*/ [];
+        window.plantilla = /*[[${plantilla}]]*/ [];
     </script>
 </div>

@@ -413,6 +413,7 @@ public class ComunioUserService {
             p.setUltimosPuntos((String) item.get("lastPoints"));
             p.setValor((int) item.get("quotedprice"));
             p.setOnMarket((Boolean) item.get("onMarket"));
+            p.setLinedup((Boolean) item.get("linedup"));
 
             plantilla.add(p);
         }
