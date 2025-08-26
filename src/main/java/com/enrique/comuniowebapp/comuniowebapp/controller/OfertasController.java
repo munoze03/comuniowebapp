@@ -25,7 +25,6 @@ public class OfertasController {
     }
 
     @PostMapping("/vender")
-    
     public String ponerJugadorEnVenta(
         @RequestParam("tradableId") Long tradableId,
         @RequestParam("precio") Integer precio,

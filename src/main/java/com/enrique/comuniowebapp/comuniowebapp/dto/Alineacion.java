@@ -10,6 +10,7 @@ public class Alineacion {
     private String clubLogo;
     private int points;
     private String livePoints;
+    private String lastPoints;
     private String type;
     private String tactic;
 
@@ -72,6 +73,12 @@ public class Alineacion {
     }
     public void setTactic(String tactic) {
         this.tactic = tactic;
+    }
+    public String getLastPoints() {
+        return lastPoints;
+    }
+    public void setLastPoints(String lastPoints) {
+        this.lastPoints = lastPoints;
     }
     
 }

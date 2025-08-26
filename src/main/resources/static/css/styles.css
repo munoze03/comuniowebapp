@@ -11101,6 +11101,19 @@ hr {
   object-fit: contain;
 }
 
+/* Estilo para el saldo en la barra lateral */
+.budget-fixed {
+    position: absolute;      /* Fijo en la barra lateral */
+    bottom: 20px;            /* Se puede cambiar a 'top: 20px;' si quieres arriba */
+    left: 50%;               /* Centrado horizontal */
+    transform: translateX(-50%);
+    background-color: rgba(40, 167, 69, 0.9); /* Verde semitransparente */
+    padding: 4px 8px;
+    border-radius: 10px;
+    pointer-events: none;    /* No se puede pulsar */
+    font-weight: bold;
+}
+
 /* Estilos de alineacion */
 .alineacion-container {
     display: flex;
@@ -11281,15 +11294,3 @@ hr {
 }
 
 
-/* Estilo para el saldo en la barra lateral */
-.budget-fixed {
-    position: absolute;      /* Fijo en la barra lateral */
-    bottom: 20px;            /* Se puede cambiar a 'top: 20px;' si quieres arriba */
-    left: 50%;               /* Centrado horizontal */
-    transform: translateX(-50%);
-    background-color: rgba(40, 167, 69, 0.9); /* Verde semitransparente */
-    padding: 4px 8px;
-    border-radius: 10px;
-    pointer-events: none;    /* No se puede pulsar */
-    font-weight: bold;
-}

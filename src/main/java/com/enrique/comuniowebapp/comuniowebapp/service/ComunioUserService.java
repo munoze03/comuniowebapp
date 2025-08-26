@@ -360,6 +360,7 @@ public class ComunioUserService {
             a.setClubName((String) club.get("name"));
             a.setClubLogo((String) logo.get("href"));
             a.setPoints((int) line.get("points"));
+            a.setLastPoints((String) line.get("lastPoints"));
             a.setLivePoints((String) line.get("livePoints"));
             a.setType(traducirPosicion((String) line.get("type")));
             a.setTactic((String) response.getBody().get("tactic"));
@@ -603,6 +604,22 @@ public class ComunioUserService {
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Error al aceptar la oferta: " + response.getStatusCode());
+        }
+    }
+
+    public void modificarAlineacion(String token, String communityId, String userId, Map<String, Object> payload){
+
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/lineup", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Fallo guardando alineación en Comunio: " + response.getStatusCode());
         }
     }
 

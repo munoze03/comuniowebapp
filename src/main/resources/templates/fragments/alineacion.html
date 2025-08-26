@@ -31,11 +31,27 @@
                     </div>
                 </div>
 
-                <!-- Puntos Live -->
+                <!-- Puntos Live 
                 <div class="selector-tactica">
                     <label for="livePoints">Puntos Live:</label>
                     <span id="livePoints" style="color: #20c997; font-weight: bold;">0</span>
-                </div>
+                </div> -->
+
+                <!-- Boton Guardar nueva alineacion -->
+                <form th:action="@{/alineacion/modificar}" method="post" class="mb-2 selector-tactica" id="alineacionForm">
+                    <!-- Input oculto para táctica seleccionada -->
+                    <input type="hidden" name="tactica" id="inputTactica" th:value="${tacticaSeleccionada}" />
+                    <!-- Aquí generas un input oculto para cada jugador alineado -->
+                    <div th:each="j, iterStat : ${jugadoresAlineados}">
+                        <input type="hidden" th:name="'alineados[' + ${iterStat.index} + '].id'" th:value="${j.id}" />
+                        <input type="hidden" th:name="'alineados[' + ${iterStat.index} + '].position'" th:value="${j.position}" />
+                        <input type="hidden" th:name="'alineados[' + ${iterStat.index} + '].type'" th:value="${j.type}" />
+                        <!-- Puedes añadir más campos si lo necesitas -->
+                    </div>
+                    <button type="submit" class="btn btn-success selector-tactica">
+                        Guardar alineación
+                    </button>
+                </form> 
             </div>
 
             <div th:if="${alineacion == null}" class="alert alert-warning">
