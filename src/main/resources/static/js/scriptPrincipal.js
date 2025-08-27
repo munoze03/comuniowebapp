@@ -312,7 +312,7 @@ link.addEventListener('click', function(e) {
 });
 });
 
-// JS de alineacion
+// JS DE ALINEACION
 // Posiciones predefinidas para cada táctica
 // Posiciones predefinidas para cada táctica
 const posiciones = {

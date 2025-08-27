@@ -1,6 +1,7 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -10,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.AlineacionForm;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -28,7 +32,7 @@ public class AlineacionController {
 
     @PostMapping("/modificar")
     public String modificarAlineacion(
-        @ModelAttribute AlineacionFormDTO alineacionForm,
+        @ModelAttribute AlineacionForm alineacionForm,
         HttpSession session,
         RedirectAttributes redirectAttributes) {
 
@@ -39,11 +43,34 @@ public class AlineacionController {
         String userId = userInfo.getId();
 
         // Construye el payload para Comunio
-        Map<String, Object> payload = new HashMap<>();
+        Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("tactic", alineacionForm.getTactic());
-        payload.put("lineup", alineacionForm.getLineup());
-        payload.put("substitutes", alineacionForm.getSubstitutes());
+
+        Map<String, String> lineup = new LinkedHashMap<>();
+        for (int i = 1; i <= 11; i++) {
+            String jugadorId = alineacionForm.getLineup().get(String.valueOf(i)); // Consigue el id del jugador para la posición i
+            lineup.put(String.valueOf(i), jugadorId);
+        }
+        payload.put("lineup", lineup);
+
+
+        // Contruimos el Map de Substitutes en el orden de la api ya que no tenemos premium y lo anadimos
+        Map<String, String> substitutes = new LinkedHashMap<>();
+        substitutes.put("striker", "");
+        substitutes.put("midfielder", "");
+        substitutes.put("defender", "");
+        substitutes.put("keeper", "");
+        payload.put("substitutes", substitutes);
+
         payload.put("type", alineacionForm.getType());
+
+        System.out.println("Payload enviado a Comunio:");
+        try {
+            System.out.println(new ObjectMapper().writeValueAsString(payload));
+        } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         try {
             // Llama a la API de Comunio

@@ -86,7 +86,6 @@ public class ComunioUserService {
             n.setDate(formatearFecha(date));
 
             String title = (String) entry.get("title");
-            System.out.println(title);
             switch (title.toLowerCase()) {
                 case "transaction" -> title = "Transacción";
                 default -> {
@@ -616,7 +615,7 @@ public class ComunioUserService {
         headers.setBearerAuth(token);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Fallo guardando alineación en Comunio: " + response.getStatusCode());
