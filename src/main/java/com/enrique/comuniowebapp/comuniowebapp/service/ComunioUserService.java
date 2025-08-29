@@ -322,8 +322,14 @@ public class ComunioUserService {
             c.setName((String) user.get("name"));
             c.setPosicion((int) user.get("position"));
             c.setTotalPoints((int) item.get("totalPoints"));
-            c.setTotalPointsLastMatchday((int) item.get("lastPoints"));
 
+            // Creamos un if por si el valor no es int
+            if(item.get("lastPoints").getClass().equals(Integer.class)){
+                c.setTotalPointsLastMatchday((int) item.get("lastPoints"));
+            }else{
+                c.setTotalPointsLastMatchday(0);
+            }
+            
             clasificacion.add(c);
         }
 

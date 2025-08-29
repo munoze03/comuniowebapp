@@ -49,7 +49,7 @@
                     <th:block th:each="i : ${#numbers.sequence(0,10)}">
                         <input type="hidden"
                             th:name="'lineup[' + (${i} + 1) + ']'"
-                            th:value="${alineacion[i].id}" />
+                            th:value="${alineacion[10 - i].id}" />
                     </th:block>
                     <!-- Suplentes en caso de comunio premium (comenta si no lo usas) -->
                     <input type="hidden" name="substitutes[striker]" value="" />

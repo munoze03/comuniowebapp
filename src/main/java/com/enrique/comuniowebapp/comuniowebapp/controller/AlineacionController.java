@@ -48,7 +48,8 @@ public class AlineacionController {
 
         Map<String, String> lineup = new LinkedHashMap<>();
         for (int i = 1; i <= 11; i++) {
-            String jugadorId = alineacionForm.getLineup().get(String.valueOf(i)); // Consigue el id del jugador para la posición i
+            System.out.println(alineacionForm.getLineup().get(String.valueOf(12-i)));
+            String jugadorId = alineacionForm.getLineup().get(String.valueOf(12-i)); // Consigue el id del jugador para la posición i
             lineup.put(String.valueOf(i), jugadorId);
         }
         payload.put("lineup", lineup);

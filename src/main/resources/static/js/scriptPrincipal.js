@@ -639,3 +639,36 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 });
+
+document.getElementById("formAlineacion").addEventListener("submit", function(e) {
+    const tacticaSeleccionada = document.getElementById("tactica").value;
+    document.getElementById("inputTacticHidden").value = tacticaSeleccionada;
+
+    // Borrar inputs antiguos
+    document.querySelectorAll("#formAlineacion input[name^='lineup']").forEach(el => el.remove());
+
+    // Creamos inputs nuevos según el orden fijo de la táctica
+    const orden = tiposPorTactica[tacticaSeleccionada];
+    if (!orden) return; // por seguridad
+
+    // Copia local de jugadores alineados
+    const jugadores = [...(window.jugadores || [])];
+
+    // Usamos un contador para no repetir jugadores
+    const usados = new Set();
+
+    orden.forEach((tipo, idx) => {
+        // Busca el siguiente jugador disponible de ese tipo
+        const jugador = jugadores.find(j => j.type === tipo && j.id && !usados.has(j.id));
+
+        // Creamos el input hidden
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = `lineup[${idx+1}]`;
+        input.value = jugador ? jugador.id : "";
+
+        if (jugador) usados.add(jugador.id);
+
+        document.getElementById("formAlineacion").appendChild(input);
+    });
+});
