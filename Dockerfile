@@ -6,6 +6,8 @@ WORKDIR /app
 
 # Copy the application code
 COPY . .
+RUN chmod +x mvnw
+RUN ./mvnw clean package -DskipTests
 
 # Build the application (requires Maven or Grandle)
 RUN ./mvnw clean package -DskipTests
