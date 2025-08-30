@@ -1,6 +1,5 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -8,14 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.AlineacionForm;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import jakarta.servlet.http.HttpSession;
 
@@ -53,8 +50,6 @@ public class AlineacionController {
             lineup.put(String.valueOf(i), jugadorId);
         }
         payload.put("lineup", lineup);
-
-
         // Contruimos el Map de Substitutes en el orden de la api ya que no tenemos premium y lo anadimos
         Map<String, String> substitutes = new LinkedHashMap<>();
         substitutes.put("striker", "");
@@ -64,14 +59,6 @@ public class AlineacionController {
         payload.put("substitutes", substitutes);
 
         payload.put("type", alineacionForm.getType());
-
-        System.out.println("Payload enviado a Comunio:");
-        try {
-            System.out.println(new ObjectMapper().writeValueAsString(payload));
-        } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
         try {
             // Llama a la API de Comunio

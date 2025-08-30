@@ -11040,6 +11040,7 @@ hr {
 /* Elementos de clasificacion */
 .tipo-total,
 .tipo-jornada,
+.tipo-live,
 .posicion {
     text-align: center;
 }

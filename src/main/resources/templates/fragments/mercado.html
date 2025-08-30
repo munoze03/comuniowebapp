@@ -32,15 +32,8 @@
                                     <h5 class="text-light mb-1" th:text="${m.namePlayer}">Nombre del jugador</h5>
 
                                     <p class="mb-0 text-white-50">
-                                    <span class="label-text">Posición:</span>
-                                    <span th:text="${m.position}"></span>
-                                    </p>
-                                    <p class="mb-0 text-white-50">
-                                        <span class="label-text">Dueño:</span>
-                                        <span th:text="${m.owner}"></span>
-                                        &nbsp;|&nbsp;
-                                        <span class="label-text">Fin:</span>
-                                        <span th:text="${m.remaining} + 'h'"></span>
+                                        <span class="label-text">Posición:</span>
+                                        <span th:text="${m.position}"></span>
                                     </p>
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Valor:</span>
@@ -48,6 +41,10 @@
                                         &nbsp;|&nbsp;
                                         <span class="label-text">Oferta mínima:</span>
                                         <span th:text="${#numbers.formatInteger(m.recommendedPrice, 0, 'POINT')} + ' €'"></span>
+                                    </p>
+                                    <p class="mb-0 text-white-50">
+                                        <span class="label-text">Fin:</span>
+                                        <span th:text="${m.remaining} + 'h'"></span>
                                     </p>
                                 </div>
                             </div>
@@ -142,18 +139,18 @@
                                     <span th:text="${m.position}"></span>
                                     </p>
                                     <p class="mb-0 text-white-50">
-                                        <span class="label-text">Dueño:</span>
-                                        <span th:text="${m.owner}"></span>
-                                        &nbsp;|&nbsp;
-                                        <span class="label-text">Fin:</span>
-                                        <span th:text="${m.remaining} + 'h'"></span>
-                                    </p>
-                                    <p class="mb-0 text-white-50">
                                         <span class="label-text">Valor:</span>
                                         <span th:text="${#numbers.formatInteger(m.price, 0, 'POINT')} + ' €'"></span>
                                         &nbsp;|&nbsp;
                                         <span class="label-text">Oferta mínima:</span>
                                         <span th:text="${#numbers.formatInteger(m.recommendedPrice, 0, 'POINT')} + ' €'"></span>
+                                    </p>
+                                    <p class="mb-0 text-white-50">
+                                        <span class="label-text">Dueño:</span>
+                                        <span th:text="${m.owner}"></span>
+                                        &nbsp;|&nbsp;
+                                        <span class="label-text">Fin:</span>
+                                        <span th:text="${m.remaining} + 'h'"></span>
                                     </p>
                                 </div>
                             </div>

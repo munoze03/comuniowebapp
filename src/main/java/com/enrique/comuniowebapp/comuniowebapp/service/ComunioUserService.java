@@ -23,8 +23,7 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
-
-
+import com.enrique.comuniowebapp.comuniowebapp.dto.Users;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 
 @Service
@@ -62,7 +61,7 @@ public class ComunioUserService {
     }
 
     public List<News> getUserNews(String token, String communityId, String userId){
-        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/news", communityId, userId);
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/news?limit=10", communityId, userId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -170,7 +169,7 @@ public class ComunioUserService {
     }
 
     public List<Oferta> getHistorialOfertas(String token, String communityId, String userId ){
-        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers?limit=20&sort=datechanged", communityId, userId);
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers?limit=10&sort=datechanged", communityId, userId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -304,7 +303,7 @@ public class ComunioUserService {
     }
 
     public List<Clasificacion> getClasificacion(String token, String communityId){
-        String url = String.format("https://www.comunio.es/api/communities/%s/standings?period=total&wpe=true", communityId);
+        String url = String.format("https://www.comunio.es/api/communities/%s/standings?period=live&wpe=true", communityId);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -322,6 +321,7 @@ public class ComunioUserService {
             c.setName((String) user.get("name"));
             c.setPosicion((int) user.get("position"));
             c.setTotalPoints((int) item.get("totalPoints"));
+            c.setLivePoints((int) item.get("livePoints"));
 
             // Creamos un if por si el valor no es int
             if(item.get("lastPoints").getClass().equals(Integer.class)){
@@ -660,4 +660,30 @@ public class ComunioUserService {
         return offerId;
     }
 
+    public List<Users> listadoIds(String token, String communityId){
+        String url = String.format("https://www.comunio.es/api/communities/%s/members", communityId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> members = (List<Map<String, Object>>) response.getBody().get("members");
+        
+        List<Users> users = new ArrayList<>();
+        for (Map<String, Object> member : members){
+
+            Users u = new Users();
+            u.setId((int)member.get("id"));
+            u.setLogin((String)member.get("login"));
+            u.setFirstName((String)member.get("firstName"));
+            u.setLastName((String)member.get("lastName"));
+
+            users.add(u);
+        }
+
+        return users;
+    }
+
+    
 }

@@ -39,6 +39,7 @@ function toggleNoticias() {
 document.addEventListener("DOMContentLoaded", function () {
     const btnTotal = document.getElementById("btnTotal");
     const btnJornada = document.getElementById("btnJornada");
+    const btnLive = document.getElementById("btnLive");
     const tbody = document.querySelector("table.table tbody");
 
     btnTotal.addEventListener("click", function () {
@@ -46,9 +47,12 @@ document.addEventListener("DOMContentLoaded", function () {
         btnTotal.classList.remove("btn-outline-success");
         btnJornada.classList.add("btn-outline-success");
         btnJornada.classList.remove("btn-success");
+        btnLive.classList.add("btn-outline-success");
+        btnLive.classList.remove("btn-success");
 
         document.querySelectorAll(".tipo-total").forEach(e => e.classList.remove("d-none"));
         document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.add("d-none"));
+        document.querySelectorAll(".tipo-live").forEach(e => e.classList.add("d-none"));
 
         ordenarTabla("tipo-total");
     });
@@ -58,12 +62,31 @@ document.addEventListener("DOMContentLoaded", function () {
         btnJornada.classList.remove("btn-outline-success");
         btnTotal.classList.add("btn-outline-success");
         btnTotal.classList.remove("btn-success");
+        btnLive.classList.add("btn-outline-success");
+        btnLive.classList.remove("btn-success");
 
+        document.querySelectorAll(".tipo-live").forEach(e => e.classList.add("d-none"));
         document.querySelectorAll(".tipo-total").forEach(e => e.classList.add("d-none"));
         document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.remove("d-none"));
 
         ordenarTabla("tipo-jornada");
     });
+
+    btnLive.addEventListener("click", function (){
+        btnLive.classList.add("btn-success");
+        btnLive.classList.remove("btn-outline-success");
+        btnJornada.classList.add("btn-outline-success");
+        btnJornada.classList.remove("btn-success");
+        btnTotal.classList.add("btn-outline-success");
+        btnTotal.classList.remove("btn-success");
+        
+
+        document.querySelectorAll(".tipo-total").forEach(e => e.classList.add("d-none"));
+        document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.add("d-none"));
+        document.querySelectorAll(".tipo-live").forEach(e => e.classList.remove("d-none"));
+
+        ordenarTabla("tipo-live");
+    })
 
     function ordenarTabla(tipo) {
         // tipo: "tipo-total" o "tipo-jornada"

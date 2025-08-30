@@ -13,6 +13,7 @@
                     <div class="btn-group" role="group" aria-label="Selector de clasificación">
                         <button id="btnTotal" type="button" class="btn btn-success">Puntos Totales</button>
                         <button id="btnJornada" type="button" class="btn btn-outline-success">Última Jornada</button>
+                        <button id="btnLive" type="button" class="btn btn-outline-success">Live</button>
                     </div>
                 </div>
 
@@ -23,19 +24,16 @@
                             <th>Usuario</th>
                             <th class="tipo-total">Puntos</th>
                             <th class="tipo-jornada d-none">Puntos</th>
+                            <th class="tipo-live d-none">Puntos</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="c, stat : ${clasificacion}">
-                            <td>
-                                <span th:text="${stat.count}"></span>
-                                <span th:if="${stat.first}">⭐</span>
-                                <span th:if="${stat.last}">🚨</span>
-                            </td>
+                            <td><span th:text="${stat.count}"></span></td>
                             <td th:text="${c.name}"></td>
                             <td class="tipo-total" th:text="${c.totalPoints}"></td>
                             <td class="tipo-jornada d-none" th:text="${c.totalPointsLastMatchday}"></td>
-                            
+                            <td class="tipo-live d-none" th:text="${c.livePoints}"></td>
                         </tr>
                     </tbody>
                 </table>

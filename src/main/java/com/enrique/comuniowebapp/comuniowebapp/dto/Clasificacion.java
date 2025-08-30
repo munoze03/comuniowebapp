@@ -5,6 +5,7 @@ public class Clasificacion {
     private String name;
     private int totalPoints;
     private int totalPointsLastMatchday;
+    private int livePoints;
 
     public int getPosicion() {
         return posicion;
@@ -30,4 +31,11 @@ public class Clasificacion {
     public void setTotalPointsLastMatchday(int totalPointsLastMatchday) {
         this.totalPointsLastMatchday = totalPointsLastMatchday;
     }
+    public int getLivePoints() {
+        return livePoints;
+    }
+    public void setLivePoints(int livePoints) {
+        this.livePoints = livePoints;
+    }
+    
 }
