@@ -13,6 +13,8 @@ public class UserInfo {
     private String communityId;
     private String communityName;
     private String budget;
+    private Boolean isLeader;
+    private String lastAction;
 
     public String getId() {
         return id;
@@ -86,4 +88,17 @@ public class UserInfo {
     public void setBudget(String budget) {
         this.budget = budget;
     }
+    public Boolean getIsLeader() {
+        return isLeader;
+    }
+    public void setIsLeader(Boolean isLeader) {
+        this.isLeader = isLeader;
+    }
+    public String getLastAction() {
+        return lastAction;
+    }
+    public void setLastAction(String lastAction) {
+        this.lastAction = lastAction;
+    }
+    
 }

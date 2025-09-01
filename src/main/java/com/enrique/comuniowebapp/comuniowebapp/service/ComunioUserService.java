@@ -22,6 +22,7 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Transactions;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Users;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
@@ -56,6 +57,7 @@ public class ComunioUserService {
         info.setCommunityId(String.valueOf(((Map) data.get("community")).get("id")));
         info.setCommunityName(String.valueOf(((Map) data.get("community")).get("name")));
         info.setBudget(String.valueOf(((Map) data.get("user")).get("budget")));
+        info.setIsLeader(Boolean.valueOf((boolean) ((Map) data.get("user")).get("isLeader")));
 
         return info;
     }
@@ -660,7 +662,7 @@ public class ComunioUserService {
         return offerId;
     }
 
-    public List<Users> listadoIds(String token, String communityId){
+    public List<UserInfo> listadoIds(String token, String communityId){
         String url = String.format("https://www.comunio.es/api/communities/%s/members", communityId);
 
         HttpHeaders headers = new HttpHeaders();
@@ -670,19 +672,55 @@ public class ComunioUserService {
         ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
         List<Map<String, Object>> members = (List<Map<String, Object>>) response.getBody().get("members");
         
-        List<Users> users = new ArrayList<>();
+        List<UserInfo> users = new ArrayList<>();
         for (Map<String, Object> member : members){
 
-            Users u = new Users();
-            u.setId((int)member.get("id"));
-            u.setLogin((String)member.get("login"));
+            UserInfo u = new UserInfo();
+            u.setId(String.valueOf((int)member.get("id")));
+            u.setName((String)member.get("login"));
             u.setFirstName((String)member.get("firstName"));
             u.setLastName((String)member.get("lastName"));
+            u.setIsLeader((Boolean)member.get("leader"));
+            u.setLastAction((String)member.get("lastaction"));
 
             users.add(u);
         }
 
         return users;
+    }
+
+    public List<Transactions> getTransacciones(String token, String communityId, String userId){
+        String url = String.format("https://www.comunio.es/api/communities/1715327/users/4627585/offers?type=UNDOABLE", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+
+        List<Transactions> transacciones = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Transactions t = new Transactions();
+            t.setId((int)item.get("id"));
+            Map<String, Object> tradable = (Map<String, Object>) item.get("tradable");
+            t.setPlayerId((int)tradable.get("id"));
+            String name = (String)tradable.get("name");
+            name = name.replaceAll("for ", "por ");
+            t.setName(name);
+            t.setPurchasePrice((int)tradable.get("purchasePrice"));
+            Map<String, Object> owner = (Map<String, Object>)item.get("owner");
+            t.setPropietarioId((int)owner.get("id"));
+            t.setPropietarioNombre((String)owner.get("name"));
+            Map<String, Object> comprador = (Map<String, Object>)item.get("customer");
+            t.setCompradorId((int)comprador.get("id"));
+            t.setCompradorNombre((String)comprador.get("name"));
+
+            transacciones.add(t);
+        }
+
+        return transacciones;
+
     }
 
     

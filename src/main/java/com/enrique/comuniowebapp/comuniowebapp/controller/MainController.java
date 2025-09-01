@@ -13,6 +13,7 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Transactions;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
 
@@ -111,6 +112,13 @@ public class MainController {
         session.setAttribute("historialOfertas", historialOfertas);  
         //Cargamos el historial de ofertas en el modelo
         model.addAttribute("historialOfertas", historialOfertas);
+
+        //Capturamos el historial de transacciones
+        List<Transactions> historialTransacciones = userService.getTransacciones(token, userInfo.getCommunityId(), userInfo.getId());
+        //Guardamos el historial de transacciones en la sesion
+        session.setAttribute("historialTransacciones", historialTransacciones);
+        //Cargamos el historial de transacciones en el modelo
+        model.addAttribute("historialTransacciones", historialTransacciones);
 
         return "main";
     }
