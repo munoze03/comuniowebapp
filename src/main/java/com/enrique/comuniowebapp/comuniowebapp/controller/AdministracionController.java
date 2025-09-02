@@ -29,7 +29,6 @@ public class AdministracionController {
     @PostMapping("/guardar")
     public String abonoSancion(
         @ModelAttribute AdministracionForm administracionForm,
-        @RequestParam String usuarioId,
         HttpSession session,
         RedirectAttributes redirectAttributes) {
 
@@ -37,7 +36,7 @@ public class AdministracionController {
         UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
         String token = (String) session.getAttribute("token");
         String communityId = userInfo.getCommunityId();
-        String userId = usuarioId;
+        String userId = administracionForm.getId();
 
         // Confirmamos que la cantidad sea para abono o sancion
         int cantidad = administracionForm.getCantidad();

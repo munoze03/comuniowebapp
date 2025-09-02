@@ -123,7 +123,7 @@
                                     <!-- Selector Miembro -->
                                     <div class="col-md-4">
                                         <label for="usuario" class="form-label text-white">Usuario</label>
-                                        <select class="form-select" id="usuario" name="usuarioId">
+                                        <select class="form-select" id="usuario" name="id">
                                             <option value="" disabled selected>Selecciona usuario...</option>
                                             <option th:each="d : ${datosUsuarios}" th:value="${d.id}" th:text="${d.firstName} + ' ' + ${d.lastName}"></option>
                                         </select>
@@ -132,7 +132,7 @@
                                     <!-- Cantidad -->
                                     <div class="col-md-4">
                                         <label for="cantidad" class="form-label text-white">Cantidad</label>
-                                        <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Introduce cantidad">
+                                        <input type="number" class="form-control" min="0" id="cantidad" name="cantidad" placeholder="Introduce cantidad">
                                     </div>
                                 </div>
 
