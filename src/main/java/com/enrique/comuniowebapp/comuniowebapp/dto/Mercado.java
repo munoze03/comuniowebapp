@@ -16,6 +16,7 @@ public class Mercado {
     private boolean esMio;
     private boolean tieneOferta;
     private int miOferta;
+    private String puntos;
     
     public int getId() {
         return id;
@@ -106,6 +107,12 @@ public class Mercado {
     }
     public void setMiOferta(int miOferta) {
         this.miOferta = miOferta;
+    }
+    public String getPuntos() {
+        return puntos;
+    }
+    public void setPuntos(String puntos) {
+        this.puntos = puntos;
     }
 
 }

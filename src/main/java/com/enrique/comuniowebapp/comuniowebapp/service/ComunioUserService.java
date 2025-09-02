@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -165,6 +164,7 @@ public class ComunioUserService {
             }else{
                 o.setEsRealizadaPorMi(false);
             }
+            o.setPoints((int) tradable.get("points"));
 
             ofertas.add(o);
         }
@@ -240,6 +240,7 @@ public class ComunioUserService {
             }else{
                 o.setEsRealizadaPorMi(false);
             }
+            o.setPoints((int) tradable.get("points"));
 
             historialOfertas.add(o);
         }
@@ -286,6 +287,7 @@ public class ComunioUserService {
             }else{
                 m.setEsMio(false);
             }
+            m.setPuntos((String)jugador.get("points"));
 
             //Llamamos a ofertas para ver si algun jugador del mercado tiene ofertas realizadas por el mismo
             List<Oferta> listaOfertas = getOfertas(token, communityId, userId);

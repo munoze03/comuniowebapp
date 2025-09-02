@@ -13,8 +13,16 @@
                         <!-- Contenido de la izquierda -->
                         <div class="d-flex align-items-center">
                             <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
+                                <!-- Imagen del jugador -->
                                 <img th:src="${p.hrefFoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                
+                                <!-- Logo del club -->
                                 <img th:src="${p.hrefClubLogo}" alt="Logo club" class="club-logo" />
+
+                                <!-- Barra de puntos -->
+                                <div class="player-points">
+                                    <span th:text="${p.puntosTotales}">10</span>
+                                </div>
                             </div>
 
                             <div>

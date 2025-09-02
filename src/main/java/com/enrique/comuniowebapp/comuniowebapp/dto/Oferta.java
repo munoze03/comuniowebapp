@@ -18,6 +18,7 @@ public class Oferta {
     private boolean esRealizadaPorMi;
     private int credito;
     private int offerId;
+    private int points;
 
     public int getId() {
         return id;
@@ -120,6 +121,12 @@ public class Oferta {
     }
     public void setOfferId(int offerId) {
         this.offerId = offerId;
+    }
+    public int getPoints() {
+        return points;
+    }
+    public void setPoints(int points) {
+        this.points = points;
     }
     
     

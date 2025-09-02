@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.AdministracionForm;
@@ -17,7 +16,7 @@ import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/abono")
+@RequestMapping("/administracion")
 public class AdministracionController {
 
     private final ComunioUserService comunioUserService;
@@ -26,7 +25,7 @@ public class AdministracionController {
         this.comunioUserService = comunioUserService;
     }
 
-    @PostMapping("/guardar")
+    @PostMapping("/abonoSancion")
     public String abonoSancion(
         @ModelAttribute AdministracionForm administracionForm,
         HttpSession session,
@@ -64,4 +63,11 @@ public class AdministracionController {
         return "redirect:/main";
     }
 
+    @PostMapping("/eliminarTransaccion")
+    public void eliminarTransaccion(
+        @ModelAttribute AdministracionForm administracionForm,
+        HttpSession session,
+        RedirectAttributes redirectAttributes){
+
+    }
 }

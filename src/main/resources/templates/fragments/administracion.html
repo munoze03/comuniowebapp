@@ -24,7 +24,7 @@
                             </div>
 
                             <div th:if="${!#lists.isEmpty(historialTransacciones)}">
-                                <form id="transaccionesForm" method="post" action="/transacciones/eliminar">
+                                <form id="transaccionesForm" method="post" action="/administracion/eliminarTransaccion">
                                     <div id="transaccionesContainer">
                                         <div th:each="t, iterStat : ${historialTransacciones}" 
                                             th:classappend="${iterStat.index >= 5} ? 'd-none extra-transacciones' : ''" 
@@ -108,7 +108,7 @@
                     <div id="collapseMiembros" class="accordion-collapse collapse" 
                         aria-labelledby="headingMiembros" data-bs-parent="#accordionPrincipal">
                         <div class="accordion-body">
-                            <form th:action="@{/abono/guardar}" th:value="${administracionForm}" method="post">
+                            <form th:action="@{/administracion/abonoSancion}" th:value="${administracionForm}" method="post">
                                 <div class="row mb-3 align-items-end">
                                     <!-- Selector Tipo -->
                                     <div class="col-md-4">
