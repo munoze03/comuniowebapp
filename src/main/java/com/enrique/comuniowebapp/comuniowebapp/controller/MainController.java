@@ -120,6 +120,13 @@ public class MainController {
         //Cargamos el historial de transacciones en el modelo
         model.addAttribute("historialTransacciones", historialTransacciones);
 
+        //Capturamos los datos de los usuarios
+        List<UserInfo> datosUsuarios = userService.getListadoIds(token, userInfo.getCommunityId());
+        //Guardamos los datos de los usuarios en la sesion
+        session.setAttribute("datosUsuarios", datosUsuarios);
+        //Cargamos los datos de los usuarios en el modelo
+        model.addAttribute("datosUsuarios", datosUsuarios);
+
         return "main";
     }
 }

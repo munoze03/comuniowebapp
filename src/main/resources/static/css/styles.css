@@ -11294,4 +11294,15 @@ hr {
     z-index: 10;
 }
 
+/* ESTILOS PARA ADMINISTRACION */
+.green-dot {
+    color: #28a745; /* Verde */
+    font-size: 18px;
+    font-weight: bold;
+}
 
+.orange-dot {
+    color: #fd7e14; /* Naranja */
+    font-size: 18px;
+    font-weight: bold;
+}

@@ -3,10 +3,13 @@ package com.enrique.comuniowebapp.comuniowebapp.service;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -24,7 +27,6 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Transactions;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
-import com.enrique.comuniowebapp.comuniowebapp.dto.Users;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 
 @Service
@@ -662,7 +664,7 @@ public class ComunioUserService {
         return offerId;
     }
 
-    public List<UserInfo> listadoIds(String token, String communityId){
+    public List<UserInfo> getListadoIds(String token, String communityId){
         String url = String.format("https://www.comunio.es/api/communities/%s/members", communityId);
 
         HttpHeaders headers = new HttpHeaders();
@@ -681,7 +683,16 @@ public class ComunioUserService {
             u.setFirstName((String)member.get("firstName"));
             u.setLastName((String)member.get("lastName"));
             u.setIsLeader((Boolean)member.get("leader"));
-            u.setLastAction((String)member.get("lastaction"));
+
+            String lastAction = (String)member.get("lastaction");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
+            OffsetDateTime fecha = OffsetDateTime.parse(lastAction, formatter);
+            long dias = ChronoUnit.DAYS.between(fecha, OffsetDateTime.now());
+            if(dias > 5){
+                u.setLastAction("naranja");
+            }else{
+                u.setLastAction("verde");
+            }
 
             users.add(u);
         }
@@ -723,5 +734,20 @@ public class ComunioUserService {
 
     }
 
+    public void abonoSancion(String token, String communityId, String userId, Map<String, Object> payload){
+
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/penalties", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()){
+            throw new RuntimeException("Fallo guardando Sancion/Abono: " + response.getStatusCode());
+        }
+    }
     
 }
