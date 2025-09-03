@@ -14,8 +14,8 @@
                         <div class="d-flex align-items-center">
                             <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
                                 <!-- Imagen del jugador -->
-                                <img th:src="${p.hrefFoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
-                                
+                                <img th:src="${p.hrefFoto}" th:attr="data-id=${p.id}" alt="Foto jugador" class="rounded-circle fotoPlantilla" width="60" height="60"/>
+
                                 <!-- Logo del club -->
                                 <img th:src="${p.hrefClubLogo}" alt="Logo club" class="club-logo" />
 
@@ -88,4 +88,10 @@
         </div>
     </section>
     <hr class="m-0" />
+    <!-- Modal de información del jugador -->
+    <div th:replace="fragments/jugadorModal :: jugadorModal"></div>
+    <!-- Inyectamos jugadores desde Thymeleaf en JSON -->
+    <script th:inline="javascript">
+        window.plantilla = /*[[${plantilla}]]*/ [];
+    </script>
 </div>

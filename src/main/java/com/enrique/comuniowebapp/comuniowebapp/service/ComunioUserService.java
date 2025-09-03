@@ -110,6 +110,9 @@ public class ComunioUserService {
             cleanedHtml = cleanedHtml.replaceAll("to", "a");
             cleanedHtml = cleanedHtml.replaceAll("<br /><br />", " ");
             cleanedHtml = cleanedHtml.replaceAll("\\b\\d{1,2}:\\d{2}\\b - ", " ");
+            cleanedHtml = cleanedHtml.replaceAll("The transfer of", "El fichaje del jugador");
+            cleanedHtml = cleanedHtml.replaceAll("for", "para");
+            cleanedHtml = cleanedHtml.replaceAll("was undone by", "ha sido cancelado por");
 
             n.setMessageHtml(cleanedHtml);
 
@@ -752,4 +755,19 @@ public class ComunioUserService {
         }
     }
     
+    public void anularFichajeAdministracion(String token, String communityId, String userId, Map<String, Object> payload){
+
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/offers", communityId, userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Fallo guardando alineación en Comunio: " + response.getStatusCode());
+        }
+    }
 }

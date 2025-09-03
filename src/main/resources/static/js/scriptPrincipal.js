@@ -736,3 +736,34 @@ function toggleTransacciones(boton) {
 
 // Inicializar: ocultar botón "Mostrar menos" al inicio
 document.getElementById('mostrarMenosBtn').classList.add('d-none');
+
+// Scripts para mostrar modalJugador en plantilla
+document.querySelectorAll('.fotoPlantilla').forEach(img => {
+    img.addEventListener('click', function() {
+        const playerId = this.dataset.id;
+        const player = window.plantilla.find(p => p.id == playerId);
+        if (!player) return;
+        console.log(player.name, player.id);
+        // Aquí puedes llamar a tu función pasando userData
+        mostrarInfoJugadoralineacion(player);
+    });
+});
+
+
+function mostrarInfoJugadoralineacion(player) {
+    const jugador = {
+                id: player.id,
+                name: player.name,
+                clubName: player.club,
+                photo: player.hrefFoto,
+                clubLogo: player.hrefClubLogo,
+                points: player.puntosTotales,
+                livePoints: player.mediaPuntos,
+                lastPoints: player.ultimosPuntos,
+                type: player.posicion,
+                position: 0,
+                tactic: "343" // da igual, solo es para compatibilidad
+            };
+    mostrarInfoJugador(jugador) 
+}
+

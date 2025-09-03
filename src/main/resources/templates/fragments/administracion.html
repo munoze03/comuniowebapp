@@ -24,7 +24,7 @@
                             </div>
 
                             <div th:if="${!#lists.isEmpty(historialTransacciones)}">
-                                <form id="transaccionesForm" method="post" action="/administracion/eliminarTransaccion">
+                                <form id="transaccionesForm" method="post" action="/administracion/anularFichajeAdministracion">
                                     <div id="transaccionesContainer">
                                         <div th:each="t, iterStat : ${historialTransacciones}" 
                                             th:classappend="${iterStat.index >= 5} ? 'd-none extra-transacciones' : ''" 
