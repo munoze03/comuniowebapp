@@ -82,7 +82,7 @@
                                     </thead>
                                     <tbody>
                                         <tr th:each="d, stat : ${datosUsuarios}">
-                                            <td th:text="${d.firstName} + ' ' + ${d.lastName} + ' (' + ${d.name} + ')'"></td>
+                                            <td th:text="${#strings.capitalize(d.firstName)} + ' ' + ${#strings.capitalize(d.lastName)}"></td>
                                             <td style="text-align: center;" th:text="${d.isLeader} ? 'Sí' : 'No'"></td>
                                             <td style="text-align: center;">
                                                 <span class="orange-dot" th:if="${d.lastAction == 'naranja'}">●</span>
@@ -125,7 +125,7 @@
                                         <label for="usuario" class="form-label text-white">Usuario</label>
                                         <select class="form-select" id="usuario" name="id">
                                             <option value="" disabled selected>Selecciona usuario...</option>
-                                            <option th:each="d : ${datosUsuarios}" th:value="${d.id}" th:text="${d.firstName} + ' ' + ${d.lastName}"></option>
+                                            <option th:each="d : ${datosUsuarios}" th:value="${d.id}" th:text="${#strings.capitalize(d.firstName)} + ' ' + ${#strings.capitalize(d.lastName)}"></option>
                                         </select>
                                     </div> 
 

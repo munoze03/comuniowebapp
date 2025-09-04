@@ -36,9 +36,6 @@
 
                                 <!-- Puntos -->
                                 <p class="mb-0 text-white-50">
-                                    <span class="label-text">Puntos totales:</span>
-                                    <span th:text="${p.puntosTotales}">-</span>
-                                    &nbsp;|&nbsp;
                                     <span class="label-text">Últimos:</span>
                                     <span th:text="${p.ultimosPuntos}">0</span>
                                     &nbsp;|&nbsp;
@@ -90,7 +87,7 @@
     <hr class="m-0" />
     <!-- Modal de información del jugador -->
     <div th:replace="fragments/jugadorModal :: jugadorModal"></div>
-    <!-- Inyectamos jugadores desde Thymeleaf en JSON -->
+    <!-- Inyectamos jugadores desde Thymeleaf en JSON para el Modal -->
     <script th:inline="javascript">
         window.plantilla = /*[[${plantilla}]]*/ [];
     </script>

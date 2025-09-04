@@ -111,7 +111,7 @@ public class ComunioUserService {
             cleanedHtml = cleanedHtml.replaceAll("<br /><br />", " ");
             cleanedHtml = cleanedHtml.replaceAll("\\b\\d{1,2}:\\d{2}\\b - ", " ");
             cleanedHtml = cleanedHtml.replaceAll("The transfer of", "El fichaje del jugador");
-            cleanedHtml = cleanedHtml.replaceAll("for", "para");
+            cleanedHtml = cleanedHtml.replaceAll("for", "por");
             cleanedHtml = cleanedHtml.replaceAll("was undone by", "ha sido cancelado por");
 
             n.setMessageHtml(cleanedHtml);

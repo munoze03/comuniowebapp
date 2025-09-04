@@ -25,7 +25,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
                                     <!-- Imagen del jugador -->
-                                    <img th:src="${m.urlPhoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                    <img th:src="${m.urlPhoto}" th:attr="data-id=${m.id}" alt="Foto jugador" class="rounded-circle fotoMercado" width="60" height="60" />
                                     
                                     <!-- Logo del club -->
                                     <img th:src="${m.urlPhotoClub}" alt="Logo club" class="club-logo" />
@@ -136,7 +136,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
                                     <!-- Imagen del jugador -->
-                                    <img th:src="${m.urlPhoto}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                    <img th:src="${m.urlPhoto}" th:attr="data-id=${m.id}" alt="Foto jugador" class="rounded-circle fotoMercado" width="60" height="60" />
                                     
                                     <!-- Logo del club -->
                                     <img th:src="${m.urlPhotoClub}" alt="Logo club" class="club-logo" />
@@ -254,4 +254,10 @@
         </div>
     </section>
     <hr class="m-0" />
+    <!-- Modal de información del jugador -->
+    <div th:replace="fragments/jugadorModal :: jugadorModal"></div>
+    <!-- Inyectamos jugadores desde Thymeleaf en JSON para el Modal -->
+    <script th:inline="javascript">
+        window.mercado = /*[[${mercadoList}]]*/ [];
+    </script>
 </div>

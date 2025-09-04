@@ -553,17 +553,22 @@ function renderAlineacion(jugadores, tactica) {
 function mostrarInfoJugador(jugador) {
     const infoJugador = document.getElementById("infoJugador");
     const infoVacio = document.getElementById("infoVacio");
+    const seccionCambioJugador = document.getElementById("seccionCambioJugador");
+
 
     if (jugador.id) {
         infoJugador.classList.remove("d-none");
         infoVacio.classList.add("d-none");
 
         document.getElementById("jugadorFoto").src = jugador.photo;
+        document.getElementById("clubEscudo").src = jugador.clubLogo;
         document.getElementById("jugadorNombre").textContent = jugador.name;
         document.getElementById("jugadorClub").textContent = jugador.clubName;
         document.getElementById("jugadorPosicion").textContent = tipoLargo[jugador.type] || jugador.type;
         document.getElementById("jugadorPuntos").textContent = jugador.points;
         document.getElementById("jugadorLive").textContent = jugador.livePoints;
+        
+        
     } else {
         infoJugador.classList.add("d-none");
         infoVacio.classList.remove("d-none");
@@ -571,29 +576,35 @@ function mostrarInfoJugador(jugador) {
             "Hueco en " + (tipoLargo[jugador.type] || jugador.type);
     }
 
-    // Filtrar sustitutos disponibles
-    const disponibles = (window.plantilla || []).filter(p =>
-        p.posicion === jugador.type && !p.linedup
-    );
+    // Controlar visibilidad de la sección de cambio
+    if (jugador.position !== -1) {
+        seccionCambioJugador.classList.remove("d-none");
+        // Filtrar sustitutos disponibles
+        const disponibles = (window.plantilla || []).filter(p =>
+            p.posicion === jugador.type && !p.linedup
+        );
 
-    const lista = document.getElementById("jugadoresDisponibles");
-    lista.innerHTML = "";
-    if (disponibles.length === 0) {
-        lista.innerHTML = `<small class="text-muted">No hay sustitutos disponibles</small>`;
+        const lista = document.getElementById("jugadoresDisponibles");
+        lista.innerHTML = "";
+        if (disponibles.length === 0) {
+            lista.innerHTML = `<small class="text-muted">No hay sustitutos disponibles</small>`;
+        } else {
+            disponibles.forEach(p => {
+                const item = document.createElement("button");
+                item.className = "list-group-item list-group-item-action d-flex align-items-center";
+                item.innerHTML = `
+                    <img src="${p.hrefFoto}" class="rounded me-2" width="30" height="30">
+                    <div class="flex-fill">
+                        <strong>${p.name}</strong> <small class="text-muted">(${p.club})</small>
+                    </div>
+                    <span class="badge bg-info">${p.mediaPuntos}</span>
+                `;
+                item.onclick = () => cambiarJugador(jugador, p);
+                lista.appendChild(item);
+            });
+        }
     } else {
-        disponibles.forEach(p => {
-            const item = document.createElement("button");
-            item.className = "list-group-item list-group-item-action d-flex align-items-center";
-            item.innerHTML = `
-                <img src="${p.hrefFoto}" class="rounded me-2" width="30" height="30">
-                <div class="flex-fill">
-                    <strong>${p.name}</strong> <small class="text-muted">(${p.club})</small>
-                </div>
-                <span class="badge bg-info">${p.mediaPuntos}</span>
-            `;
-            item.onclick = () => cambiarJugador(jugador, p);
-            lista.appendChild(item);
-        });
+        seccionCambioJugador.classList.add("d-none");
     }
 
     const modal = new bootstrap.Modal(document.getElementById("jugadorModal"));
@@ -743,14 +754,12 @@ document.querySelectorAll('.fotoPlantilla').forEach(img => {
         const playerId = this.dataset.id;
         const player = window.plantilla.find(p => p.id == playerId);
         if (!player) return;
-        console.log(player.name, player.id);
         // Aquí puedes llamar a tu función pasando userData
-        mostrarInfoJugadoralineacion(player);
+        mostrarInfoJugadorAlineacion(player);
     });
 });
-
-
-function mostrarInfoJugadoralineacion(player) {
+// Script para adaptar plantilla para modalJugador
+function mostrarInfoJugadorAlineacion(player) {
     const jugador = {
                 id: player.id,
                 name: player.name,
@@ -761,9 +770,76 @@ function mostrarInfoJugadoralineacion(player) {
                 livePoints: player.mediaPuntos,
                 lastPoints: player.ultimosPuntos,
                 type: player.posicion,
-                position: 0,
+                position: -1,
                 tactic: "343" // da igual, solo es para compatibilidad
             };
     mostrarInfoJugador(jugador) 
 }
+
+// Scripts para mostrar modalJugador en mercado
+document.querySelectorAll('.fotoMercado').forEach(img => {
+    img.addEventListener('click', function() {
+        const playerId = this.dataset.id;
+        const player = window.mercado.find(p => p.id == playerId);
+        if (!player) return;
+        // Aquí puedes llamar a tu función pasando userData
+        mostrarInfoJugadorMercado(player);
+    });
+});
+// Script para adaptar mercado para modalJugador
+function mostrarInfoJugadorMercado(player) {
+    const jugador = {
+                id: player.id,
+                name: player.namePlayer,
+                clubName: player.club,
+                photo: player.urlPhoto,
+                clubLogo: player.urlPhotoClub,
+                points: player.puntos,
+                livePoints: player.price,
+                lastPoints: player.recommendedPrice,
+                type: player.position,
+                position: -1,
+                tactic: "343" // da igual, solo es para compatibilidad
+            };
+    mostrarInfoJugador(jugador) 
+}
+
+// Scripts para mostrar modalJugador en ofertas
+document.querySelectorAll('.fotoOfertas').forEach(img => {
+    img.addEventListener('click', function() {
+        const playerId = this.dataset.id;
+        const player = window.ofertas.find(p => p.id == playerId);
+        if (!player) return;
+        // Aquí puedes llamar a tu función pasando userData
+        mostrarInfoJugadorOfertas(player);
+    });
+});
+// Script para adaptar ofertas para modalJugador
+function mostrarInfoJugadorOfertas(player) {
+    const jugador = {
+                id: player.id,
+                name: player.name,
+                clubName: player.clubName,
+                photo: player.fotoJugador,
+                clubLogo: player.logoClub,
+                points: player.points,
+                livePoints: player.valor,
+                lastPoints: player.precio,
+                type: player.nombreUsuario,
+                position: -1,
+                tactic: "343" // da igual, solo es para compatibilidad
+            };
+    mostrarInfoJugador(jugador) 
+}
+
+// Scripts para mostrar modalJugador en historialOfertas
+document.querySelectorAll('.fotoHistorialOfertas').forEach(img => {
+    img.addEventListener('click', function() {
+        const playerId = this.dataset.id;
+        const player = window.historialOfertas.find(p => p.id == playerId);
+        if (!player) return;
+        // Aquí puedes llamar a tu función pasando userData
+        mostrarInfoJugadorOfertas(player);
+    });
+});
 

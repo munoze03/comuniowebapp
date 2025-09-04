@@ -27,7 +27,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
                                     <!-- Imagen del jugador -->
-                                    <img th:src="${o.fotoJugador}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                    <img th:src="${o.fotoJugador}" th:attr="data-id=${o.id}" alt="Foto jugador" class="rounded-circle fotoOfertas" width="60" height="60" />
                                     
                                     <!-- Logo del club -->
                                     <img th:src="${o.logoClub}" alt="Logo club" class="club-logo" />
@@ -85,7 +85,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
                                     <!-- Imagen del jugador -->
-                                    <img th:src="${o.fotoJugador}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                    <img th:src="${o.fotoJugador}" th:attr="data-id=${o.id}" alt="Foto jugador" class="rounded-circle fotoOfertas" width="60" height="60" />
                                     
                                     <!-- Logo del club -->
                                     <img th:src="${o.logoClub}" alt="Logo club" class="club-logo" />
@@ -144,7 +144,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="photo-logo-wrapper me-3" style="position: relative; width: 60px; height: 60px;">
                                     <!-- Imagen del jugador -->
-                                    <img th:src="${o.fotoJugador}" alt="Foto jugador" class="rounded-circle" width="60" height="60" />
+                                    <img th:src="${o.fotoJugador}" th:attr="data-id=${o.id}" alt="Foto jugador" class="rounded-circle fotoHistorialOfertas" width="60" height="60" />
                                     
                                     <!-- Logo del club -->
                                     <img th:src="${o.logoClub}" alt="Logo club" class="club-logo" />
@@ -196,4 +196,11 @@
         </div>
     </section>
     <hr class="m-0" />
+    <!-- Modal de información del jugador -->
+    <div th:replace="fragments/jugadorModal :: jugadorModal"></div>
+    <!-- Inyectamos jugadores desde Thymeleaf en JSON para el Modal -->
+    <script th:inline="javascript">
+        window.ofertas = /*[[${ofertas}]]*/ [];
+        window.historialOfertas = /*[[${historialOfertas}]]*/ [];
+    </script>
 </div>

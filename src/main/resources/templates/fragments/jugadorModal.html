@@ -1,39 +1,83 @@
 <!-- jugadorModal.html -->
 <div th:fragment="jugadorModal">
-    <div class="modal fade" id="jugadorModal" tabindex="-1" aria-labelledby="jugadorModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header">
-                    <h5 class="posicion-titulo" id="jugadorModalLabel">Información del jugador</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+  <div class="modal fade" id="jugadorModal" tabindex="-1" aria-labelledby="jugadorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark text-white p-3 text-center"> <!-- texto centrado -->
+
+        <div id="infoJugador">
+        
+            <!-- Header -->
+            <div class="mb-3">
+              <h3 id="jugadorNombre" class="text-success mb-0"></h3>
+              <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 " data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <!-- Estado -->
+            <div class="mb-3">
+              <span class="badge bg-success">SIN PROBLEMAS</span>
+            </div>
+
+            <div class="d-flex mb-3 justify-content-center align-items-center">
+                <!-- Foto, club y posición -->
+                <div class="w-50 d-flex justify-content-center mb-3">
+                    <div class="position-relative" style="width:80px; height:80px;">
+                        <!-- Foto del jugador -->
+                        <img id="jugadorFoto" src="" alt="Jugador" class="rounded-circle w-100 h-100">
+
+                        <!-- Escudo del club (un poco más arriba y a la izquierda) -->
+                        <img id="clubEscudo" src="" alt="Escudo" class="position-absolute" 
+                            style="top:-10px; left:-10px; width:30px; height:30px; border-radius:50%;">
+
+                        <!-- Badge de posición -->
+                        <span class="badge bg-danger position-absolute" id="jugadorPosicion" 
+                            style="bottom:-10px; right:0px;">DEL</span>
+                    </div>
+
+                    <!-- Nombre del club oculto -->
+                    <h6 id="jugadorClub" class="d-none"></h6>
                 </div>
-                <div class="modal-body">
-                    
-                    <!-- Datos jugador alineado -->
-                    <div id="infoJugador">
-                        <div class="d-flex align-items-center mb-3">
-                            <img id="jugadorFoto" src="" alt="Jugador" class="rounded me-3" width="60">
-                            <div>
-                            <h6 id="jugadorNombre" class="mb-0"></h6>
-                            <small id="jugadorClub" class="text-muted"></small>
-                            </div>
-                        </div>
-                        <p><strong>Posición:</strong> <span id="jugadorPosicion"></span></p>
-                        <p><strong>Puntos:</strong> <span id="jugadorPuntos"></span></p>
-                        <p><strong>Puntos en vivo:</strong> <span id="jugadorLive"></span></p>
-                    </div>
 
-                    <!-- Mensaje para hueco vacío -->
-                    <div id="infoVacio" class="text-center my-3 d-none">
-                        <p class="text-muted mb-1">No hay jugador en esta posición.</p>
-                        <p class="fw-bold text-success">Selecciona uno de tu plantilla:</p>
-                    </div>
-
-                    <hr>
-                    <h6 class="text-success">Cambiar por:</h6>
-                    <div id="jugadoresDisponibles" class="list-group small"></div>
+                <!-- Badge Live -->
+                <div class="w-50 d-flex justify-content-center">
+                    <span class="badge bg-success" id="jugadorLive">Titular</span>
                 </div>
             </div>
+
+            <!-- Puntos y Media -->
+            <div class="row mb-3 justify-content-center text-start">
+              <div class="col-6">
+                  <p class="mb-1"><strong>Puntos:</strong> <span id="jugadorPuntos"></span></p>
+                  <p class="mb-1"><strong>Media Sofascore:</strong> <span id="jugadorMedia"></span></p>
+              </div>
+              <div class="col-6">
+                  <p class="mb-1"><strong>Ranking:</strong> <span id="jugadorRanking"></span></p>
+                  <p class="mb-1"><strong>Valor:</strong> <span id="jugadorLive"></span></p>
+              </div>
+            </div>
+
+            <!-- Partidos recientes -->
+            <div class="mb-3">
+              <h6 class="text-success">Últimos partidos</h6>
+              <div id="jugadorPartidos" class="d-flex gap-2 flex-wrap justify-content-center">
+                <!-- Partidos generados dinámicamente -->
+              </div>
+            </div>
         </div>
+
+        <!-- Sección para cambiar jugador -->
+        <div id="seccionCambioJugador" class="d-none text-center">
+          <hr class="border-light">
+          <h6 class="text-success">Cambiar por:</h6>
+          <div id="jugadoresDisponibles" class="list-group small mx-auto w-75"></div>
+        </div>
+
+        <!-- Mensaje para hueco vacío -->
+        <div id="infoVacio" class="text-center my-3 d-none">
+          <p class="text-muted mb-1">No hay jugador en esta posición.</p>
+          <p class="fw-bold text-success">Selecciona uno de tu plantilla:</p>
+        </div>
+
+      </div>
     </div>
+  </div>
 </div>
