@@ -565,9 +565,29 @@ function mostrarInfoJugador(jugador) {
         document.getElementById("jugadorPosicion").textContent = jugador.type;
         //document.getElementById("jugadorTactic").textContent = jugador.tactic;
         document.getElementById("jugadorPrecio").textContent = jugador.price.toLocaleString('es-ES');
-        if(jugador.estado == "ACTIVE"){
-            jugador.estado = "SIN PROBLEMAS";
-        }
+        switch (jugador.estado) {
+            case "ACTIVE":
+                jugador.estado = "SIN PROBLEMAS";
+                break;
+
+            case "INJURED":
+                jugador.estado = "LESIONADO -";
+                break;
+
+            case "WEAKENED":
+                jugador.estado = "TOCADO";
+                break;
+
+            case "NOT SELECTED":
+                jugador.estado = "NO CONVOCADO";
+                break;
+
+            default:
+                // Si quieres, aquí puedes dejar el estado tal cual
+                // o poner un valor por defecto
+                jugador.estado = jugador.estado;
+                break;
+}
         document.getElementById("jugadorEstado").textContent = jugador.estado;
         document.getElementById("jugadorInfoEstado").textContent = jugador.infoEstado;
         document.getElementById("jugadorPartidosJugados").textContent = jugador.partidosJugados;
@@ -605,7 +625,7 @@ function mostrarInfoJugador(jugador) {
                 item.innerHTML = `
                     <img src="${p.hrefFoto}" class="rounded me-2" width="30" height="30">
                     <div class="flex-fill">
-                        <strong>${p.name}</strong> <small class="text-muted">(${p.club})</small>
+                        <strong>${p.name} </strong><img src="${p.hrefClubLogo}" class="rounded me-2" width="20" height="20">
                     </div>
                     <span class="badge bg-info">${p.puntosTotales}</span>
                 `;
@@ -789,9 +809,9 @@ function mostrarInfoJugadorPlantilla(player) {
                 points: player.puntosTotales,
                 livePoints: player.price,
                 lastPoints: player.recommendedPrice,
-                type: player.position,
+                type: player.posicion,
                 position: player.posicion,
-                tactic: "0" // da igual, solo es para compatibilidad
+                tactic: "0" 
             };
     mostrarInfoJugador(jugador) 
 }
@@ -829,7 +849,7 @@ function mostrarInfoJugadorMercado(player) {
                 lastPoints: player.recommendedPrice,
                 type: player.position,
                 position: player.position,
-                tactic: "0" // da igual, solo es para compatibilidad
+                tactic: "0" 
             };
     mostrarInfoJugador(jugador) 
 }
@@ -847,7 +867,7 @@ document.querySelectorAll('.fotoOfertas').forEach(img => {
 // Script para adaptar ofertas para modalJugador
 function mostrarInfoJugadorOfertas(player) {
     const jugador = {
-                estado: player.estado,
+                estado: player.estadoJugador,
                 infoEstado: player.infoEstado,
                 partidosJugados: player.partidosJugados,
                 golesTotales: player.golesTotales,
@@ -865,9 +885,9 @@ function mostrarInfoJugadorOfertas(player) {
                 points: player.points,
                 livePoints: player.valor,
                 lastPoints: player.valor,
-                type: player.nombreUsuario,
+                type: player.position,
                 position: player.position,
-                tactic: "0" // da igual, solo es para compatibilidad
+                tactic: "0" 
             };
     mostrarInfoJugador(jugador) 
 }
@@ -882,3 +902,34 @@ document.querySelectorAll('.fotoHistorialOfertas').forEach(img => {
         mostrarInfoJugadorOfertas(player);
     });
 });
+
+// Script para volver a abrir el modal del jugador al cerrar el de historial de valor
+document.addEventListener("DOMContentLoaded", function () {
+  var historialModal = document.getElementById("historialModal");
+  var jugadorModal = new bootstrap.Modal(document.getElementById("jugadorModal"));
+
+  historialModal.addEventListener("hidden.bs.modal", function () {
+    jugadorModal.show();
+  });
+});
+
+// Script que controla el boton de historial de valor del modal del jugador
+document.addEventListener("DOMContentLoaded", function () {
+  var jugadorModalEl = document.getElementById("jugadorModal");
+  var historialModalEl = document.getElementById("historialModal");
+
+  var jugadorModal = new bootstrap.Modal(jugadorModalEl);
+  var historialModal = new bootstrap.Modal(historialModalEl);
+
+  // Abrir historial desde jugador
+  document.getElementById("btnVerHistorial").addEventListener("click", function () {
+    jugadorModal.hide();         // primero cierro jugador
+    historialModal.show();       // luego abro historial
+  });
+
+  // Cuando se cierre historial → volver a jugador
+  historialModalEl.addEventListener("hidden.bs.modal", function () {
+    jugadorModal.show();
+  });
+});
+
