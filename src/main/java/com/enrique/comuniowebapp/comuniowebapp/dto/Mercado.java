@@ -17,7 +17,30 @@ public class Mercado {
     private boolean tieneOferta;
     private int miOferta;
     private String puntos;
-    
+    private String lastPoints;
+    private String estado;
+    private String infoEstado;
+    private int partidosJugados;
+    private int golesTotales;
+    private int golesPenalti;
+    private String mediaPuntos;
+    private int tarjetasAmarillas;
+    private int tarjetasAmarRoja;
+    private int tarjetasRojas;
+    private String precio;
+
+    public String getEstado() {
+        return estado;
+    }
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    public String getInfoEstado() {
+        return infoEstado;
+    }
+    public void setInfoEstado(String infoEstado) {
+        this.infoEstado = infoEstado;
+    }
     public int getId() {
         return id;
     }
@@ -114,5 +137,59 @@ public class Mercado {
     public void setPuntos(String puntos) {
         this.puntos = puntos;
     }
-
+        public int getPartidosJugados() {
+        return partidosJugados;
+    }
+    public void setPartidosJugados(int partidosJugados) {
+        this.partidosJugados = partidosJugados;
+    }
+    public int getGolesTotales() {
+        return golesTotales;
+    }
+    public void setGolesTotales(int golesTotales) {
+        this.golesTotales = golesTotales;
+    }
+    public int getGolesPenalti() {
+        return golesPenalti;
+    }
+    public void setGolesPenalti(int golesPenalti) {
+        this.golesPenalti = golesPenalti;
+    }
+    public String getMediaPuntos() {
+        return mediaPuntos;
+    }
+    public void setMediaPuntos(String mediaPuntos) {
+        this.mediaPuntos = mediaPuntos;
+    }
+    public int getTarjetasAmarillas() {
+        return tarjetasAmarillas;
+    }
+    public void setTarjetasAmarillas(int tarjetasAmarillas) {
+        this.tarjetasAmarillas = tarjetasAmarillas;
+    }
+    public int getTarjetasAmarRoja() {
+        return tarjetasAmarRoja;
+    }
+    public void setTarjetasAmarRoja(int tarjetasAmarRoja) {
+        this.tarjetasAmarRoja = tarjetasAmarRoja;
+    }
+    public int getTarjetasRojas() {
+        return tarjetasRojas;
+    }
+    public void setTarjetasRojas(int tarjetasRojas) {
+        this.tarjetasRojas = tarjetasRojas;
+    }
+    public String getLastPoints() {
+        return lastPoints;
+    }
+    public void setLastPoints(String lastPoints) {
+        this.lastPoints = lastPoints;
+    }
+    public String getPrecio() {
+        return precio;
+    }
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
+    
 }

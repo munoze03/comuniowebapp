@@ -83,7 +83,7 @@ public class MainController {
         model.addAttribute("alineacion", alineacion);
 
         //Capturamos la plantilla
-        List<Player> plantilla = userService.getPlantilla(token, userInfo.getId());
+        List<Player> plantilla = userService.getPlantilla(token, userInfo.getCommunityId(), userInfo.getId());
         //Ordenamos la plantilla por posicion
         plantilla.sort(Comparator.comparingInt(j -> {
             switch (j.getPosicion()) {

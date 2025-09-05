@@ -168,6 +168,29 @@ public class ComunioUserService {
                 o.setEsRealizadaPorMi(false);
             }
             o.setPoints((int) tradable.get("points"));
+            o.setPosition((String)tradable.get("position"));
+
+            // Llamamos a la api de info del jugador para rellenar mas campos
+            String urlPlayer = String.format("https://www.comunio.es/api/communities/%s/users/%s/players/%s",communityId, userId, o.getIdPlayer());
+
+            HttpHeaders headersPlayer = new HttpHeaders();
+            headersPlayer.setBearerAuth(token);
+            HttpEntity<Void> entityPlayer = new HttpEntity<>(headersPlayer);
+
+            ResponseEntity<Map> responsePlayer = restTemplate.exchange(urlPlayer, HttpMethod.GET, entityPlayer, Map.class);
+            Map<String, Object> general = (Map<String, Object>) responsePlayer.getBody().get("general");
+            Map<String, Object> average = (Map<String, Object>) responsePlayer.getBody().get("average");
+            Map<String, Object> cards = (Map<String, Object>) responsePlayer.getBody().get("cards");
+
+            o.setEstadoJugador((String) responsePlayer.getBody().get("status"));
+            o.setInfoEstado((String) responsePlayer.getBody().get("statusInfo"));
+            o.setPartidosJugados((int) general.get("playedGames"));
+            o.setGolesTotales((int) general.get("totalGoals"));
+            o.setGolesPenalti((int) general.get("totalPenalties"));
+            o.setMediaPuntos((String) average.get("points"));
+            o.setTarjetasAmarillas((int) cards.get("yellow"));
+            o.setTarjetasAmarRoja((int) cards.get("yellowRed"));
+            o.setTarjetasRojas((int) cards.get("red"));
 
             ofertas.add(o);
         }
@@ -305,6 +328,30 @@ public class ComunioUserService {
                 }
             }
 
+            // Llamamos a la api de info del jugador para rellenar mas campos
+            String urlPlayer = String.format("https://www.comunio.es/api/communities/%s/users/%s/players/%s",communityId, userId, m.getId());
+
+            HttpHeaders headersPlayer = new HttpHeaders();
+            headersPlayer.setBearerAuth(token);
+            HttpEntity<Void> entityPlayer = new HttpEntity<>(headersPlayer);
+
+            ResponseEntity<Map> responsePlayer = restTemplate.exchange(urlPlayer, HttpMethod.GET, entityPlayer, Map.class);
+            Map<String, Object> general = (Map<String, Object>) responsePlayer.getBody().get("general");
+            Map<String, Object> average = (Map<String, Object>) responsePlayer.getBody().get("average");
+            Map<String, Object> cards = (Map<String, Object>) responsePlayer.getBody().get("cards");
+
+            m.setEstado((String) responsePlayer.getBody().get("status"));
+            m.setInfoEstado((String) responsePlayer.getBody().get("statusInfo"));
+            m.setPartidosJugados((int) general.get("playedGames"));
+            m.setGolesTotales((int) general.get("totalGoals"));
+            m.setGolesPenalti((int) general.get("totalPenalties"));
+            m.setMediaPuntos((String) average.get("points"));
+            m.setTarjetasAmarillas((int) cards.get("yellow"));
+            m.setTarjetasAmarRoja((int) cards.get("yellowRed"));
+            m.setTarjetasRojas((int) cards.get("red"));
+            m.setLastPoints(String.valueOf((int) responsePlayer.getBody().get("lastPoints")));
+            m.setPrecio(String.valueOf((int) responsePlayer.getBody().get("price")));
+
             jugadores.add(m);
         }
 
@@ -372,6 +419,7 @@ public class ComunioUserService {
             a.setPosition((int) line.get("position"));
             a.setPhoto((String) playerPhoto.get("href"));
             a.setClubName((String) club.get("name"));
+            a.setClubId((int) club.get("id"));
             a.setClubLogo((String) logo.get("href"));
             a.setPoints((int) line.get("points"));
             a.setLastPoints((String) line.get("lastPoints"));
@@ -379,13 +427,36 @@ public class ComunioUserService {
             a.setType(traducirPosicion((String) line.get("type")));
             a.setTactic((String) response.getBody().get("tactic"));
 
+            // Llamamos a la api de info del jugador para rellenar mas campos
+            String urlPlayer = String.format("https://www.comunio.es/api/communities/%s/users/%s/players/%s",communityId, userId, a.getId());
+
+            HttpHeaders headersPlayer = new HttpHeaders();
+            headersPlayer.setBearerAuth(token);
+            HttpEntity<Void> entityPlayer = new HttpEntity<>(headersPlayer);
+
+            ResponseEntity<Map> responsePlayer = restTemplate.exchange(urlPlayer, HttpMethod.GET, entityPlayer, Map.class);
+            Map<String, Object> general = (Map<String, Object>) responsePlayer.getBody().get("general");
+            Map<String, Object> average = (Map<String, Object>) responsePlayer.getBody().get("average");
+            Map<String, Object> cards = (Map<String, Object>) responsePlayer.getBody().get("cards");
+
+            a.setPrice((int) responsePlayer.getBody().get("price"));
+            a.setEstado((String) responsePlayer.getBody().get("status"));
+            a.setInfoEstado((String) responsePlayer.getBody().get("statusInfo"));
+            a.setPartidosJugados((int) general.get("playedGames"));
+            a.setGolesTotales((int) general.get("totalGoals"));
+            a.setGolesPenalti((int) general.get("totalPenalties"));
+            a.setMediaPuntos((String) average.get("points"));
+            a.setTarjetasAmarillas((int) cards.get("yellow"));
+            a.setTarjetasAmarRoja((int) cards.get("yellowRed"));
+            a.setTarjetasRojas((int) cards.get("red"));
+
             alineacion.add(a);
         }
 
         return alineacion;
     }
 
-    public List<Player> getPlantilla(String token, String userId){
+    public List<Player> getPlantilla(String token, String communityId, String userId){
         String url = String.format("https://www.comunio.es/api/users/%s/squad", userId);
 
         HttpHeaders headers = new HttpHeaders();
@@ -429,6 +500,26 @@ public class ComunioUserService {
             p.setValor((int) item.get("quotedprice"));
             p.setOnMarket((Boolean) item.get("onMarket"));
             p.setLinedup((Boolean) item.get("linedup"));
+
+            // Llamamos a la api de info del jugador para rellenar mas campos
+            String urlPlayer = String.format("https://www.comunio.es/api/communities/%s/users/%s/players/%s",communityId, userId, p.getId());
+
+            HttpHeaders headersPlayer = new HttpHeaders();
+            headersPlayer.setBearerAuth(token);
+            HttpEntity<Void> entityPlayer = new HttpEntity<>(headersPlayer);
+
+            ResponseEntity<Map> responsePlayer = restTemplate.exchange(urlPlayer, HttpMethod.GET, entityPlayer, Map.class);
+            Map<String, Object> general = (Map<String, Object>) responsePlayer.getBody().get("general");
+            Map<String, Object> cards = (Map<String, Object>) responsePlayer.getBody().get("cards");
+
+            p.setEstado((String) responsePlayer.getBody().get("status"));
+            p.setInfoEstado((String) responsePlayer.getBody().get("statusInfo"));
+            p.setPartidosJugados((int) general.get("playedGames"));
+            p.setGolesTotales((int) general.get("totalGoals"));
+            p.setGolesPenalti((int) general.get("totalPenalties"));
+            p.setTarjetasAmarillas((int) cards.get("yellow"));
+            p.setTarjetasAmarRoja((int) cards.get("yellowRed"));
+            p.setTarjetasRojas((int) cards.get("red"));
 
             plantilla.add(p);
         }

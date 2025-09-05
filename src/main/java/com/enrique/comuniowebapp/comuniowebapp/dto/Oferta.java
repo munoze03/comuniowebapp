@@ -19,6 +19,19 @@ public class Oferta {
     private int credito;
     private int offerId;
     private int points;
+    private String position;
+
+    private String estadoJugador;
+    private String infoEstado;
+    private int partidosJugados;
+    private int golesTotales;
+    private int golesPenalti;
+    private int tarjetasAmarillas;
+    private int tarjetasAmarRoja;
+    private int tarjetasRojas;
+
+    private String mediaPuntos;
+
 
     public int getId() {
         return id;
@@ -127,6 +140,66 @@ public class Oferta {
     }
     public void setPoints(int points) {
         this.points = points;
+    }
+    public String getPosition() {
+        return position;
+    }
+    public void setPosition(String position) {
+        this.position = position;
+    }
+    public String getEstadoJugador() {
+        return estadoJugador;
+    }
+    public void setEstadoJugador(String estadoJugador) {
+        this.estadoJugador = estadoJugador;
+    }
+    public String getInfoEstado() {
+        return infoEstado;
+    }
+    public void setInfoEstado(String infoEstado) {
+        this.infoEstado = infoEstado;
+    }
+    public int getPartidosJugados() {
+        return partidosJugados;
+    }
+    public void setPartidosJugados(int partidosJugados) {
+        this.partidosJugados = partidosJugados;
+    }
+    public int getGolesTotales() {
+        return golesTotales;
+    }
+    public void setGolesTotales(int golesTotales) {
+        this.golesTotales = golesTotales;
+    }
+    public int getGolesPenalti() {
+        return golesPenalti;
+    }
+    public void setGolesPenalti(int golesPenalti) {
+        this.golesPenalti = golesPenalti;
+    }
+    public int getTarjetasAmarillas() {
+        return tarjetasAmarillas;
+    }
+    public void setTarjetasAmarillas(int tarjetasAmarillas) {
+        this.tarjetasAmarillas = tarjetasAmarillas;
+    }
+    public int getTarjetasAmarRoja() {
+        return tarjetasAmarRoja;
+    }
+    public void setTarjetasAmarRoja(int tarjetasAmarRoja) {
+        this.tarjetasAmarRoja = tarjetasAmarRoja;
+    }
+    public int getTarjetasRojas() {
+        return tarjetasRojas;
+    }
+    public void setTarjetasRojas(int tarjetasRojas) {
+        this.tarjetasRojas = tarjetasRojas;
+    }
+    public String getMediaPuntos() {
+        return mediaPuntos;
+    }
+    public void setMediaPuntos(String mediaPuntos) {
+        this.mediaPuntos = mediaPuntos;
     }
     
     

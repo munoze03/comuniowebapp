@@ -293,7 +293,6 @@ function guardarOferta(id) {
 
 // JS de inicio de sesion
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Script cargado");
   // Al cargar la página, rellena usuario si está guardado
   const savedUsername = localStorage.getItem("savedUsername");
   if (savedUsername) {
@@ -380,13 +379,6 @@ const tiposPorTactica = {
     "451": ["PO", "DF", "DF", "DF", "DF", "ME", "ME", "ME", "ME", "ME", "DL"]
 };
 
-// Traducción solo para mostrar (opcional)
-const tipoLargo = {
-    PO: "Portero",
-    DF: "Defensa",
-    ME: "Centrocampista",
-    DL: "Delantero"
-};
 
 // Reconstruye la alineación actual para la nueva táctica
 function reconstruirAlineacionSegunTactica(tactica) {
@@ -560,13 +552,31 @@ function mostrarInfoJugador(jugador) {
         infoJugador.classList.remove("d-none");
         infoVacio.classList.add("d-none");
 
-        document.getElementById("jugadorFoto").src = jugador.photo;
-        document.getElementById("clubEscudo").src = jugador.clubLogo;
+        //document.getElementById("").textContent = jugador.position;
+        //document.getElementById("").textContent = jugador.id;
         document.getElementById("jugadorNombre").textContent = jugador.name;
+        document.getElementById("jugadorFoto").src = jugador.photo;
         document.getElementById("jugadorClub").textContent = jugador.clubName;
-        document.getElementById("jugadorPosicion").textContent = tipoLargo[jugador.type] || jugador.type;
+        //document.getElementById("").textContent = jugador.clubId;
+        document.getElementById("clubEscudo").src = jugador.clubLogo;
         document.getElementById("jugadorPuntos").textContent = jugador.points;
-        document.getElementById("jugadorLive").textContent = jugador.livePoints;
+        //document.getElementById("").textContent = jugador.livePoints;
+        //document.getElementById("").textContent = jugador.lastPoint;
+        document.getElementById("jugadorPosicion").textContent = jugador.type;
+        //document.getElementById("jugadorTactic").textContent = jugador.tactic;
+        document.getElementById("jugadorPrecio").textContent = jugador.price.toLocaleString('es-ES');
+        if(jugador.estado == "ACTIVE"){
+            jugador.estado = "SIN PROBLEMAS";
+        }
+        document.getElementById("jugadorEstado").textContent = jugador.estado;
+        document.getElementById("jugadorInfoEstado").textContent = jugador.infoEstado;
+        document.getElementById("jugadorPartidosJugados").textContent = jugador.partidosJugados;
+        document.getElementById("jugadorGolesTotales").textContent = jugador.golesTotales;
+        document.getElementById("jugadorGolesPenalti").textContent = jugador.golesPenalti;
+        document.getElementById("jugadorMediaPuntos").textContent = jugador.mediaPuntos;
+        document.getElementById("jugadorTarjetasAmarillas").textContent = jugador.tarjetasAmarillas;
+        document.getElementById("jugadorTarjetasAmarRoja").textContent = jugador.tarjetasAmarRoja;
+        document.getElementById("jugadorTarjetasRojas").textContent = jugador.tarjetasRojas;
         
         
     } else {
@@ -577,7 +587,7 @@ function mostrarInfoJugador(jugador) {
     }
 
     // Controlar visibilidad de la sección de cambio
-    if (jugador.position !== -1) {
+    if (jugador.tactic !== "0") {
         seccionCambioJugador.classList.remove("d-none");
         // Filtrar sustitutos disponibles
         const disponibles = (window.plantilla || []).filter(p =>
@@ -597,7 +607,7 @@ function mostrarInfoJugador(jugador) {
                     <div class="flex-fill">
                         <strong>${p.name}</strong> <small class="text-muted">(${p.club})</small>
                     </div>
-                    <span class="badge bg-info">${p.mediaPuntos}</span>
+                    <span class="badge bg-info">${p.puntosTotales}</span>
                 `;
                 item.onclick = () => cambiarJugador(jugador, p);
                 lista.appendChild(item);
@@ -755,23 +765,33 @@ document.querySelectorAll('.fotoPlantilla').forEach(img => {
         const player = window.plantilla.find(p => p.id == playerId);
         if (!player) return;
         // Aquí puedes llamar a tu función pasando userData
-        mostrarInfoJugadorAlineacion(player);
+        mostrarInfoJugadorPlantilla(player);
     });
 });
 // Script para adaptar plantilla para modalJugador
-function mostrarInfoJugadorAlineacion(player) {
+function mostrarInfoJugadorPlantilla(player) {
     const jugador = {
+                estado: player.estado,
+                infoEstado: player.infoEstado,
+                partidosJugados: player.partidosJugados,
+                golesTotales: player.golesTotales,
+                golesPenalti: player.golesPenalti,
+                mediaPuntos: player.mediaPuntos,
+                tarjetasAmarillas: player.tarjetasAmarillas,
+                tarjetasAmarRoja: player.tarjetasAmarRoja,
+                tarjetasRojas: player.tarjetasRojas,
+                price: player.valor,
                 id: player.id,
                 name: player.name,
                 clubName: player.club,
                 photo: player.hrefFoto,
                 clubLogo: player.hrefClubLogo,
                 points: player.puntosTotales,
-                livePoints: player.mediaPuntos,
-                lastPoints: player.ultimosPuntos,
-                type: player.posicion,
-                position: -1,
-                tactic: "343" // da igual, solo es para compatibilidad
+                livePoints: player.price,
+                lastPoints: player.recommendedPrice,
+                type: player.position,
+                position: player.posicion,
+                tactic: "0" // da igual, solo es para compatibilidad
             };
     mostrarInfoJugador(jugador) 
 }
@@ -789,6 +809,16 @@ document.querySelectorAll('.fotoMercado').forEach(img => {
 // Script para adaptar mercado para modalJugador
 function mostrarInfoJugadorMercado(player) {
     const jugador = {
+                estado: player.estado,
+                infoEstado: player.infoEstado,
+                partidosJugados: player.partidosJugados,
+                golesTotales: player.golesTotales,
+                golesPenalti: player.golesPenalti,
+                mediaPuntos: player.mediaPuntos,
+                tarjetasAmarillas: player.tarjetasAmarillas,
+                tarjetasAmarRoja: player.tarjetasAmarRoja,
+                tarjetasRojas: player.tarjetasRojas,
+                price: player.price,
                 id: player.id,
                 name: player.namePlayer,
                 clubName: player.club,
@@ -798,8 +828,8 @@ function mostrarInfoJugadorMercado(player) {
                 livePoints: player.price,
                 lastPoints: player.recommendedPrice,
                 type: player.position,
-                position: -1,
-                tactic: "343" // da igual, solo es para compatibilidad
+                position: player.position,
+                tactic: "0" // da igual, solo es para compatibilidad
             };
     mostrarInfoJugador(jugador) 
 }
@@ -817,6 +847,16 @@ document.querySelectorAll('.fotoOfertas').forEach(img => {
 // Script para adaptar ofertas para modalJugador
 function mostrarInfoJugadorOfertas(player) {
     const jugador = {
+                estado: player.estado,
+                infoEstado: player.infoEstado,
+                partidosJugados: player.partidosJugados,
+                golesTotales: player.golesTotales,
+                golesPenalti: player.golesPenalti,
+                mediaPuntos: player.mediaPuntos,
+                tarjetasAmarillas: player.tarjetasAmarillas,
+                tarjetasAmarRoja: player.tarjetasAmarRoja,
+                tarjetasRojas: player.tarjetasRojas,
+                price: player.valor,
                 id: player.id,
                 name: player.name,
                 clubName: player.clubName,
@@ -824,10 +864,10 @@ function mostrarInfoJugadorOfertas(player) {
                 clubLogo: player.logoClub,
                 points: player.points,
                 livePoints: player.valor,
-                lastPoints: player.precio,
+                lastPoints: player.valor,
                 type: player.nombreUsuario,
-                position: -1,
-                tactic: "343" // da igual, solo es para compatibilidad
+                position: player.position,
+                tactic: "0" // da igual, solo es para compatibilidad
             };
     mostrarInfoJugador(jugador) 
 }
@@ -842,4 +882,3 @@ document.querySelectorAll('.fotoHistorialOfertas').forEach(img => {
         mostrarInfoJugadorOfertas(player);
     });
 });
-
