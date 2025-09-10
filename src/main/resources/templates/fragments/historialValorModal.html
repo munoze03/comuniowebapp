@@ -2,27 +2,26 @@
 <div th:fragment="historialValorModal">
     <div class="modal fade" id="historialModal" tabindex="-1" aria-labelledby="historialModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content bg-dark text-white p-3">
-                <div class="modal-header border-0">
+            <div class="modal-content bg-dark text-white p-3 text-center">
+                <!-- Nombre -->
+                <div class="mb-3">
+                    <h3 id="Nombre" class="text-success fs-2"></h3>
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 " data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div>
                     <h5 class="modal-title text-success" id="historialModalLabel">Historial de valor</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="historialValorJugador" class="text-center">
+                    <!-- Nombre -->
+                    
+                    <ul id="historialLista">
+                        
+                    </ul>
 
-                        <!-- Nombre -->
-                        <div class="mb-3">
-                            <h3 id="jugadorNombre" class="text-success mb-1 fs-2"></h3>
-                        </div>
-
-
-
-
-
-                        <p class="text-muted">Cargando historico de valor...</p>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </div>

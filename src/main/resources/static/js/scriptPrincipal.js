@@ -553,7 +553,9 @@ function mostrarInfoJugador(jugador) {
         infoVacio.classList.add("d-none");
 
         //document.getElementById("").textContent = jugador.position;
-        //document.getElementById("").textContent = jugador.id;
+        //document.getElementById("jugadorId").textContent = jugador.id;
+        window.jugadorSeleccionado = jugador;
+
         document.getElementById("jugadorNombre").textContent = jugador.name;
         document.getElementById("jugadorFoto").src = jugador.photo;
         document.getElementById("jugadorClub").textContent = jugador.clubName;
@@ -913,7 +915,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Script que controla el boton de historial de valor del modal del jugador
+//Script que controla el boton de historial de valor del modal del jugador
 document.addEventListener("DOMContentLoaded", function () {
   var jugadorModalEl = document.getElementById("jugadorModal");
   var historialModalEl = document.getElementById("historialModal");
@@ -921,15 +923,117 @@ document.addEventListener("DOMContentLoaded", function () {
   var jugadorModal = new bootstrap.Modal(jugadorModalEl);
   var historialModal = new bootstrap.Modal(historialModalEl);
 
-  // Abrir historial desde jugador
-  document.getElementById("btnVerHistorial").addEventListener("click", function () {
-    jugadorModal.hide();         // primero cierro jugador
-    historialModal.show();       // luego abro historial
+  // Cada vez que se abra historial, se oculta jugador
+  historialModalEl.addEventListener("show.bs.modal", function () {
+    jugadorModal.hide();
   });
 
-  // Cuando se cierre historial → volver a jugador
+  // Cada vez que se cierre historial, se vuelve a mostrar jugador
   historialModalEl.addEventListener("hidden.bs.modal", function () {
     jugadorModal.show();
   });
+
+  // Delegación de eventos para cualquier botón dentro del modal de jugador
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.classList.contains("btnVerHistorial")) {
+      historialModal.show();
+    }
+  });
+});
+
+// Script para capturar los datos del jugador desde el controlador en el modal historial
+document.addEventListener('DOMContentLoaded', function () {
+    const historialModal = document.getElementById('historialModal');
+
+    historialModal.addEventListener('show.bs.modal', function (event) {
+        const jugador = window.jugadorSeleccionado;
+        const jugadorId = jugador.id;
+        const jugadorName = jugador.name.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
+        console.log(jugador);
+        console.log(jugadorName);
+        document.getElementById('Nombre').textContent = jugador.name;
+
+        console.log(`/model/cargarHistoricoPuntos/${jugadorName}`);
+        fetch(`/model/cargarHistoricoPuntos/${jugadorName}`)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error("Error en la petición: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Datos recibidos:", data);
+            const container = document.getElementById('historialLista');
+            container.innerHTML = ''; // Limpiar
+
+            // Parsear boxChart si viene como string
+            const boxChart = typeof data.boxChart === "string" ? JSON.parse(data.boxChart) : data.boxChart;
+
+            // Crear wrapper para scroll
+            const scrollWrapper = document.createElement('div');
+            scrollWrapper.style.maxHeight = '300px'; // ajusta según el alto deseado
+            scrollWrapper.style.overflowY = 'auto';
+            scrollWrapper.style.display = 'block';
+
+            // Crear tabla
+            const table = document.createElement('table');
+            table.className = 'table table-striped table-dark'; // clases de Bootstrap opcionales
+
+            // Encabezado
+            const thead = document.createElement('thead');
+            thead.innerHTML = `
+                <tr>
+                    <th>Fecha</th>
+                    <th>Valor (€)</th>
+                    <th>Diferencia (€)</th>
+                </tr>`;
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+
+            /** =========================
+             * TABLA 1 - Últimos 10 valores
+             * ========================= */
+            const historial = boxChart.reverse();
+
+            for (let i = 0; i < historial.length; i++) {
+                const item = historial[i];
+                const prevItem = i > 0 ? historial[i - 1] : null;
+                const diff = prevItem ? item.value - prevItem.value : 0; // diferencia
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.date}</td>
+                    <td>${item.value.toLocaleString()} €</td>
+                    <td style="color:${diff >= 0 ? 'lightgreen' : 'red'}">
+                        ${diff >= 0 ? '+' : ''}${diff.toLocaleString()} €
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            table.appendChild(tbody);
+            container.appendChild(table);
+            scrollWrapper.appendChild(table);
+            container.appendChild(scrollWrapper);
+
+            // Acceder a boxPoints
+            console.log("Puntos:", data.boxPoints.Puntos);
+            console.log("Media:", data.boxPoints.Media);
+            console.log("Valor:", data.boxPoints.Valor);
+
+            // Acceder a jornadas
+            data.boxPoints.jornadas.forEach(j => {
+            console.log(`Jornada: ${j.week}, Puntos: ${j.points}`);
+            });
+
+            // Debug de boxChart completo
+            boxChart.forEach(entry => {
+            console.log(entry.date, entry.value);
+            });
+        })
+        .catch(err => console.error("Error en fetch:", err));
+
+            });
 });
 

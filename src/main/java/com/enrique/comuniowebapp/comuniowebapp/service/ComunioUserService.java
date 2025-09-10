@@ -5,11 +5,17 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,11 +27,14 @@ import org.springframework.web.client.RestTemplate;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.Alineacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
+import com.enrique.comuniowebapp.comuniowebapp.dto.HistorialValor;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Transactions;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 
 @Service
@@ -881,6 +890,97 @@ public class ComunioUserService {
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Fallo guardando alineación en Comunio: " + response.getStatusCode());
+        }
+    }
+
+    public List<HistorialValor> getCargarHistoriaValor(String token, int id){
+        String url = String.format("https://www.comunio.es/api/players/%s/quote-history", id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> quoteCollection = (List<Map<String, Object>>) response.getBody().get("quoteCollection");
+        
+        List<HistorialValor> historial = new ArrayList<>();
+        for (Map<String, Object> quote : quoteCollection){
+            HistorialValor h = new HistorialValor();
+
+            h.setFecha(((String) quote.get("timestamp")).substring(0, 10));
+            h.setValor((int) quote.get("quotedPrice"));
+
+            historial.add(h);
+        
+        }
+
+        return historial.subList(0, Math.min(historial.size(), 10));
+    }
+
+    public Map<String, Object> getHistoricoPuntosJugador(String jugadorName){
+
+        String url = String.format("https://www.comuniazo.com/comunio-apuestas/jugadores/%s", jugadorName);
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            Document doc = Jsoup.connect(url).get();
+
+
+            // 1. Extraemos box.points
+            Element boxPoints = doc.selectFirst("div.box.box-points");
+            if(boxPoints != null){
+                Map<String, Object> puntosData = new LinkedHashMap<>();
+
+                // Puntos principales
+                Elements values = boxPoints.select(".numbox .big .value");
+                Elements labels = boxPoints.select(".numbox .big .label");
+                for (int i=0; i< values.size(); i++){
+                    puntosData.put(labels.get(i).text(), values.get(i).text());
+                }
+
+                // Tabla de jornadas
+                List<Map<String, Object>> jornadas = new ArrayList<>();
+                Elements rows = boxPoints.select("table.points-list tr");
+                for(Element row : rows){
+                    Map<String, Object> jornada = new HashMap<>();
+                    jornada.put("week", row.selectFirst("td.week") != null ? row.selectFirst("td.week").text() : "");
+
+                    // Buscar el span que tiene el número de puntos
+                    Element span = row.selectFirst("td:last-child span");
+                    String points = span != null ? span.text() : "0";
+                    jornada.put("points", points);
+
+                    jornadas.add(jornada);
+                }
+
+                puntosData.put("jornadas", jornadas);
+
+                result.put("boxPoints", puntosData);
+            }
+
+            // 2. Extraemos box-chart (valores de mercado)
+            Element script = doc.select("script").stream()
+                    .filter(s -> s.html().contains("marketChart(["))
+                    .findFirst().orElse(null);
+
+            if (script != null){
+                String scriptHtml = script.html();
+                Pattern pattern = Pattern.compile("marketChart\\((\\[.*?\\])", Pattern.DOTALL);
+                Matcher matcher = pattern.matcher(scriptHtml);
+
+                if (matcher.find()){
+                    String jsonArray = matcher.group(1);
+                    ObjectMapper mapper = new ObjectMapper();
+                    List<Map<String, Object>> valores = mapper.readValue(jsonArray, new TypeReference<>() {});
+                    result.put("boxChart", valores);
+                }
+            }
+
+            return result;
+
+        } catch (Exception e) {
+            result.put("error", e.getMessage());
+            return result;
         }
     }
 }
