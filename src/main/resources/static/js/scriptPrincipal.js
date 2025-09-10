@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnTotal = document.getElementById("btnTotal");
     const btnJornada = document.getElementById("btnJornada");
     const btnLive = document.getElementById("btnLive");
+    const btnMes = document.getElementById("btnMes");
     const tbody = document.querySelector("table.table tbody");
 
     btnTotal.addEventListener("click", function () {
@@ -49,10 +50,14 @@ document.addEventListener("DOMContentLoaded", function () {
         btnJornada.classList.remove("btn-success");
         btnLive.classList.add("btn-outline-success");
         btnLive.classList.remove("btn-success");
+        btnMes.classList.add("btn-outline-success");
+        btnMes.classList.remove("btn-success");
 
         document.querySelectorAll(".tipo-total").forEach(e => e.classList.remove("d-none"));
         document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.add("d-none"));
         document.querySelectorAll(".tipo-live").forEach(e => e.classList.add("d-none"));
+        document.querySelectorAll(".tipo-mes").forEach(e => e.classList.add("d-none"));
+
 
         ordenarTabla("tipo-total");
     });
@@ -64,10 +69,13 @@ document.addEventListener("DOMContentLoaded", function () {
         btnTotal.classList.remove("btn-success");
         btnLive.classList.add("btn-outline-success");
         btnLive.classList.remove("btn-success");
+        btnMes.classList.add("btn-outline-success");
+        btnMes.classList.remove("btn-success");
 
         document.querySelectorAll(".tipo-live").forEach(e => e.classList.add("d-none"));
         document.querySelectorAll(".tipo-total").forEach(e => e.classList.add("d-none"));
         document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.remove("d-none"));
+        document.querySelectorAll(".tipo-mes").forEach(e => e.classList.add("d-none"));
 
         ordenarTabla("tipo-jornada");
     });
@@ -79,11 +87,33 @@ document.addEventListener("DOMContentLoaded", function () {
         btnJornada.classList.remove("btn-success");
         btnTotal.classList.add("btn-outline-success");
         btnTotal.classList.remove("btn-success");
+        btnMes.classList.add("btn-outline-success");
+        btnMes.classList.remove("btn-success");
         
 
         document.querySelectorAll(".tipo-total").forEach(e => e.classList.add("d-none"));
         document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.add("d-none"));
         document.querySelectorAll(".tipo-live").forEach(e => e.classList.remove("d-none"));
+        document.querySelectorAll(".tipo-mes").forEach(e => e.classList.add("d-none"));
+
+        ordenarTabla("tipo-live");
+    })
+
+    btnMes.addEventListener("click", function (){
+        btnLive.classList.add("btn-outline-success");
+        btnLive.classList.remove("btn-success");
+        btnJornada.classList.add("btn-outline-success");
+        btnJornada.classList.remove("btn-success");
+        btnTotal.classList.add("btn-outline-success");
+        btnTotal.classList.remove("btn-success");
+        btnMes.classList.add("btn-success");
+        btnMes.classList.remove("btn-outline-success");
+        
+
+        document.querySelectorAll(".tipo-total").forEach(e => e.classList.add("d-none"));
+        document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.add("d-none"));
+        document.querySelectorAll(".tipo-live").forEach(e => e.classList.add("d-none"));
+        document.querySelectorAll(".tipo-mes").forEach(e => e.classList.remove("d-none"));
 
         ordenarTabla("tipo-live");
     })
