@@ -27,7 +27,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.Alineacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
-import com.enrique.comuniowebapp.comuniowebapp.dto.HistorialValor;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
@@ -893,31 +892,7 @@ public class ComunioUserService {
         }
     }
 
-    public List<HistorialValor> getCargarHistoriaValor(String token, int id){
-        String url = String.format("https://www.comunio.es/api/players/%s/quote-history", id);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
-        List<Map<String, Object>> quoteCollection = (List<Map<String, Object>>) response.getBody().get("quoteCollection");
-        
-        List<HistorialValor> historial = new ArrayList<>();
-        for (Map<String, Object> quote : quoteCollection){
-            HistorialValor h = new HistorialValor();
-
-            h.setFecha(((String) quote.get("timestamp")).substring(0, 10));
-            h.setValor((int) quote.get("quotedPrice"));
-
-            historial.add(h);
-        
-        }
-
-        return historial.subList(0, Math.min(historial.size(), 10));
-    }
-
-    public Map<String, Object> getHistoricoPuntosJugador(String jugadorName){
+    public Map<String, Object> cargarHistoricoValorJugador(String jugadorName){
 
         String url = String.format("https://www.comuniazo.com/comunio-apuestas/jugadores/%s", jugadorName);
         Map<String, Object> result = new HashMap<>();

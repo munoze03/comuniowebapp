@@ -953,8 +953,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(jugadorName);
         document.getElementById('Nombre').textContent = jugador.name;
 
-        console.log(`/model/cargarHistoricoPuntos/${jugadorName}`);
-        fetch(`/model/cargarHistoricoPuntos/${jugadorName}`)
+        console.log(`/model/cargarHistoricoValor/${jugadorName}`);
+        fetch(`/model/cargarHistoricoValor/${jugadorName}`)
         .then(response => {
             if (!response.ok) {
             throw new Error("Error en la petición: " + response.status);
