@@ -648,27 +648,44 @@ function mostrarInfoJugador(jugador) {
             const table = document.createElement("table");
             table.className = "table text-center mb-0"; // clases Bootstrap
 
-            const row = document.createElement("tr");
+            const rowPuntos = document.createElement("tr");
+            const rowJornadas = document.createElement("tr");
 
-            historicoPuntos.boxPoints.jornadas.forEach(valor => {
-                const td = document.createElement("td");
-                td.textContent = valor.points;
+            // Damos la vuelta al array
+            const jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+
+            jornadas.forEach(valor => {
+                // Celda de puntos
+                const tdPuntos = document.createElement("td");
+                tdPuntos.textContent = valor.points;
 
                 // Colorear según reglas
-                if (valor.points <= 1) {
-                    td.classList.add("bg-danger", "text-white");   // rojo
-                } else if (valor.points >= 2 && valor <= 4) {
-                    td.classList.add("bg-warning", "text-dark");   // naranja
-                } else if (valor.points >= 5 && valor <= 9) {
-                    td.classList.add("bg-success", "text-white");  // verde
-                } else {
-                    td.classList.add("bg-primary", "text-white");  // azul
+                if (valor.points < 0) {
+                    tdPuntos.classList.add("bg-rojo");
+                } else if (valor.points == 0 || valor.points == "-") {
+                    tdPuntos.classList.add("bg-gris");
+                } else if (valor.points >= 1 && valor.points <= 4) {
+                    tdPuntos.classList.add("bg-naranja");
+                } else if (valor.points >= 5 && valor.points <= 9) {
+                    tdPuntos.classList.add("bg-verde");
+                } else if (valor.points > 9) {
+                    tdPuntos.classList.add("bg-azul");
                 }
 
-                row.appendChild(td);
+                rowPuntos.appendChild(tdPuntos);
+
+                // Celda de jornadas
+                const tdJornada = document.createElement("td");
+                tdJornada.textContent = `${valor.week}`;
+                tdJornada.style.fontSize = "12px";  
+                tdJornada.style.color = "white";      // más pequeño si quieres
+                rowJornadas.appendChild(tdJornada);
             });
 
-            table.appendChild(row);
+            // Añadinmos las filas en orden
+            table.appendChild(rowPuntos);
+            table.appendChild(rowJornadas);
+
             container.appendChild(table);
         })();
 

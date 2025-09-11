@@ -982,7 +982,7 @@ public class ComunioUserService {
 
                     // Buscar el span que tiene el número de puntos
                     Element span = row.selectFirst("td:last-child span");
-                    String points = span != null ? span.text() : "0";
+                    String points = span != null ? span.text() : "-";
                     jornada.put("points", points);
 
                     jornadas.add(jornada);

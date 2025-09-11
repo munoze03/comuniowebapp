@@ -11322,3 +11322,25 @@ hr {
     font-size: 18px;
     font-weight: bold;
 }
+
+/* Estilos colores de historico de puntos */
+.bg-rojo { background-color: red !important; color: white !important; }
+.bg-naranja { background-color: orange !important; color: white !important; }
+.bg-verde { background-color: green !important; color: white !important; }
+.bg-azul { background-color: var(--bs-blue) !important; color: white !important; }
+.bg-gris { background-color: grey !important; color: white !important; }
+
+
+/* Estilos para la tabla de historico de puntos */
+#jugadorHistoricoPuntos table {
+  border-collapse: collapse;   /* para que los bordes no se dupliquen */
+  margin: 0 auto;              /* centrado opcional */
+}
+#jugadorHistoricoPuntos td {
+  width: 24px;                 /* ancho fijo */
+  text-align: center;          /* centrar números */
+  vertical-align: middle;
+  font-weight: bold;           /* más vistoso */
+  border: 2px solid #212529;   /* borde verde Bootstrap */
+  border-radius: 5px;          /* opcional, esquinas redondeadas */
+}
