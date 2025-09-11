@@ -23,16 +23,13 @@ public class ModelController {
         this.comunioUserService = comunioUserService;
     }
 
-    @PostMapping("/cargarHistoricoPuntos/{jugadorName}")
+    @GetMapping("/cargarHistoricoPuntos/{jugadorName}")
     @ResponseBody
-    public void cargarHistoricoPuntosJugador(
+    public Map<String, Object> cargarHistoricoPuntosJugador(
         @PathVariable String jugadorName) {
-
-        // Recupera token de sesión
-        //String token = (String) session.getAttribute("token");
         
         // Llamamos al servicio
-        //return comunioUserService.getCargarHistoriaValor(token, id);
+        return comunioUserService.getHistoricoPuntosJugador(jugadorName);
 
     }
 
@@ -41,7 +38,7 @@ public class ModelController {
         @PathVariable String jugadorName) {
 
         // Llamamos al servicio
-            return comunioUserService.cargarHistoricoValorJugador(jugadorName);
+        return comunioUserService.cargarHistoricoValorJugador(jugadorName);
     }
     
 }

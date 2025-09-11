@@ -581,9 +581,15 @@ function mostrarInfoJugador(jugador) {
     if (jugador.id) {
         infoJugador.classList.remove("d-none");
         infoVacio.classList.add("d-none");
+        const jugadorName = jugador.name.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
+        console.log(jugadorName);
+        
+
+        
 
         //document.getElementById("").textContent = jugador.position;
         //document.getElementById("jugadorId").textContent = jugador.id;
+        // Guardamos jugador en window para recuperarlo al abrir el modal de historico valor
         window.jugadorSeleccionado = jugador;
 
         document.getElementById("jugadorNombre").textContent = jugador.name;
@@ -629,7 +635,43 @@ function mostrarInfoJugador(jugador) {
         document.getElementById("jugadorTarjetasAmarillas").textContent = jugador.tarjetasAmarillas;
         document.getElementById("jugadorTarjetasAmarRoja").textContent = jugador.tarjetasAmarRoja;
         document.getElementById("jugadorTarjetasRojas").textContent = jugador.tarjetasRojas;
-        
+
+        // Cramos tabla dinamica de historico de puntos
+        // Llamamos a la funcion async await para conseguir el historial de puntos del jugador
+        (async () => {
+            const historicoPuntos = await cargarHistorialPuntos(jugadorName);
+            console.log(historicoPuntos.boxPoints.jornadas); // ✅ Aquí sí tienes los datos
+            const container = document.getElementById("jugadorHistoricoPuntos");
+
+            container.innerHTML = ""; // limpiar contenido anterior
+
+            const table = document.createElement("table");
+            table.className = "table text-center mb-0"; // clases Bootstrap
+
+            const row = document.createElement("tr");
+
+            historicoPuntos.boxPoints.jornadas.forEach(valor => {
+                const td = document.createElement("td");
+                td.textContent = valor.points;
+
+                // Colorear según reglas
+                if (valor.points <= 1) {
+                    td.classList.add("bg-danger", "text-white");   // rojo
+                } else if (valor.points >= 2 && valor <= 4) {
+                    td.classList.add("bg-warning", "text-dark");   // naranja
+                } else if (valor.points >= 5 && valor <= 9) {
+                    td.classList.add("bg-success", "text-white");  // verde
+                } else {
+                    td.classList.add("bg-primary", "text-white");  // azul
+                }
+
+                row.appendChild(td);
+            });
+
+            table.appendChild(row);
+            container.appendChild(table);
+        })();
+
         
     } else {
         infoJugador.classList.add("d-none");
@@ -971,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Script para capturar los datos del jugador desde el controlador en el modal historial
+// Script para capturar los datos del historial de valor del jugador desde el controlador en el modal historial de valor
 document.addEventListener('DOMContentLoaded', function () {
     const historialModal = document.getElementById('historialModal');
 
@@ -1067,3 +1109,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 });
 
+async function cargarHistorialPuntos(jugadorName){
+    
+    const response = await fetch(`/model/cargarHistoricoPuntos/${jugadorName}`);
+    if (!response.ok) throw new Error("Error en la petición: " + response.status);
+    return await response.json(); // devuelve el objeto data
+}
