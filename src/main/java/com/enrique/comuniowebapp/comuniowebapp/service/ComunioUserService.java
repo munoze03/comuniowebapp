@@ -900,40 +900,7 @@ public class ComunioUserService {
         try {
             Document doc = Jsoup.connect(url).get();
 
-
-            // 1. Extraemos box.points
-            Element boxPoints = doc.selectFirst("div.box.box-points");
-            if(boxPoints != null){
-                Map<String, Object> puntosData = new LinkedHashMap<>();
-
-                // Puntos principales
-                Elements values = boxPoints.select(".numbox .big .value");
-                Elements labels = boxPoints.select(".numbox .big .label");
-                for (int i=0; i< values.size(); i++){
-                    puntosData.put(labels.get(i).text(), values.get(i).text());
-                }
-
-                // Tabla de jornadas
-                List<Map<String, Object>> jornadas = new ArrayList<>();
-                Elements rows = boxPoints.select("table.points-list tr");
-                for(Element row : rows){
-                    Map<String, Object> jornada = new HashMap<>();
-                    jornada.put("week", row.selectFirst("td.week") != null ? row.selectFirst("td.week").text() : "");
-
-                    // Buscar el span que tiene el número de puntos
-                    Element span = row.selectFirst("td:last-child span");
-                    String points = span != null ? span.text() : "0";
-                    jornada.put("points", points);
-
-                    jornadas.add(jornada);
-                }
-
-                puntosData.put("jornadas", jornadas);
-
-                result.put("boxPoints", puntosData);
-            }
-
-            // 2. Extraemos box-chart (valores de mercado)
+            // Extraemos box-chart (valores de mercado)
             Element script = doc.select("script").stream()
                     .filter(s -> s.html().contains("marketChart(["))
                     .findFirst().orElse(null);

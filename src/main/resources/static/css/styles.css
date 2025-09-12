@@ -11331,7 +11331,7 @@ hr {
 .bg-gris { background-color: grey !important; color: white !important; }
 
 
-/* Estilos para la tabla de historico de puntos */
+/* Estilos para la tabla de historico de puntos en el modal*/
 #jugadorHistoricoPuntos table {
   border-collapse: collapse;   /* para que los bordes no se dupliquen */
   margin: 0 auto;              /* centrado opcional */
@@ -11343,4 +11343,37 @@ hr {
   font-weight: bold;           /* más vistoso */
   border: 2px solid #212529;   /* borde verde Bootstrap */
   border-radius: 5px;          /* opcional, esquinas redondeadas */
+}
+
+/* Estilos para la tabla de historico de puntos */
+.jugadorHistoricoPuntos {
+    overflow-x: auto;        /* scroll si hay muchas celdas */
+    max-width: 60%;         /* por defecto ocupa todo el contenedor */
+}
+
+/* Tabla */
+.jugadorHistoricoPuntos table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+/* Celdas compactas */
+.jugadorHistoricoPuntos td {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 1px;
+    font-size: 10px;
+}
+
+/* Media query para escritorio: ancho máximo limitado */
+@media (min-width: 992px) {  /* ejemplo para pantallas grandes */
+    .jugadorHistoricoPuntos{
+        max-width: 20%;      /* solo en escritorio */
+    }
 }

@@ -35,13 +35,10 @@
                                 </p>
 
                                 <!-- Puntos -->
-                                <p class="mb-0 text-white-50">
-                                    <span class="label-text">Últimos:</span>
-                                    <span th:text="${p.ultimosPuntos}">0</span>
-                                    &nbsp;|&nbsp;
-                                    <span class="label-text">Media:</span>
-                                    <span th:text="${p.mediaPuntos}">0</span>
-                                </p>
+                                <div th:id="'jugadorHistoricoPuntos-' + ${p.id}" 
+                                    th:data-jugador="${p.name}" 
+                                    class="jugadorHistoricoPuntos">
+                                </div>
 
                                 <!-- Valor -->
                                 <p class="mb-0 text-white-50">

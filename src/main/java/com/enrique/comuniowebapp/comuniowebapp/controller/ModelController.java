@@ -27,6 +27,11 @@ public class ModelController {
     public Map<String, Object> cargarHistoricoPuntosJugador(
         @PathVariable String jugadorName) {
         
+        // Excepciones de jugadores repetidos en la historia de comunio
+        if(jugadorName.equals("pablo-ibanez")){
+            jugadorName = "pablo-ibanez-2";
+        }
+        
         // Llamamos al servicio
         return comunioUserService.getHistoricoPuntosJugador(jugadorName);
 
@@ -35,6 +40,11 @@ public class ModelController {
     @GetMapping("/cargarHistoricoValor/{jugadorName}")
     public Map<String, Object> cargarHistoricoValorJugador(
         @PathVariable String jugadorName) {
+
+        // Excepciones de jugadores repetidos en la historia de comunio
+        if(jugadorName.equals("pablo-ibanez")){
+            jugadorName = "pablo-ibanez-2";
+        }
 
         // Llamamos al servicio
         return comunioUserService.cargarHistoricoValorJugador(jugadorName);

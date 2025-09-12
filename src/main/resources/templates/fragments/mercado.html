@@ -39,10 +39,12 @@
                                 <div>
                                     <h5 class="text-light mb-1" th:text="${m.namePlayer}">Nombre del jugador</h5>
 
+                                    <!-- Posicion -->
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Posición:</span>
                                         <span th:text="${m.position}"></span>
                                     </p>
+                                    <!-- Valor y precio minimo -->
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Valor:</span>
                                         <span th:text="${#numbers.formatInteger(m.price, 0, 'POINT')} + ' €'"></span>
@@ -50,6 +52,12 @@
                                         <span class="label-text">Oferta mínima:</span>
                                         <span th:text="${#numbers.formatInteger(m.recommendedPrice, 0, 'POINT')} + ' €'"></span>
                                     </p>
+                                    <!-- Tabla Puntos -->
+                                    <div th:id="'jugadorHistoricoPuntos-' + ${m.id}" 
+                                        th:data-jugador="${m.namePlayer}" 
+                                        class="jugadorHistoricoPuntos">
+                                    </div>
+                                    <!-- Tiempo en mercado -->
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Fin:</span>
                                         <span th:text="${m.remaining} + 'h'"></span>
@@ -150,10 +158,12 @@
                                 <div>
                                     <h5 class="text-light mb-1" th:text="${m.namePlayer}">Nombre del jugador</h5>
 
+                                    <!-- Posicion -->
                                     <p class="mb-0 text-white-50">
                                     <span class="label-text">Posición:</span>
                                     <span th:text="${m.position}"></span>
                                     </p>
+                                    <!-- Valor y precio minimo -->
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Valor:</span>
                                         <span th:text="${#numbers.formatInteger(m.price, 0, 'POINT')} + ' €'"></span>
@@ -161,6 +171,12 @@
                                         <span class="label-text">Oferta mínima:</span>
                                         <span th:text="${#numbers.formatInteger(m.recommendedPrice, 0, 'POINT')} + ' €'"></span>
                                     </p>
+                                    <!-- Tabla Puntos -->
+                                    <div th:id="'jugadorHistoricoPuntos-' + ${m.id}" 
+                                        th:data-jugador="${m.namePlayer}" 
+                                        class="jugadorHistoricoPuntos">
+                                    </div>
+                                    <!-- Dueno y tiempo en mercado -->
                                     <p class="mb-0 text-white-50">
                                         <span class="label-text">Dueño:</span>
                                         <span th:text="${m.owner}"></span>

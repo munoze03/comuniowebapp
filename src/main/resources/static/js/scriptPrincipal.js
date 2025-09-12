@@ -638,56 +638,7 @@ function mostrarInfoJugador(jugador) {
 
         // Cramos tabla dinamica de historico de puntos
         // Llamamos a la funcion async await para conseguir el historial de puntos del jugador
-        (async () => {
-            const historicoPuntos = await cargarHistorialPuntos(jugadorName);
-            console.log(historicoPuntos.boxPoints.jornadas); // ✅ Aquí sí tienes los datos
-            const container = document.getElementById("jugadorHistoricoPuntos");
-
-            container.innerHTML = ""; // limpiar contenido anterior
-
-            const table = document.createElement("table");
-            table.className = "table text-center mb-0"; // clases Bootstrap
-
-            const rowPuntos = document.createElement("tr");
-            const rowJornadas = document.createElement("tr");
-
-            // Damos la vuelta al array
-            const jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
-
-            jornadas.forEach(valor => {
-                // Celda de puntos
-                const tdPuntos = document.createElement("td");
-                tdPuntos.textContent = valor.points;
-
-                // Colorear según reglas
-                if (valor.points < 0) {
-                    tdPuntos.classList.add("bg-rojo");
-                } else if (valor.points == 0 || valor.points == "-") {
-                    tdPuntos.classList.add("bg-gris");
-                } else if (valor.points >= 1 && valor.points <= 4) {
-                    tdPuntos.classList.add("bg-naranja");
-                } else if (valor.points >= 5 && valor.points <= 9) {
-                    tdPuntos.classList.add("bg-verde");
-                } else if (valor.points > 9) {
-                    tdPuntos.classList.add("bg-azul");
-                }
-
-                rowPuntos.appendChild(tdPuntos);
-
-                // Celda de jornadas
-                const tdJornada = document.createElement("td");
-                tdJornada.textContent = `${valor.week}`;
-                tdJornada.style.fontSize = "12px";  
-                tdJornada.style.color = "white";      // más pequeño si quieres
-                rowJornadas.appendChild(tdJornada);
-            });
-
-            // Añadinmos las filas en orden
-            table.appendChild(rowPuntos);
-            table.appendChild(rowJornadas);
-
-            container.appendChild(table);
-        })();
+        renderHistoricoPuntosModal(jugadorName, "jugadorHistoricoPuntos");
 
         
     } else {
@@ -1131,4 +1082,116 @@ async function cargarHistorialPuntos(jugadorName){
     const response = await fetch(`/model/cargarHistoricoPuntos/${jugadorName}`);
     if (!response.ok) throw new Error("Error en la petición: " + response.status);
     return await response.json(); // devuelve el objeto data
+}
+
+
+async function renderHistoricoPuntosModal(jugadorName, containerId = "jugadorHistoricoPuntos") {
+    // Llamamos a la función que carga los datos
+    jugadorName = jugadorName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
+    console.log(jugadorName);
+    const historicoPuntos = await cargarHistorialPuntos(jugadorName);
+    console.log(historicoPuntos.boxPoints.jornadas); 
+
+    const container = document.getElementById(containerId);
+    if (!container) return; // si no existe el contenedor, salir
+
+    container.innerHTML = ""; // limpiar contenido anterior
+
+    const table = document.createElement("table");
+    table.className = "table text-center mb-0";
+
+    const rowPuntos = document.createElement("tr");
+    const rowJornadas = document.createElement("tr");
+
+    // Tomamos las últimas 5 jornadas y damos la vuelta
+    const jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+
+    jornadas.forEach(valor => {
+        // Celda de puntos
+        const tdPuntos = document.createElement("td");
+        tdPuntos.textContent = valor.points;
+
+        // Colorear según reglas
+        if (valor.points < 0) {
+            tdPuntos.classList.add("bg-rojo");
+        } else if (valor.points == 0 || valor.points == "-") {
+            tdPuntos.classList.add("bg-gris");
+        } else if (valor.points >= 1 && valor.points <= 4) {
+            tdPuntos.classList.add("bg-naranja");
+        } else if (valor.points >= 5 && valor.points <= 9) {
+            tdPuntos.classList.add("bg-verde");
+        } else if (valor.points > 9) {
+            tdPuntos.classList.add("bg-azul");
+        }
+
+        rowPuntos.appendChild(tdPuntos);
+
+        // Celda de jornadas
+        const tdJornada = document.createElement("td");
+        tdJornada.textContent = `${valor.week}`;
+        tdJornada.style.fontSize = "12px";
+        tdJornada.style.color = "white";
+        rowJornadas.appendChild(tdJornada);
+    });
+
+    table.appendChild(rowPuntos);
+    table.appendChild(rowJornadas);
+
+    container.appendChild(table);
+}
+
+
+// Ejecutar automáticamente para todos los contenedores con data-jugador
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-jugador]").forEach(div => {
+        const jugadorName = div.dataset.jugador;
+        renderHistoricoPuntos(jugadorName, div.id);
+    });
+});
+
+async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoricoPuntos") {
+    // Llamamos a la función que carga los datos
+    jugadorName = jugadorName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
+    console.log(jugadorName);
+    const historicoPuntos = await cargarHistorialPuntos(jugadorName);
+    console.log(historicoPuntos.boxPoints.jornadas); 
+
+    const container = document.getElementById(containerId);
+    if (!container) return; // si no existe el contenedor, salir
+
+    container.innerHTML = ""; // limpiar contenido anterior
+
+    const table = document.createElement("table");
+    table.className = "table text-center mb-0";
+
+    const rowPuntos = document.createElement("tr");
+
+    // Tomamos las últimas 5 jornadas y damos la vuelta
+    const jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+
+    jornadas.forEach(valor => {
+        // Celda de puntos
+        const tdPuntos = document.createElement("td");
+        tdPuntos.textContent = valor.points;
+
+        // Colorear según reglas
+        if (valor.points < 0) {
+            tdPuntos.classList.add("bg-rojo");
+        } else if (valor.points == 0 || valor.points == "-") {
+            tdPuntos.classList.add("bg-gris");
+        } else if (valor.points >= 1 && valor.points <= 4) {
+            tdPuntos.classList.add("bg-naranja");
+        } else if (valor.points >= 5 && valor.points <= 9) {
+            tdPuntos.classList.add("bg-verde");
+        } else if (valor.points > 9) {
+            tdPuntos.classList.add("bg-azul");
+        }
+
+        rowPuntos.appendChild(tdPuntos);
+
+    });
+
+    table.appendChild(rowPuntos);
+
+    container.appendChild(table);
 }
