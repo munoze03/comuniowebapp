@@ -25,7 +25,6 @@ window.addEventListener('DOMContentLoaded', event => {
 
 // Boton de Mostrar anteriores de seccion noticias
 function toggleNoticias() {
-    console.log("Si llega aqui");
     const extras = document.querySelectorAll('.extra-noticia');
     const btn = document.getElementById('toggleNoticiasBtn');
     const isHidden = extras[0]?.classList.contains('d-none');
@@ -582,7 +581,6 @@ function mostrarInfoJugador(jugador) {
         infoJugador.classList.remove("d-none");
         infoVacio.classList.add("d-none");
         const jugadorName = jugador.name.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
-        console.log(jugadorName);
         
 
         
@@ -989,11 +987,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const jugador = window.jugadorSeleccionado;
         const jugadorId = jugador.id;
         const jugadorName = jugador.name.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
-        console.log(jugador);
-        console.log(jugadorName);
         document.getElementById('Nombre').textContent = jugador.name;
 
-        console.log(`/model/cargarHistoricoValor/${jugadorName}`);
         fetch(`/model/cargarHistoricoValor/${jugadorName}`)
         .then(response => {
             if (!response.ok) {
@@ -1002,7 +997,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(data => {
-            console.log("Datos recibidos:", data);
             const container = document.getElementById('historialLista');
             container.innerHTML = ''; // Limpiar
 
@@ -1057,19 +1051,12 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollWrapper.appendChild(table);
             container.appendChild(scrollWrapper);
 
-            // Acceder a boxPoints
-            console.log("Puntos:", data.boxPoints.Puntos);
-            console.log("Media:", data.boxPoints.Media);
-            console.log("Valor:", data.boxPoints.Valor);
-
             // Acceder a jornadas
             data.boxPoints.jornadas.forEach(j => {
-            console.log(`Jornada: ${j.week}, Puntos: ${j.points}`);
             });
 
             // Debug de boxChart completo
             boxChart.forEach(entry => {
-            console.log(entry.date, entry.value);
             });
         })
         .catch(err => console.error("Error en fetch:", err));
@@ -1088,9 +1075,7 @@ async function cargarHistorialPuntos(jugadorName){
 async function renderHistoricoPuntosModal(jugadorName, containerId = "jugadorHistoricoPuntos") {
     // Llamamos a la función que carga los datos
     jugadorName = jugadorName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
-    console.log(jugadorName);
     const historicoPuntos = await cargarHistorialPuntos(jugadorName);
-    console.log(historicoPuntos.boxPoints.jornadas); 
 
     const container = document.getElementById(containerId);
     if (!container) return; // si no existe el contenedor, salir
@@ -1152,9 +1137,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoricoPuntos") {
     // Llamamos a la función que carga los datos
     jugadorName = jugadorName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
-    console.log(jugadorName);
     const historicoPuntos = await cargarHistorialPuntos(jugadorName);
-    console.log(historicoPuntos.boxPoints.jornadas); 
 
     const container = document.getElementById(containerId);
     if (!container) return; // si no existe el contenedor, salir
