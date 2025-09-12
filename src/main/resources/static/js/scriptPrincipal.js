@@ -1051,17 +1051,10 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollWrapper.appendChild(table);
             container.appendChild(scrollWrapper);
 
-            // Acceder a jornadas
-            data.boxPoints.jornadas.forEach(j => {
-            });
-
-            // Debug de boxChart completo
-            boxChart.forEach(entry => {
-            });
         })
         .catch(err => console.error("Error en fetch:", err));
 
-            });
+    });
 });
 
 async function cargarHistorialPuntos(jugadorName){
