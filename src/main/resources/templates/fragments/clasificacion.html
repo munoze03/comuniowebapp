@@ -11,14 +11,29 @@
                 <!-- Botones de selección -->
                 <div class="mb-3">
                     <div class="btn-group" role="group" aria-label="Selector de clasificación">
-                        <button id="btnTotal" type="button" class="btn btn-success">Puntos Totales</button>
-                        <button id="btnJornada" type="button" class="btn btn-outline-success">Última Jornada</button>
+                        <button id="btnTotal" type="button" class="btn btn-success">Total</button>
+                        <button id="btnJornada" type="button" class="btn btn-outline-success">Jornada</button>
                         <button id="btnLive" type="button" class="btn btn-outline-success">Live</button>
                         <button id="btnMes" type="button" class="btn btn-outline-success">Mes</button>
                     </div>
                 </div>
-
-                <table class="table text-white">
+                <div id="selectorMesContainer" class="mb-3 d-none">
+                    <label for="selectorMes" class="form-label text-success">Selecciona un mes</label>
+                    <select id="selectorMes" class="form-select form-select-sm w-auto bg-dark text-white border-success">
+                        <option value="" selected disabled>-- Selecciona un mes --</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Septiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>                        <option value="1">Enero</option>
+                        <option value="12">Diciembre</option>
+                        <option value="1">Enero</option>
+                        <option value="2">Febrero</option>
+                        <option value="3">Marzo</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Mayo</option>
+                    </select>
+                </div>
+                <table id="tablaClasificacion" class="table text-white">
                     <thead>
                         <tr class="text-success">
                             <th>Posición</th>
@@ -29,7 +44,20 @@
                             <th class="tipo-mes d-none">Puntos</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <!-- tbody live -->
+                    <tbody id="tbody" >
+                        <tr th:each="c, stat : ${clasificacion}">
+                            <td><span th:text="${stat.count}"></span></td>
+                            <td th:text="${#strings.capitalize(c.name)}"></td>
+                            <td class="tipo-total" th:text="${c.totalPoints}"></td>
+                            <td class="tipo-jornada d-none" th:text="${c.totalPointsLastMatchday}"></td>
+                            <td class="tipo-live d-none" th:text="${c.livePoints}"></td>
+                            <td class="tipo-mes d-none" th:text="${c.livePoints}"></td>
+                        </tr>
+                    </tbody>
+
+                    <!-- tbody mes -->
+                    <tbody id="tbodyMes" class="d-none">
                         <tr th:each="c, stat : ${clasificacion}">
                             <td><span th:text="${stat.count}"></span></td>
                             <td th:text="${#strings.capitalize(c.name)}"></td>

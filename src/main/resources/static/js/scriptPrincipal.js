@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const tbody = document.querySelector("table.table tbody");
 
     btnTotal.addEventListener("click", function () {
+        
         btnTotal.classList.add("btn-success");
         btnTotal.classList.remove("btn-outline-success");
         btnJornada.classList.add("btn-outline-success");
@@ -55,9 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".tipo-total").forEach(e => e.classList.remove("d-none"));
         document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.add("d-none"));
         document.querySelectorAll(".tipo-live").forEach(e => e.classList.add("d-none"));
-        document.querySelectorAll(".tipo-mes").forEach(e => e.classList.add("d-none"));
 
+        // 👉 Mostrar tabla completa
+        document.getElementById("tablaClasificacion").classList.remove("d-none");
 
+        // 👉 Mostrar tbodyMes y ocultar tbody normal
+        document.getElementById("tbodyMes").classList.add("d-none");
+        document.getElementById("tbody").classList.remove("d-none");
+        
         ordenarTabla("tipo-total");
     });
 
@@ -76,6 +82,13 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.remove("d-none"));
         document.querySelectorAll(".tipo-mes").forEach(e => e.classList.add("d-none"));
 
+        // 👉 Mostrar tabla completa
+        document.getElementById("tablaClasificacion").classList.remove("d-none");
+
+        // 👉 Mostrar tbodyMes y ocultar tbody normal
+        document.getElementById("tbodyMes").classList.add("d-none");
+        document.getElementById("tbody").classList.remove("d-none");
+        
         ordenarTabla("tipo-jornada");
     });
 
@@ -95,10 +108,18 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".tipo-live").forEach(e => e.classList.remove("d-none"));
         document.querySelectorAll(".tipo-mes").forEach(e => e.classList.add("d-none"));
 
+        // 👉 Mostrar tabla completa
+        document.getElementById("tablaClasificacion").classList.remove("d-none");
+
+        // 👉 Mostrar tbodyMes y ocultar tbody normal
+        document.getElementById("tbodyMes").classList.add("d-none");
+        document.getElementById("tbody").classList.remove("d-none");
+
         ordenarTabla("tipo-live");
     })
 
     btnMes.addEventListener("click", function (){
+        // Cambiar estilos de botones como ya haces
         btnLive.classList.add("btn-outline-success");
         btnLive.classList.remove("btn-success");
         btnJornada.classList.add("btn-outline-success");
@@ -107,15 +128,43 @@ document.addEventListener("DOMContentLoaded", function () {
         btnTotal.classList.remove("btn-success");
         btnMes.classList.add("btn-success");
         btnMes.classList.remove("btn-outline-success");
-        
 
-        document.querySelectorAll(".tipo-total").forEach(e => e.classList.add("d-none"));
-        document.querySelectorAll(".tipo-jornada").forEach(e => e.classList.add("d-none"));
-        document.querySelectorAll(".tipo-live").forEach(e => e.classList.add("d-none"));
-        document.querySelectorAll(".tipo-mes").forEach(e => e.classList.remove("d-none"));
+        // 👉 Ocultar tabla completa
+        document.getElementById("tablaClasificacion").classList.add("d-none");
 
-        ordenarTabla("tipo-live");
-    })
+        // 👉 Mostrar selector de mes
+        document.getElementById("selectorMesContainer").classList.remove("d-none");
+    });
+
+    document.getElementById("selectorMes").addEventListener("change", async function () {
+        const mesSeleccionado = this.value;
+        console.log(mesSeleccionado);
+        if (!mesSeleccionado) return;
+
+        try {
+            const response = await fetch(`/clasificacion/mes/${mesSeleccionado}`);
+            if (!response.ok) throw new Error("Error al obtener la clasificación");
+            
+            const html = await response.text();
+            document.querySelector("#tablaClasificacion #tbodyMes").innerHTML = html;
+
+            // 👉 Ocultar el selector y reiniciarlo
+            const selectorMes = document.getElementById("selectorMes");
+            selectorMes.value = "";
+            document.getElementById("selectorMesContainer").classList.add("d-none");
+
+            // 👉 Mostrar la tabla
+            document.getElementById("tablaClasificacion").classList.remove("d-none");
+
+            // 👉 Mostrar tbodyMes y ocultar tbody normal
+            document.getElementById("tbodyMes").classList.remove("d-none");
+            document.getElementById("tbody").classList.add("d-none");
+
+        } catch (err) {
+            console.error(err);
+            alert("No se pudo cargar la clasificación del mes seleccionado.");
+        }
+    });
 
     function ordenarTabla(tipo) {
         // tipo: "tipo-total" o "tipo-jornada"

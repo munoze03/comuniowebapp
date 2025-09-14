@@ -967,4 +967,36 @@ public class ComunioUserService {
             return result;
         }
     }
+
+    public List<Clasificacion> getClasificacionMes(String token, String communityId, String mesSeleccionado){
+
+        String url;
+        if(Integer.parseInt(mesSeleccionado) >= 8 && Integer.parseInt(mesSeleccionado) <= 12){
+            url = String.format("https://www.comunio.es/api/communities/%s/standings?period=month&year=2025&month=%s", communityId, mesSeleccionado);
+        }else{
+            url = String.format("https://www.comunio.es/api/communities/%s/standings?period=month&year=2026&month=%s", communityId, mesSeleccionado);
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+
+        List<Clasificacion> clasificacionMes = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Map<String, Object> embedded = (Map<String, Object>) item.get("_embedded");
+            Map<String, Object> user = (Map<String, Object>) embedded.get("user");
+
+            Clasificacion c = new Clasificacion();
+            c.setName((String) user.get("name"));
+            c.setTotalPoints((int) item.get("totalPoints"));
+            
+            clasificacionMes.add(c);
+        }
+
+        return clasificacionMes;
+    }
+    
 }
