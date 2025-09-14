@@ -1130,8 +1130,19 @@ async function renderHistoricoPuntosModal(jugadorName, containerId = "jugadorHis
     const rowPuntos = document.createElement("tr");
     const rowJornadas = document.createElement("tr");
 
-    // Tomamos las últimas 5 jornadas y damos la vuelta
-    const jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+    // Cremaos jornadas y consultamos si el jugador ha jugado en algun partido, si no creamos un array de 5 objetos para que aparezca
+    let jornadas = [];
+
+    if (!historicoPuntos.boxPoints.jornadas || historicoPuntos.boxPoints.jornadas.length === 0) {
+        // Generar array de 5 objetos con puntos "-"
+        jornadas = Array.from({ length: 5 }, (_, i) => ({
+            week: `J${i + 1}`,
+            points: "-"
+        }));
+    } else {
+        // Tomamos las últimas 5 jornadas y damos la vuelta
+        jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+    }
 
     jornadas.forEach(valor => {
         // Celda de puntos
@@ -1180,6 +1191,7 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
     // Llamamos a la función que carga los datos
     jugadorName = jugadorName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
     const historicoPuntos = await cargarHistorialPuntos(jugadorName);
+    console.log(jugadorName);
 
     const container = document.getElementById(containerId);
     if (!container) return; // si no existe el contenedor, salir
@@ -1191,8 +1203,22 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
 
     const rowPuntos = document.createElement("tr");
 
-    // Tomamos las últimas 5 jornadas y damos la vuelta
-    const jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+    // Cremaos jornadas y consultamos si el jugador ha jugado en algun partido, si no creamos un array de 5 objetos para que aparezca
+    let jornadas = [];
+
+    if (!historicoPuntos.boxPoints.jornadas || historicoPuntos.boxPoints.jornadas.length === 0) {
+        // Generar array de 5 objetos con puntos "-"
+        jornadas = Array.from({ length: 5 }, (_, i) => ({
+            week: `J${i + 1}`,
+            points: "-"
+        }));
+    } else {
+        // Tomamos las últimas 5 jornadas y damos la vuelta
+        jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+    }
+
+    console.log(jornadas);
+    
 
     jornadas.forEach(valor => {
         // Celda de puntos
