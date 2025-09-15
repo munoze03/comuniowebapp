@@ -60,6 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // 👉 Mostrar tabla completa
         document.getElementById("tablaClasificacion").classList.remove("d-none");
 
+        // 👉 Ocultar el selector y reiniciarlo
+        document.getElementById("selectorMesContainer").classList.add("d-none");
+
         // 👉 Mostrar tbodyMes y ocultar tbody normal
         document.getElementById("tbodyMes").classList.add("d-none");
         document.getElementById("tbody").classList.remove("d-none");
@@ -84,6 +87,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 👉 Mostrar tabla completa
         document.getElementById("tablaClasificacion").classList.remove("d-none");
+
+        // 👉 Ocultar el selector y reiniciarlo
+        document.getElementById("selectorMesContainer").classList.add("d-none");
 
         // 👉 Mostrar tbodyMes y ocultar tbody normal
         document.getElementById("tbodyMes").classList.add("d-none");
@@ -110,6 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 👉 Mostrar tabla completa
         document.getElementById("tablaClasificacion").classList.remove("d-none");
+
+        // 👉 Ocultar el selector y reiniciarlo
+        document.getElementById("selectorMesContainer").classList.add("d-none");
 
         // 👉 Mostrar tbodyMes y ocultar tbody normal
         document.getElementById("tbodyMes").classList.add("d-none");

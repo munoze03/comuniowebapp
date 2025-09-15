@@ -1,0 +1,55 @@
+<div th:fragment="jugadoresEstadisticasFragment">
+    <section class="resume-section" id="jugadoresEstadisticas">
+        <div class="resume-section-content">
+            <h2 class="mb-3 text-center">Info Jugadores</h2>
+            
+            <div th:if="${!#lists.isEmpty(clasificacion)}">
+                <!-- Botones de selección -->
+                <div class="mb-3">
+                    <div class="btn-group" role="group" aria-label="Selector de clasificación">
+                        <button id="btnTotal" type="button" class="btn btn-success">Total</button>
+                        <button id="btnJornada" type="button" class="btn btn-outline-success">Jornada</button>
+                        <button id="btnLive" type="button" class="btn btn-outline-success">Live</button>
+                        <button id="btnMes" type="button" class="btn btn-outline-success">Mes</button>
+                    </div>
+                </div>
+                <table id="tablaClasificacion" class="table text-white">
+                    <thead>
+                        <tr class="text-success">
+                            <th>Posición</th>
+                            <th>Usuario</th>
+                            <th class="tipo-total">Puntos</th>
+                            <th class="tipo-jornada d-none">Puntos</th>
+                            <th class="tipo-live d-none">Puntos</th>
+                            <th class="tipo-mes d-none">Puntos</th>
+                        </tr>
+                    </thead>
+                    <!-- tbody live -->
+                    <tbody id="tbody" >
+                        <tr th:each="c, stat : ${clasificacion}">
+                            <td><span th:text="${stat.count}"></span></td>
+                            <td th:text="${#strings.capitalize(c.name)}"></td>
+                            <td class="tipo-total" th:text="${c.totalPoints}"></td>
+                            <td class="tipo-jornada d-none" th:text="${c.totalPointsLastMatchday}"></td>
+                            <td class="tipo-live d-none" th:text="${c.livePoints}"></td>
+                            <td class="tipo-mes d-none" th:text="${c.livePoints}"></td>
+                        </tr>
+                    </tbody>
+
+                    <!-- tbody mes -->
+                    <tbody id="tbodyMes" class="d-none">
+                        <tr th:each="c, stat : ${clasificacion}">
+                            <td><span th:text="${stat.count}"></span></td>
+                            <td th:text="${#strings.capitalize(c.name)}"></td>
+                            <td class="tipo-total" th:text="${c.totalPoints}"></td>
+                            <td class="tipo-jornada d-none" th:text="${c.totalPointsLastMatchday}"></td>
+                            <td class="tipo-live d-none" th:text="${c.livePoints}"></td>
+                            <td class="tipo-mes d-none" th:text="${c.livePoints}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <hr class="m-0" />
+</div>

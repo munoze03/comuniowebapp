@@ -11,28 +11,29 @@
         <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link rel="stylesheet" th:href="@{/css/styles.css}">
+        <link rel="stylesheet" th:href="@{/css/stylesEstadisticas.css}">
         <!-- Bootstrap icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     </head>
     <body id="page-top">
         <!-- Navegacion -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNavEstadisticas">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
                 <span class="d-block d-lg-none" th:text="'Saldo: ' + ${userInfo.budget + '€'} " ></span>
-                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="/assets/logoJujas.png" alt="..." /></span>
-            </a>
+<div class="d-none d-lg-block position-relative d-inline-block">
+  <img class="img-fluid img-profile rounded-circle mx-auto mb-2"
+       src="/assets/logoJujas.png"
+       alt="Logo Jujas" />
+  <a href="/main" class="stretched-link"></a>
+</div>            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
+            <div class="collapse navbar-collapse" id="navbarResponsiveEstadisticas">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#noticias">Noticias</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#mercado">Mercado</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#plantilla">Plantilla</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#ofertas">Ofertas</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#alineacion">Alineación</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#clasificacion">Clasificación</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/otraPagina}">Estadísticas</a></li>
-                    <li class="nav-item" th:if="${userInfo.isLeader == true}"><a class="nav-link js-scroll-trigger" href="#administracion">Administracion</a></li>                    
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#jugadoresEstadisticas">Jugadores</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#calendarioLaLiga">Calendario La Liga</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#clasificacionLaLiga">Clasificación La Liga</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#calendarioJornada">Calendario Jornada</a></li>
+                    <!-- <li class="nav-item" th:if="${userInfo.isLeader == true}"><a class="nav-link js-scroll-trigger" href="#administracion">Administracion</a></li> -->
                 </ul>
             </div>
             <!-- Presupuesto fijo en la barra lateral -->
@@ -42,9 +43,28 @@
         </nav>
         <!-- Contenido de la Pagina-->
         <div class="container-fluid p-0">
-            <!-- Noticias -->
+
+            <!-- Jugadores -->
             <div class="container-fluid p-0">
-                <div th:replace="fragments/noticias :: noticiasFragment"></div>
+                <div th:replace="fragments/jugadoresEstadisticas :: jugadoresEstadisticasFragment"></div>
+                <hr class="m-0" />
+            </div>
+
+            <!-- Calendario La Liga -->
+            <div class="container-fluid p-0">
+                <div th:replace="fragments/calendarioLaLiga :: calendarioLaLigaFragment"></div>
+                <hr class="m-0" />
+            </div>
+
+            <!-- Calendario La Liga -->
+            <div class="container-fluid p-0">
+                <div th:replace="fragments/clasificacionLaLiga :: clasificacionLaLigaFragment"></div>
+                <hr class="m-0" />
+            </div>
+
+            <!-- Calendario La Liga -->
+            <div class="container-fluid p-0">
+                <div th:replace="fragments/calendarioJornada :: calendarioJornadaFragment"></div>
                 <hr class="m-0" />
             </div>
             
@@ -53,6 +73,6 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="/js/scriptPrincipal.js"></script>
+        <script src="/js/scriptEstadisticas.js"></script>
     </body>
 </html>

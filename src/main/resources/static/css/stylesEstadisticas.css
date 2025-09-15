@@ -10879,21 +10879,21 @@ p.lead {
   font-size: 1.1rem;
 }
 
-#sideNav {
+#sideNavEstadisticas {
   padding-left: 1rem;
   padding-right: 1rem;
 }
-#sideNav .navbar-nav .nav-item .nav-link {
+#sideNavEstadisticas .navbar-nav .nav-item .nav-link {
   font-weight: 800;
   letter-spacing: 0.05rem;
   text-transform: uppercase;
 }
-#sideNav .navbar-toggler:focus {
+#sideNavEstadisticas .navbar-toggler:focus {
   outline-color: #d48a6e;
 }
 
 @media (min-width: 992px) {
-  #sideNav {
+  #sideNavEstadisticas {
     padding-left: 0;
     padding-right: 0;
     text-align: center;
@@ -10905,31 +10905,31 @@ p.lead {
     width: 17rem;
     height: 100vh;
   }
-  #sideNav .navbar-brand {
+  #sideNavEstadisticas .navbar-brand {
     display: flex;
     margin: auto auto 0;
     padding: 0.5rem;
   }
-  #sideNav .navbar-brand .img-profile {
+  #sideNavEstadisticas .navbar-brand .img-profile {
     max-width: 10rem;
     max-height: 10rem;
     border: 0.5rem solid rgba(255, 255, 255, 0.2);
   }
-  #sideNav .navbar-collapse {
+  #sideNavEstadisticas .navbar-collapse {
     display: flex;
     align-items: flex-start;
     flex-grow: 0;
     width: 100%;
     margin-bottom: auto;
   }
-  #sideNav .navbar-collapse .navbar-nav {
+  #sideNavEstadisticas .navbar-collapse .navbar-nav {
     flex-direction: column;
     width: 100%;
   }
-  #sideNav .navbar-collapse .navbar-nav .nav-item {
+  #sideNavEstadisticas .navbar-collapse .navbar-nav .nav-item {
     display: block;
   }
-  #sideNav .navbar-collapse .navbar-nav .nav-item .nav-link {
+  #sideNavEstadisticas .navbar-collapse .navbar-nav .nav-item .nav-link {
     display: block;
   }
 }
@@ -11037,87 +11037,6 @@ hr {
         font-size: 14px;
 }
 
-/* Elementos de clasificacion */
-.tipo-total,
-.tipo-jornada,
-.tipo-live,
-.tipo-mes,
-.posicion {
-    text-align: center;
-}
-.table {
-  width: 100%;        /* Que ocupe todo el ancho disponible */
-  max-width: 600px;   /* Máximo ancho deseado, por ejemplo 800px */
-  margin: 0 auto;     /* Centrar horizontalmente la tabla */
-  table-layout: auto; /* Ajusta el ancho de columnas automáticamente */
-  border-collapse: collapse; /* Opcional, para que no haya espacios entre celdas */
-}
-#clasificacion .mb-3 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 1.5rem;
-}
-
-/* Centramos los titulos */
-#clasificacion h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-#noticias h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-#mercado h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-#plantilla h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-#ofertas h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-#alineacion h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* Estilo para poner el escudo sobrepuesto a la foto y los puntos bajo la foto en ofertas*/
-.photo-logo-wrapper {
-  position: relative;
-  width: 60px;
-  height: 60px;
-}
-
-.photo-logo-wrapper img.club-logo {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-  object-fit: contain;
-}
-
-.player-points {
-    position: absolute;
-    bottom: -5px; /* un pelín hacia afuera, como el logo */
-    right: -5px;  /* alineado a la esquina */
-    background-color: #28a745; /* verde estilo Bootstrap (puedes usar el tuyo) */
-    color: #fff;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius: 4px;
-    z-index: 15;
-    box-shadow: 0 0 2px rgba(0,0,0,0.3);
-}
-
-
 /* Estilo para el saldo en la barra lateral */
 .budget-fixed {
     position: absolute;      /* Fijo en la barra lateral */
@@ -11129,251 +11048,4 @@ hr {
     border-radius: 10px;
     pointer-events: none;    /* No se puede pulsar */
     font-weight: bold;
-}
-
-/* Estilos de alineacion */
-.alineacion-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.cancha {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    height: 400px;
-    background: linear-gradient(to bottom, #4CAF50, #2E8B57);
-    border: 2px solid #333;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    overflow: hidden;
-}
-
-.jugador {
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-.jugador img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.jugador:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    z-index: 10;
-}
-
-.jugador-info {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #343a40;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 600px;
-    color: #fff;
-}
-
-.posicion-titulo {
-    color: #20c997;
-    font-weight: bold;
-}
-/* Campo con líneas estilo premium */
-.linea-media {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background-color: #fff;
-    top: 50%;
-    opacity: 0.4;
-}
-
-.centro-campo {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.4;
-}
-
-.punto-centro {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #fff;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.area-grande {
-    position: absolute;
-    width: 60%;
-    height: 100px;
-    border: 2px solid #fff;
-    left: 20%;
-    opacity: 0.4;
-}
-
-.area-pequena {
-    position: absolute;
-    width: 30%;
-    height: 50px;
-    border: 2px solid #fff;
-    left: 35%;
-    opacity: 0.4;
-}
-
-.area-grande-top { top: 0}
-.area-pequena-top { top: 0}
-
-.area-grande-bottom { bottom: 0}
-.area-pequena-bottom { bottom: 0}
-
-.modal-content {
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-}
-
-#jugadorFoto {
-    border: 2px solid #20c997;
-}
-
-.selector-tactica {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* centra horizontalmente */
-    gap: 10px; /* espacio entre label y select */
-    margin-bottom: 20px;
-}
-
-.selector-tactica label {
-    color: #20c997; /* mismo verde que tus títulos */
-    font-weight: bold;
-}
-
-.jugador-container {
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    transform: translate(-50%, -50%);
-}
-
-.foto-jugador {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    z-index: 1;
-}
-
-.live-points {
-    color: #fff;               /* número siempre blanco */
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 4px;
-    border-radius: 3px;        /* pequeño redondeo si quieres */
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    z-index: 10;
-    min-width: 18px;
-    text-align: center;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.club-logo {
-    position: absolute;
-    bottom: -5px;
-    right: -5px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    z-index: 10;
-}
-
-/* ESTILOS PARA ADMINISTRACION */
-.green-dot {
-    color: #28a745; /* Verde */
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.orange-dot {
-    color: #fd7e14; /* Naranja */
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Estilos colores de historico de puntos */
-.bg-rojo { background-color: red !important; color: white !important; }
-.bg-naranja { background-color: orange !important; color: white !important; }
-.bg-verde { background-color: green !important; color: white !important; }
-.bg-azul { background-color: var(--bs-blue) !important; color: white !important; }
-.bg-gris { background-color: grey !important; color: white !important; }
-
-
-/* Estilos para la tabla de historico de puntos en el modal*/
-#jugadorHistoricoPuntos table {
-  border-collapse: collapse;   /* para que los bordes no se dupliquen */
-  margin: 0 auto;              /* centrado opcional */
-}
-#jugadorHistoricoPuntos td {
-  width: 24px;                 /* ancho fijo */
-  text-align: center;          /* centrar números */
-  vertical-align: middle;
-  font-weight: bold;           /* más vistoso */
-  border: 2px solid #212529;   /* borde verde Bootstrap */
-  border-radius: 5px;          /* opcional, esquinas redondeadas */
-}
-
-/* Estilos para la tabla de historico de puntos */
-.jugadorHistoricoPuntos {
-    overflow-x: auto;        /* scroll si hay muchas celdas */
-    max-width: 60%;         /* por defecto ocupa todo el contenedor */
-}
-
-/* Tabla */
-.jugadorHistoricoPuntos table {
-    border-collapse: collapse;
-    margin: 0 auto;
-    table-layout: fixed;
-}
-
-/* Celdas compactas */
-.jugadorHistoricoPuntos td {
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    vertical-align: middle;
-    font-weight: bold;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    padding: 1px;
-    font-size: 10px;
-}
-
-/* Media query para escritorio: ancho máximo limitado */
-@media (min-width: 992px) {  /* ejemplo para pantallas grandes */
-    .jugadorHistoricoPuntos{
-        max-width: 20%;      /* solo en escritorio */
-    }
 }
