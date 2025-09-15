@@ -129,4 +129,22 @@ public class MainController {
 
         return "main";
     }
+
+    @GetMapping("/estadisticas")
+    public String estadisticas(HttpSession session, Model model) {
+        // Añades al modelo lo que necesites (ej. userInfo si también lo usas aquí)
+        UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+
+        // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
+        if (userInfo == null) {
+        // redirigir al login si no hay sesión
+        return "redirect:/api/login";
+        }
+
+        String token = (String) session.getAttribute("token");
+        model.addAttribute("userInfo", userInfo);
+
+
+        return "estadisticas"; 
+    }
 }

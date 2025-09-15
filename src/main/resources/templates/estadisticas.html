@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="Menú principal de Comunio" />
+        <meta name="description" content="Página de Estadisticas" />
         <meta name="author" content="Enrique Muñoz" />
-        <title>Menú</title>
+        <title>Estadísticas</title>
         <link rel="icon" type="image/x-icon" href="assets/logoOriginal.png" />
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
@@ -31,7 +31,7 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#ofertas">Ofertas</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#alineacion">Alineación</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#clasificacion">Clasificación</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/estadisticas}">Estadísticas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/otraPagina}">Estadísticas</a></li>
                     <li class="nav-item" th:if="${userInfo.isLeader == true}"><a class="nav-link js-scroll-trigger" href="#administracion">Administracion</a></li>                    
                 </ul>
             </div>
@@ -47,36 +47,7 @@
                 <div th:replace="fragments/noticias :: noticiasFragment"></div>
                 <hr class="m-0" />
             </div>
-            <!-- Mercado -->
-            <div class="container-fluid p-0">
-                <div th:replace="fragments/mercado :: mercadoFragment"></div>
-                <hr class="m-0" />
-            </div>           
-            <!-- Plantilla -->
-            <div class="container-fluid p-0">
-                <div th:replace="fragments/plantilla :: plantillaFragment"></div>
-                <hr class="m-0" />
-            </div>
-            <!-- Ofertas -->
-            <div class="container-fluid p-0">
-                <div th:replace="fragments/ofertas :: ofertasFragment"></div>
-                <hr class="m-0" />
-            </div>
-            <!-- Alineacion -->
-            <div class="container-fluid p-0">
-                <div th:replace="fragments/alineacion :: alineacionFragment"></div>
-                <hr class="m-0" />            
-            </div>
-            <!-- Clasificacion -->
-            <div class="container-fluid p-0">
-                <div th:replace="fragments/clasificacion :: clasificacionFragment"></div>
-                <hr class="m-0" />            
-            </div>
-            <!-- Administracion -->
-            <div class="container-fluid p-0">
-                <div th:replace="fragments/administracion :: administracionFragment"></div>
-                <hr class="m-0" />            
-            </div>
+            
             <!-- Mensaje Pop-Up -->
             <div th:replace="fragments/modal :: mensajeModal"></div>
         <!-- Bootstrap core JS-->
