@@ -1,148 +1,147 @@
 <!-- jugadorModal.html -->
 <div th:fragment="jugadorModal">
-  <div class="modal fade" id="jugadorModal" tabindex="-1" aria-labelledby="jugadorModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content bg-dark text-white p-3 text-center"> <!-- texto centrado -->
+    <div class="modal fade" id="jugadorModal" tabindex="-1" aria-labelledby="jugadorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark text-white p-3 text-center"> <!-- texto centrado -->
 
-        <div id="infoJugador">
-        
-            <!-- Nombre -->
-            <div class="mb-3">
-              <h3 id="jugadorNombre" class="text-success mb-1 fs-2"></h3>
-              <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 " data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-
-            <!-- Estado -->
-            <div class="badge bg-success d-inline-flex align-items-center gap-2 mb-2">
-              <span id="jugadorEstado">SIN PROBLEMAS</span>
-              <span id="jugadorInfoEstado">SIN PROBLEMAS</span>
-            </div>
-
-            <div class="d-flex mb-3 justify-content-center align-items-center">
-                <!-- Foto, club y posición -->
-                <div class="w-50 d-flex justify-content-center mb-3">
-                    <div class="position-relative" style="width:80px; height:80px;">
-                        <!-- Foto del jugador -->
-                        <img id="jugadorFoto" src="" alt="Jugador" class="rounded-circle w-100 h-100">
-
-                        <!-- Escudo del club (un poco más arriba y a la izquierda) -->
-                        <img id="clubEscudo" src="" alt="Escudo" class="position-absolute" 
-                            style="top:-10px; left:-10px; width:30px; height:30px; border-radius:50%;">
-
-                        <!-- Posición -->
-                        <span class="position-absolute bg-danger text-white fw-bold text-center"
-                            id="jugadorPosicion"
-                            style="bottom:-10px; right:-10px; width:25px; height:25px; line-height:30px; border-radius:4px; font-size:12px;">
-                        </span>
+                <div id="infoJugador">
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                    <h3 id="jugadorNombre" class="text-success mb-1 fs-2"></h3>
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 " data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
 
-                    <!-- Nombre del club oculto -->
-                    <h6 id="jugadorClub" class="d-none"></h6>
-                </div>
+                    <!-- Estado -->
+                    <div class="badge bg-success d-inline-flex align-items-center gap-2 mb-2">
+                    <span id="jugadorEstado">SIN PROBLEMAS</span>
+                    <span id="jugadorInfoEstado">SIN PROBLEMAS</span>
+                    </div>
 
-                <!-- Goles y Tarjetas -->
-                <div class="w-50 mx-auto text-center">
-                    <div>
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                            <p class="text-success mb-1"><strong>Goles :</strong></p>
-                            <!-- círculo verde -->
-                            <i class="bi bi-circle-fill text-success"></i>
-                            <!-- goles totales -->
-                            <span id="jugadorGolesTotales">0</span>
-                            <!-- círculo verde con flecha -->
-                            <span class="d-inline-flex justify-content-center align-items-center rounded-circle bg-success text-white"
-                                style="width:20px; height:20px; font-size:12px;">
-                                ↑
-                            </span>
-                            <!-- goles totales -->
-                            <span id="jugadorGolesPenalti">0</span>
+                    <div class="d-flex mb-3 justify-content-center align-items-center">
+                        <!-- Foto, club y posición -->
+                        <div class="w-50 d-flex justify-content-center mb-3">
+                            <div class="position-relative" style="width:80px; height:80px;">
+                                <!-- Foto del jugador -->
+                                <img id="jugadorFoto" src="" alt="Jugador" class="rounded-circle w-100 h-100">
+
+                                <!-- Escudo del club (un poco más arriba y a la izquierda) -->
+                                <img id="clubEscudo" src="" alt="Escudo" class="position-absolute" 
+                                    style="top:-10px; left:-10px; width:30px; height:30px; border-radius:50%;">
+
+                                <!-- Posición -->
+                                <span class="position-absolute bg-danger text-white fw-bold text-center"
+                                    id="jugadorPosicion"
+                                    style="bottom:-10px; right:-10px; width:25px; height:25px; line-height:30px; border-radius:4px; font-size:12px;">
+                                </span>
+                            </div>
+
+                            <!-- Nombre del club oculto -->
+                            <h6 id="jugadorClub" class="d-none"></h6>
+                        </div>
+
+                        <!-- Goles y Tarjetas -->
+                        <div class="w-50 mx-auto text-center">
+                            <div>
+                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                    <p class="text-success mb-1"><strong>Goles :</strong></p>
+                                    <!-- círculo verde -->
+                                    <i class="bi bi-circle-fill text-success"></i>
+                                    <!-- goles totales -->
+                                    <span id="jugadorGolesTotales">0</span>
+                                    <!-- círculo verde con flecha -->
+                                    <span class="d-inline-flex justify-content-center align-items-center rounded-circle bg-success text-white"
+                                        style="width:20px; height:20px; font-size:12px;">
+                                        ↑
+                                    </span>
+                                    <!-- goles totales -->
+                                    <span id="jugadorGolesPenalti">0</span>
+                                </div>
+                            </div>
+                            <hr class="border-light">
+                            <div>
+                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                    <p class="text-success mb-1"><strong>Tarjetas :</strong></p>
+                                    <!-- Tarjeta Amarilla -->
+                                    <span class="d-inline-block bg-warning"
+                                        style="width:12px; height:18px; border-radius:2px;"></span>
+                                    <!-- Numero de tarjetas amarillas -->
+                                    <span id="jugadorTarjetasAmarillas">0</span>
+                                    <!-- Tarjeta amarillas y roja -->
+                                    <span class="d-inline-block"
+                                        style="width:12px; height:18px; border-radius:2px;
+                                        background: linear-gradient(to right, yellow 50%, red 50%);"></span>
+                                    <!-- Numero de tarjetas amarillas y rojas -->
+                                    <span id="jugadorTarjetasAmarRoja">0</span>
+                                    <!-- Tarjeta Roja -->
+                                    <span class="d-inline-block"
+                                        style="width:12px; height:18px; border-radius:2px;
+                                        background-color: red;"></span>
+                                    <!-- Numero de tarjetas rojas -->
+                                    <span id="jugadorTarjetasRojas">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Puntos y Media -->
+                    <div class="row mb-3 justify-content-center text-start">
+                        <!-- Columna izquierda (2x2 rejilla interna) -->
+                        <div class="col-6">
+                            <div class="row">
+                                <!-- Primera fila -->
+                                <div class="col-6 d-flex flex-column align-items-center">
+                                    <p class="text-success mb-1 text-center"><strong>Puntos:</strong></p>
+                                    <span class="text-white text-center" id="jugadorPuntos"></span>
+                                </div>
+                                <div class="col-6 d-flex flex-column align-items-center">
+                                    <p class="text-success mb-1 text-center"><strong>Media:</strong></p>
+                                    <span class="text-white text-center" id="jugadorMediaPuntos"></span>
+                                </div>
+
+                                <!-- Segunda fila -->
+                                <div class="col-6 d-flex flex-column align-items-center">
+                                    <p class="text-success mb-1 text-center"><strong>Partidos:</strong></p>
+                                    <span class="text-white text-center" id="jugadorPartidosJugados"></span>
+                                </div>
+                                <div class="col-6 d-flex flex-column align-items-center">
+                                    <p class="text-success mb-1 text-center"><strong>Últimos:</strong></p>
+                                    <span class="text-white text-center" id="jugadorHistoricoPuntos"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Columna derecha (se queda igual que antes) -->
+                        <div class="col-6 d-flex flex-column align-items-center">
+                            <h3 class="text-success text-center"><strong>Valor:</strong></h3>
+                            <span class="text-white text-center fs-3" id="jugadorPrecio"></span>
+                            <!-- Botón para abrir el modal de historial -->
+                            <button class="btn btn-outline-success btn-sm mt-2" 
+                                    data-bs-target="#historialModal"
+                                    data-bs-toggle="modal"
+                                    data-bs-dismiss="modal"
+                                    data-jugador-id="jugadorID">
+                                Ver historial
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensaje para hueco vacío -->
+                <div id="infoVacio" class="text-center d-none">
+                    <p class="text-muted mb-1">No hay jugador en esta posición.</p>
+                    <p class="fw-bold text-success">Selecciona uno de tu plantilla:</p>
+                </div>
+
+                <!-- Sección para cambiar jugador -->
+                <div id="seccionCambioJugador" class="d-none text-center">
                     <hr class="border-light">
-                    <div>
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                            <p class="text-success mb-1"><strong>Tarjetas :</strong></p>
-                            <!-- Tarjeta Amarilla -->
-                            <span class="d-inline-block bg-warning"
-                                style="width:12px; height:18px; border-radius:2px;"></span>
-                            <!-- Numero de tarjetas amarillas -->
-                            <span id="jugadorTarjetasAmarillas">0</span>
-                            <!-- Tarjeta amarillas y roja -->
-                            <span class="d-inline-block"
-                                style="width:12px; height:18px; border-radius:2px;
-                                background: linear-gradient(to right, yellow 50%, red 50%);"></span>
-                            <!-- Numero de tarjetas amarillas y rojas -->
-                            <span id="jugadorTarjetasAmarRoja">0</span>
-                            <!-- Tarjeta Roja -->
-                            <span class="d-inline-block"
-                                style="width:12px; height:18px; border-radius:2px;
-                                background-color: red;"></span>
-                            <!-- Numero de tarjetas rojas -->
-                            <span id="jugadorTarjetasRojas">0</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Puntos y Media -->
-            <div class="row mb-3 justify-content-center text-start">
-                <!-- Columna izquierda (2x2 rejilla interna) -->
-                <div class="col-6">
-                    <div class="row">
-                        <!-- Primera fila -->
-                        <div class="col-6 d-flex flex-column align-items-center">
-                            <p class="text-success mb-1 text-center"><strong>Puntos:</strong></p>
-                            <span class="text-white text-center" id="jugadorPuntos"></span>
-                        </div>
-                        <div class="col-6 d-flex flex-column align-items-center">
-                            <p class="text-success mb-1 text-center"><strong>Media:</strong></p>
-                            <span class="text-white text-center" id="jugadorMediaPuntos"></span>
-                        </div>
-
-                        <!-- Segunda fila -->
-                        <div class="col-6 d-flex flex-column align-items-center">
-                            <p class="text-success mb-1 text-center"><strong>Partidos:</strong></p>
-                            <span class="text-white text-center" id="jugadorPartidosJugados"></span>
-                        </div>
-                        <div class="col-6 d-flex flex-column align-items-center">
-                            <p class="text-success mb-1 text-center"><strong>Últimos:</strong></p>
-                            <span class="text-white text-center" id="jugadorHistoricoPuntos"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Columna derecha (se queda igual que antes) -->
-                <div class="col-6 d-flex flex-column align-items-center">
-                    <h3 class="text-success text-center"><strong>Valor:</strong></h3>
-                    <span class="text-white text-center fs-3" id="jugadorPrecio"></span>
-                    <!-- Botón para abrir el modal de historial -->
-                    <button class="btn btn-outline-success btn-sm mt-2" 
-                            data-bs-target="#historialModal"
-                            data-bs-toggle="modal"
-                            data-bs-dismiss="modal"
-                            data-jugador-id="jugadorID">
-                        Ver historial
-                    </button>
+                    <p class="text-success"><strong>Cambiar por:</strong></p>
+                    <div id="jugadoresDisponibles" class="list-group small mx-auto w-100"></div>
                 </div>
 
             </div>
-
-        <!-- Sección para cambiar jugador -->
-        <div id="seccionCambioJugador" class="d-none text-center">
-          <hr class="border-light">
-          <p class="text-success"><strong>Cambiar por:</strong></p>
-          <div id="jugadoresDisponibles" class="list-group small mx-auto w-100"></div>
         </div>
-
-        <!-- Mensaje para hueco vacío -->
-        <div id="infoVacio" class="text-center my-3 d-none">
-          <p class="text-muted mb-1">No hay jugador en esta posición.</p>
-          <p class="fw-bold text-success">Selecciona uno de tu plantilla:</p>
-        </div>
-
-      </div>
     </div>
-  </div>
 </div>
 <!-- Modal de información del jugador -->
     <div th:replace="fragments/historialValorModal :: historialValorModal"></div>

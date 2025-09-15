@@ -414,7 +414,6 @@ link.addEventListener('click', function(e) {
 
 // JS DE ALINEACION
 // Posiciones predefinidas para cada táctica
-// Posiciones predefinidas para cada táctica
 const posiciones = {
     "343": [
         {x: 50, y: 370},
@@ -511,6 +510,7 @@ function reconstruirAlineacionSegunTactica(tactica) {
 
     window.jugadores = nuevaAlineacion;
 }
+
 
 // Cambia la táctica y actualiza la alineación
 function cambiarFormacion(nueva) {
@@ -649,7 +649,9 @@ function mostrarInfoJugador(jugador) {
         //document.getElementById("").textContent = jugador.lastPoint;
         document.getElementById("jugadorPosicion").textContent = jugador.type;
         //document.getElementById("jugadorTactic").textContent = jugador.tactic;
-        document.getElementById("jugadorPrecio").textContent = jugador.price.toLocaleString('es-ES');
+        //document.getElementById("jugadorPrecio").textContent = jugador.price.toLocaleString('es-ES');
+        document.getElementById("jugadorPrecio").textContent = jugador.price;
+
         switch (jugador.estado) {
             case "ACTIVE":
                 jugador.estado = "SIN PROBLEMAS";
@@ -672,7 +674,7 @@ function mostrarInfoJugador(jugador) {
                 // o poner un valor por defecto
                 jugador.estado = jugador.estado;
                 break;
-}
+        }
         document.getElementById("jugadorEstado").textContent = jugador.estado;
         document.getElementById("jugadorInfoEstado").textContent = jugador.infoEstado;
         document.getElementById("jugadorPartidosJugados").textContent = jugador.partidosJugados;
@@ -691,8 +693,8 @@ function mostrarInfoJugador(jugador) {
     } else {
         infoJugador.classList.add("d-none");
         infoVacio.classList.remove("d-none");
-        document.getElementById("jugadorModalLabel").textContent =
-            "Hueco en " + (tipoLargo[jugador.type] || jugador.type);
+        //document.getElementById("jugadorModalLabel").textContent =
+        //    "Hueco en " + jugador.type;
     }
 
     // Controlar visibilidad de la sección de cambio
@@ -736,13 +738,16 @@ function convertirPlayerAlineacion(player, position, tactic) {
         id: player.id,
         name: player.name,
         photo: player.hrefFoto,
-        clubName: player.club,
+        clubName: player.clubName || player.club,
         clubLogo: player.hrefClubLogo,
         points: parseInt(player.puntosTotales),
         livePoints: player.ultimosPuntos,
          lastPoints: (player.lastPoint === "" || player.lastPoint == null) ? "-" : player.lastPoint,
-        type: player.posicion, // ¡Abreviatura!
-        tactic: tactic
+        type: player.posicion || player.type,
+        tactic: tactic,
+        tarjetasAmarillas: player.tarjetasAmarillas,
+        tarjetasRojas: player.tarjetasRojas,
+        valor : player.price
     };
 }
 
