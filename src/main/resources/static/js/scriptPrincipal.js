@@ -138,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("selectorMes").addEventListener("change", async function () {
         const mesSeleccionado = this.value;
-        console.log(mesSeleccionado);
         if (!mesSeleccionado) return;
 
         try {
@@ -615,8 +614,6 @@ function renderAlineacion(jugadores, tactica) {
         cancha.appendChild(div);
     });
 
-    // Actualizamos la suma de puntos live global
-    actualizarPuntosLive();
 }
 
 // Para mostrar la información de un jugador y los disponibles
@@ -649,8 +646,8 @@ function mostrarInfoJugador(jugador) {
         //document.getElementById("").textContent = jugador.lastPoint;
         document.getElementById("jugadorPosicion").textContent = jugador.type;
         //document.getElementById("jugadorTactic").textContent = jugador.tactic;
-        //document.getElementById("jugadorPrecio").textContent = jugador.price.toLocaleString('es-ES');
-        document.getElementById("jugadorPrecio").textContent = jugador.price;
+        document.getElementById("jugadorPrecio").textContent = jugador.price.toLocaleString('es-ES');
+        //document.getElementById("jugadorPrecio").textContent = jugador.price;
 
         switch (jugador.estado) {
             case "ACTIVE":
@@ -742,16 +739,23 @@ function convertirPlayerAlineacion(player, position, tactic) {
         clubLogo: player.hrefClubLogo,
         points: parseInt(player.puntosTotales),
         livePoints: player.ultimosPuntos,
-         lastPoints: (player.lastPoint === "" || player.lastPoint == null) ? "-" : player.lastPoint,
+        lastPoints: (player.ultimosPuntos === "" || player.ultimosPuntos == null) ? "-" : player.ultimosPuntos,
         type: player.posicion || player.type,
         tactic: tactic,
         tarjetasAmarillas: player.tarjetasAmarillas,
         tarjetasRojas: player.tarjetasRojas,
-        valor : player.price
+        tarjetasAmarRoja: player.tarjetasAmarRoja,
+        estado: player.estado,
+        infoEstado: player.infoEstado,
+        partidosJugados: player.partidosJugados,
+        golesTotales: player.golesTotales,
+        golesPenalti: player.golesPenalti,
+        price : player.valor,
+        mediaPuntos: player.mediaPuntos
     };
 }
 
-// (Resto de funciones: getBgColorLivePoints, actualizarPuntosLive...)
+// (Resto de funciones: getBgColorLivePoints, ...)
 
 function getBgColorLivePoints(puntos) {
     const p = parseFloat(puntos);
@@ -761,15 +765,6 @@ function getBgColorLivePoints(puntos) {
     return '#28a745';
 }
 
-function actualizarPuntosLive() {
-    if (!window.jugadores || window.jugadores.length === 0) return;
-    const totalLive = window.jugadores.reduce((sum, j) => {
-        const puntos = parseFloat(j.livePoints);
-        return sum + (isNaN(puntos) ? 0 : puntos);
-    }, 0);
-    const span = document.getElementById("livePoints");
-    if(span) span.textContent = totalLive;
-}
 
 // Inicialización al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
@@ -781,10 +776,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Actualizar puntos live cada 30 segundos
-setInterval(() => {
-    actualizarPuntosLive();
-}, 30000);
 
 // Funciones para el boton de Guardar Alineacion
 document.addEventListener("DOMContentLoaded", () => {
@@ -1087,7 +1078,7 @@ document.addEventListener('DOMContentLoaded', function () {
             for (let i = 0; i < historial.length; i++) {
                 const item = historial[i];
                 const prevItem = i > 0 ? historial[i - 1] : null;
-                const diff = prevItem ? item.value - prevItem.value : 0; // diferencia
+                const diff = prevItem ? prevItem.value - item.value : 0; // diferencia
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -1196,7 +1187,6 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
     // Llamamos a la función que carga los datos
     jugadorName = jugadorName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
     const historicoPuntos = await cargarHistorialPuntos(jugadorName);
-    console.log(jugadorName);
 
     const container = document.getElementById(containerId);
     if (!container) return; // si no existe el contenedor, salir
@@ -1222,7 +1212,6 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
         jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
     }
 
-    console.log(jornadas);
     
 
     jornadas.forEach(valor => {
