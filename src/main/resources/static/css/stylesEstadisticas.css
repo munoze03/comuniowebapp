@@ -11049,3 +11049,80 @@ hr {
     pointer-events: none;    /* No se puede pulsar */
     font-weight: bold;
 }
+
+/* Estilos para filtro de tabla de jugadores */
+/* Tabla compacta general */
+.tabla-pequena td,
+.tabla-pequena th {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Estilo filtros */
+/* Forzar tamaño de letra y padding en toda la tabla */
+#tablaClasificacion,
+#tablaClasificacion th,
+#tablaClasificacion td {
+    font-size: 1rem !important;  /* letra más pequeña */
+    padding: 0.15rem 0.1rem !important; /* celdas más estrechas */
+}
+
+/* Imágenes más pequeñas */
+#tablaClasificacion td img {
+    width: 30px !important;
+    height: 30px !important;
+}
+
+/* Solo en móviles */
+@media (max-width: 768px) {
+    #tablaClasificacion,
+    #tablaClasificacion th,
+    #tablaClasificacion td {
+        font-size: 0.7rem !important;
+        padding: 0.1rem 0.2rem !important;
+    }
+
+    #tablaClasificacion td img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+/* Estilos para la tabla de puntos */
+/* Tabla de racha */
+.tablaPuntos {
+    overflow-x: auto;        /* scroll si hay muchas celdas */
+    max-width: 100%;         /* ocupa todo el contenedor */
+}
+
+.tablaPuntos table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+.tablaPuntos td {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 1px;
+    font-size: 10px;
+}
+
+/* Colores según valor */
+.rachaPositivo {
+    background-color: #198754; /* verde Bootstrap */
+    color: white;
+}
+.rachaNegativo {
+    background-color: #dc3545; /* rojo Bootstrap */
+    color: white;
+}
+.rachaNeutral {
+    background-color: #6c757d; /* gris Bootstrap */
+    color: white;
+}

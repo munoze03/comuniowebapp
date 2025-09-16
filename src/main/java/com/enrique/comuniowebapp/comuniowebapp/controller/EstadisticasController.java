@@ -1,0 +1,44 @@
+package com.enrique.comuniowebapp.comuniowebapp.controller;
+
+import java.io.IOException;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
+import com.enrique.comuniowebapp.comuniowebapp.service.EstadisticasService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class EstadisticasController {
+
+    private final EstadisticasService estadisticasService;
+
+    public EstadisticasController(EstadisticasService estadisticasService) {
+        this.estadisticasService = estadisticasService;
+    }
+
+    @GetMapping("/estadisticas")
+    public String cargarEstadisticasJugadores(HttpSession session, Model model) throws IOException {
+
+        // Añades al modelo lo que necesites (ej. userInfo si también lo usas aquí)
+        UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+        // Añadimos userInfo al modelo
+        model.addAttribute("userInfo", userInfo);
+
+        // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
+        if (userInfo == null) {
+        // redirigir al login si no hay sesión
+        return "redirect:/api/login";
+        }
+        
+        // Llamamos al servicio
+        model.addAttribute("jugadores", estadisticasService.getEstadisticasJugadores());
+
+        return "estadisticas"; 
+    }
+
+}
