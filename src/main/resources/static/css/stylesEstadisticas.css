@@ -11114,4 +11114,25 @@ hr {
   }
 }
 
-/*   */
+/* ESTILOS PARA CALENDARIO DE JORNADA */
+.match-card {
+    max-width: 250px; /* ancho máximo */
+    margin: 0 auto;   /* centrar en la columna */
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.match-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.match-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white; /* para que destaque sobre tu overlay */
+}

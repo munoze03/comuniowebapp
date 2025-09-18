@@ -3,6 +3,36 @@
         <div class="resume-section-content">
             <h2 class="mb-3 text-center">Calendario Jornada</h2>
 
+            <!-- Jornada -->
+            <h3 class="text-center mb-4"
+                th:if="${#lists.isEmpty(calendarioJornadaData) == false}"
+                th:text="${calendarioJornadaData.get(0).jornada}">
+            </h3>
+
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-5" th:each="partido : ${calendarioJornadaData}">
+                    <div class="card shadow-sm border-0 p-3 text-center match-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Equipo local -->
+                            <div class="team d-flex flex-column align-items-center">
+                                <img th:src="${partido.urlHome}" alt="Local" width="40" class="mb-1">
+                            </div>
+
+                            <!-- Info central -->
+                            <div class="match-info">
+                                <div class="fw-bold text-uppercase small mb-1" th:text="${partido.fechaHora}"></div>
+                                <img th:if="${partido.urlTV != ''}" th:src="${partido.urlTV}" alt="TV" width="45">
+                            </div>
+
+                            <!-- Equipo visitante -->
+                            <div class="team d-flex flex-column align-items-center">
+                                <img th:src="${partido.urlAway}" alt="Visitante" width="40" class="mb-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
     <hr class="m-0" />

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.CalendarioJornada;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EquipoLaLiga;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EstadisticasJugador;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
@@ -29,6 +30,7 @@ public class EstadisticasController {
 
         cargarEstadisticasJugadores(session, model);
         cargarClasificacionLaLiga(session, model);
+        cargarPartidosJornada(session, model);
         
     }
 
@@ -72,6 +74,26 @@ public class EstadisticasController {
         ObjectMapper mapper = new ObjectMapper();
         String jugadoresJson = mapper.writeValueAsString(jugadores);
         model.addAttribute("jugadoresJson", jugadoresJson);
+
+        return "estadisticas"; 
+    }
+
+    public String cargarPartidosJornada(HttpSession session, Model model) throws IOException {
+
+        // Recuperamos Userinfo de la session
+        UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+        // Añadimos userInfo al modelo
+        model.addAttribute("userInfo", userInfo);
+
+        // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
+        if (userInfo == null) {
+        // redirigir al login si no hay sesión
+        return "redirect:/api/login";
+        }
+        
+        // Llamamos al servicio
+        List<CalendarioJornada> calendarioJornadaData = estadisticasService.getCalendarioJornada();
+        model.addAttribute("calendarioJornadaData", calendarioJornadaData);
 
         return "estadisticas"; 
     }

@@ -8,18 +8,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.CalendarioJornada;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EquipoLaLiga;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EstadisticasJugador;
 
 @Service
 public class EstadisticasService {
 
-    @Autowired
-    private RestTemplate restTemplate;  
+    // @Autowired
+    // private RestTemplate restTemplate;  
 
     public List<EstadisticasJugador> getEstadisticasJugadores() throws IOException {
 
@@ -109,6 +108,39 @@ public class EstadisticasService {
         }
 
         return equiposLaLiga;
+    }
+
+    public List<CalendarioJornada> getCalendarioJornada() throws IOException {
+
+        final String URL = "https://www.comuniazo.com/laliga";
+
+        List<CalendarioJornada> calendarioJornada = new ArrayList<>();
+
+        Document doc = Jsoup.connect(URL)
+                .userAgent("Mozilla/5.0")
+                .get();
+
+        // Extraemos la jornada
+        Element titulo = doc.selectFirst(".gameweeks .title h3");
+        String jornada = titulo != null ? titulo.text() : "";
+
+        // Extraemos los partidos
+        Elements partidosHtml = doc.select(".gameweeks .matches a.match-box");
+        for(Element partidoEl : partidosHtml){
+
+            CalendarioJornada partido = new CalendarioJornada();
+            
+            // Recuperamos los datos
+            partido.setJornada(jornada);
+            partido.setUrlHome(partidoEl.selectFirst(".home img") != null ? partidoEl.selectFirst(".home img").attr("src") : "");
+            partido.setUrlAway(partidoEl.selectFirst(".away img") != null ? partidoEl.selectFirst(".away img").attr("src") : "");
+            partido.setFechaHora(partidoEl.selectFirst(".mid .date") != null ? partidoEl.selectFirst(".mid .date").text() : "");
+            partido.setUrlTV(partidoEl.selectFirst(".mid .tvs img") != null ? partidoEl.selectFirst(".mid .tvs img").attr("src") : "");
+
+            calendarioJornada.add(partido);
+        }
+
+        return calendarioJornada;
     }
 
     private String conversorPosicion(String posicion){
