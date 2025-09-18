@@ -11136,3 +11136,25 @@ hr {
     align-items: center;
     color: white; /* para que destaque sobre tu overlay */
 }
+
+/* ESTILOS PARA CALENDARIO LA LIGA */
+.jornada-slide {
+    display: none;
+}
+.jornada-slide.active {
+    display: block;
+}
+.btn-nav {
+    background: transparent;
+    border: none;
+    font-size: 3rem;         /* más grande */
+    color: #198754;          /* verde bootstrap */
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    padding: 0 10px;
+}
+
+.btn-nav:hover {
+    transform: scale(1.2);
+    color: #145c32; /* tono verde más oscuro en hover */
+}

@@ -102,3 +102,26 @@ const gridOptions = {
 const myGridElement = document.querySelector('#tablaJugadores');
 agGrid.createGrid(myGridElement, gridOptions);
 
+// FUNCIONES PARA CALENDARIO LA LIGA
+document.addEventListener("DOMContentLoaded", () => {
+        const slides = document.querySelectorAll(".jornada-slide");
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle("active", i === index);
+            });
+        }
+
+        document.getElementById("prevBtn").addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        });
+
+        showSlide(currentIndex);
+    });

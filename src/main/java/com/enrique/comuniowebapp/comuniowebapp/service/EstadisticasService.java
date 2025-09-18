@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.enrique.comuniowebapp.comuniowebapp.dto.CalendarioJornada;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EquipoLaLiga;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EstadisticasJugador;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Jornada;
 
 @Service
 public class EstadisticasService {
@@ -141,6 +142,45 @@ public class EstadisticasService {
         }
 
         return calendarioJornada;
+    }
+
+    public List<Jornada> getCalendarioLaLiga() throws IOException {
+
+        final String URL = "https://www.comuniazo.com/laliga/calendario";
+
+        List<Jornada> jornadas = new ArrayList<>();
+
+        Document doc = Jsoup.connect(URL)
+                .userAgent("Mozilla/5.0")
+                .get();
+
+        // Extraemos las jornadas
+        Elements jornadasHtml = doc.select("div.box-gameweek");
+
+        // Extraemos los partidos de cada jornada
+        for (Element jornadaHtml : jornadasHtml){
+            Jornada jornada = new Jornada();
+            jornada.setNombre(jornadaHtml.select("h2 a").text());
+
+            List<CalendarioJornada> partidos = new ArrayList<>();
+            Elements partidosHtml = jornadaHtml.select("ul li");
+
+            for (Element partidoHtml : partidosHtml){
+                CalendarioJornada calendarioJornada = new CalendarioJornada();
+                calendarioJornada.setEquipoHome(partidoHtml.select(".home").text());
+                calendarioJornada.setEquipoAway(partidoHtml.select(".away").text());
+                calendarioJornada.setResultado(partidoHtml.select(".score").text());
+                calendarioJornada.setUrlHome(partidoHtml.selectFirst(".home").selectFirst("img").attr("src"));
+                calendarioJornada.setUrlAway(partidoHtml.selectFirst(".away").selectFirst("img").attr("src"));
+
+                partidos.add(calendarioJornada);
+            }
+
+            jornada.setPartidos(partidos);
+            jornadas.add(jornada);
+        }
+
+        return jornadas;
     }
 
     private String conversorPosicion(String posicion){

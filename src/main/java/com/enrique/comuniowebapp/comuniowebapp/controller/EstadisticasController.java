@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.enrique.comuniowebapp.comuniowebapp.dto.CalendarioJornada;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EquipoLaLiga;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EstadisticasJugador;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Jornada;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.EstadisticasService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,7 @@ public class EstadisticasController {
         cargarEstadisticasJugadores(session, model);
         cargarClasificacionLaLiga(session, model);
         cargarPartidosJornada(session, model);
+        cargarCalendarioLaLiga(session, model);
         
     }
 
@@ -94,6 +96,27 @@ public class EstadisticasController {
         // Llamamos al servicio
         List<CalendarioJornada> calendarioJornadaData = estadisticasService.getCalendarioJornada();
         model.addAttribute("calendarioJornadaData", calendarioJornadaData);
+
+        return "estadisticas"; 
+    }
+
+    public String cargarCalendarioLaLiga(HttpSession session, Model model) throws IOException {
+
+        // Recuperamos Userinfo de la session
+        UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+        // Añadimos userInfo al modelo
+        model.addAttribute("userInfo", userInfo);
+
+        // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
+        if (userInfo == null) {
+        // redirigir al login si no hay sesión
+        return "redirect:/api/login";
+        }
+        
+        
+        // Llamamos al servicio
+        List<Jornada> calendarioLaLigaData = estadisticasService.getCalendarioLaLiga();
+        model.addAttribute("calendarioLaLigaData", calendarioLaLigaData);
 
         return "estadisticas"; 
     }

@@ -7,6 +7,10 @@ public class CalendarioJornada {
     private String urlAway;
     private String fechaHora;
     private String urlTV;
+    private String equipoHome;
+    private String equipoAway;
+    private String resultado;
+
     public String getUrlHome() {
         return urlHome;
     }
@@ -36,6 +40,24 @@ public class CalendarioJornada {
     }
     public void setJornada(String jornada) {
         this.jornada = jornada;
+    }
+    public String getEquipoHome() {
+        return equipoHome;
+    }
+    public void setEquipoHome(String equipoHome) {
+        this.equipoHome = equipoHome;
+    }
+    public String getEquipoAway() {
+        return equipoAway;
+    }
+    public void setEquipoAway(String equipoAway) {
+        this.equipoAway = equipoAway;
+    }
+    public String getResultado() {
+        return resultado;
+    }
+    public void setResultado(String resultado) {
+        this.resultado = resultado;
     }
 
     
