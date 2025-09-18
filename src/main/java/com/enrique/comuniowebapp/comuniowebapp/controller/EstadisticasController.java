@@ -1,14 +1,17 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.EstadisticasJugador;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.EstadisticasService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -36,7 +39,10 @@ public class EstadisticasController {
         }
         
         // Llamamos al servicio
-        model.addAttribute("jugadores", estadisticasService.getEstadisticasJugadores());
+        List<EstadisticasJugador> jugadores = estadisticasService.getEstadisticasJugadores();
+        ObjectMapper mapper = new ObjectMapper();
+        String jugadoresJson = mapper.writeValueAsString(jugadores);
+        model.addAttribute("jugadoresJson", jugadoresJson);
 
         return "estadisticas"; 
     }

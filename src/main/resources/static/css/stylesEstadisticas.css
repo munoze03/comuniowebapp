@@ -11050,79 +11050,65 @@ hr {
     font-weight: bold;
 }
 
-/* Estilos para filtro de tabla de jugadores */
-/* Tabla compacta general */
-.tabla-pequena td,
-.tabla-pequena th {
-    font-size: 0.8rem;
-    padding: 0.25rem 0.5rem;
+/* Estilos para AGGRID de la tabla */
+/* Contenedor principal del tema */
+.ag-theme-alpine,
+.ag-theme-alpine .ag-root-wrapper,
+.ag-theme-alpine .ag-root,
+.ag-theme-alpine .ag-body-viewport {
+  background-color: transparent !important;
+  border: none !important;
 }
 
-/* Estilo filtros */
-/* Forzar tamaño de letra y padding en toda la tabla */
-#tablaClasificacion,
-#tablaClasificacion th,
-#tablaClasificacion td {
-    font-size: 1rem !important;  /* letra más pequeña */
-    padding: 0.15rem 0.1rem !important; /* celdas más estrechas */
+/* Encabezado */
+.ag-theme-alpine .ag-header-cell-label .ag-header-cell-text {
+  border: none !important;
+  background-color: transparent !important; /* o transparente si quieres */
+  color: #198754 !important;
+  font-weight: bold;
 }
 
-/* Imágenes más pequeñas */
-#tablaClasificacion td img {
-    width: 30px !important;
-    height: 30px !important;
+/* Filas y celdas */
+.ag-theme-alpine .ag-row,
+.ag-theme-alpine .ag-row-hover,
+.ag-theme-alpine .ag-row-selected,
+.ag-theme-alpine .ag-cell {
+  border: none !important;
+  background-color: transparent !important;
+  color: white; /* para que el texto se vea sobre tu fondo */
 }
 
-/* Solo en móviles */
+.ag-theme-alpine .ag-header-cell {
+  border-bottom: none !important;
+  box-shadow: none !important; /* por si hay sombra */
+}
+
+.ag-theme-alpine .ag-header-cell-label {
+  justify-content: center !important; /* centra horizontalmente el contenido */
+}
+
+.ag-theme-alpine .ag-header-cell-text {
+  text-align: center !important; /* centra el texto dentro del label */
+  width: 100%; /* asegura que ocupe todo el espacio */
+}
+
+.ag-theme-alpine .ag-row {
+  height: 50px !important;
+}
+
+.ag-theme-alpine .ag-cell {
+  line-height: 50px !important; /* centra verticalmente el texto */
+}
+
+/* Contenedor del grid */
+#tablaJugadores {
+  width: 100%;
+  height: 60vh; /* altura relativa a la pantalla */
+  max-width: 100%;
+}
 @media (max-width: 768px) {
-    #tablaClasificacion,
-    #tablaClasificacion th,
-    #tablaClasificacion td {
-        font-size: 0.7rem !important;
-        padding: 0.1rem 0.2rem !important;
-    }
-
-    #tablaClasificacion td img {
-        width: 20px !important;
-        height: 20px !important;
-    }
-}
-
-/* Estilos para la tabla de puntos */
-/* Tabla de racha */
-.tablaPuntos {
-    overflow-x: auto;        /* scroll si hay muchas celdas */
-    max-width: 100%;         /* ocupa todo el contenedor */
-}
-
-.tablaPuntos table {
-    border-collapse: collapse;
-    margin: 0 auto;
-    table-layout: fixed;
-}
-
-.tablaPuntos td {
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    vertical-align: middle;
-    font-weight: bold;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    padding: 1px;
-    font-size: 10px;
-}
-
-/* Colores según valor */
-.rachaPositivo {
-    background-color: #198754; /* verde Bootstrap */
-    color: white;
-}
-.rachaNegativo {
-    background-color: #dc3545; /* rojo Bootstrap */
-    color: white;
-}
-.rachaNeutral {
-    background-color: #6c757d; /* gris Bootstrap */
-    color: white;
+  .ag-theme-alpine .ag-cell,
+  .ag-theme-alpine .ag-header-cell-text {
+    font-size: 12px; /* más pequeño en móviles */
+  }
 }

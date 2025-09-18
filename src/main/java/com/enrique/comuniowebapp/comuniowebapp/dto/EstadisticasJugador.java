@@ -89,5 +89,18 @@ public class EstadisticasJugador {
         this.posicion = posicion;
     }
 
-    
+    // Metodo para darle color a las celdas de la racha en funcion a la puntuacion
+    public String getClaseRacha(String punto) {
+        if (punto.equals("-")){
+            return "rachaGris";
+        } else{
+            int puntuacion = Integer.parseInt(punto);
+            if (puntuacion <= 0) return "rachaRojo";
+            if (puntuacion <= 4) return "rachaNaranja";
+            if (puntuacion <= 9) return "rachaVerde";
+            if (puntuacion > 9) return "rachaAzul";
+        }
+        return "rachaGris";
+    }
+
 }

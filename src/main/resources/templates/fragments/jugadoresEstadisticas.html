@@ -1,72 +1,16 @@
 <div th:fragment="jugadoresEstadisticasFragment">
+    <!-- Includes all JS & CSS for the JavaScript Data Grid -->
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <!-- AG Grid CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css" />
+
     <section class="resume-section" id="jugadoresEstadisticas">
         <div class="resume-section-content">
-            <h2 class="mb-3 text-center">Estadisticas de Jugadores</h2>
-            <!-- Boton de Filtro -->
-            <div class="d-flex justify-content-between mb-2">
-                <button class="btn btn-success" id="btnFiltros" type="button">Filtrar ▾</button>
-            </div>
-
-            <!-- Panel de filtros oculto -->
-            <div id="panelFiltros" class="card p-3 mb-3" style="display:none; background-color:#222; color:white;">
-                <div class="row g-2">
-                    <div class="col-md-2">
-                        <label>Equipo</label>
-                        <select id="filtroEquipo" class="form-select form-select-sm">
-                            <option value="">Todos</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label>Posición</label>
-                        <select id="filtroPosicion" class="form-select form-select-sm">
-                            <option value="">Todos</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label>Racha</label>
-                        <select id="filtroRacha" class="form-select form-select-sm">
-                            <option value="">Todos</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 align-self-end">
-                        <button id="btnLimpiarFiltros" class="btn btn-secondary btn-sm w-100">Limpiar filtros</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tabla -->
-            <table id="tablaClasificacion" class="table table-sm text-white ">
-                <!-- thead  -->
-                <thead>
-                    <tr class="text-success">
-                    <th></th>
-                    <th></th>
-                    <th>Nombre</th>
-                    <th>Puntos</th>
-                    <th>Media</th>
-                    <th>Valor</th>
-                    <th>Racha</th>
-                    </tr>
-                </thead>
-                <!-- tbody  -->
-                <tbody id="tbody" >
-                    <tr th:each="j, stat : ${jugadores}">
-                        <td th:text="${j.posicion}"></td>
-                        <td><img th:src="${j.equipoLogo}" alt="Logo equipo" width="30" height="30"></td>
-                        <td th:text="${j.nombre}"></td>
-                        <td th:text="${j.puntos}"></td>
-                        <td th:text="${j.media}"></td>
-                        <td th:text="${j.valor}"></td>
-                        <td th:text="${j.racha}"></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- Botón Mostrar más -->
-            <div class="text-center">
-                <button id="mostrarMasBtn" class="btn btn-success">Mostrar más</button>
-                <button id="ocultarBtn" class="btn btn-danger" style="display:none;">Mostrar menos</button>
-            </div>
+            <h2 class="mb-3 text-center ">Estadisticas de Jugadores</h2>
+            <div id="tablaJugadores" class="ag-theme-alpine" style="height: 60vh; width: 100%"></div>
+            <script id="jugadoresData" type="application/json"
+                th:utext="${jugadoresJson}"></script>
         </div>
     </section>
     <hr class="m-0" />
