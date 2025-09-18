@@ -1,8 +1,16 @@
 <div th:fragment="clasificacionLaLigaFragment">
+    <!-- Includes all JS & CSS for the JavaScript Data Grid -->
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <!-- AG Grid CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css" />
+
     <section class="resume-section" id="clasificacionLaLiga">
         <div class="resume-section-content">
             <h2 class="mb-3 text-center">Clasificación La Liga</h2>
-
+            <div id="tablaClasificacionLaLiga" class="ag-theme-alpine" style="height: 90vh; width: 100%"></div>
+            <script id="equiposLaLigaData" type="application/json"
+                th:utext="${equiposLaLigaJson}"></script>
         </div>
     </section>
     <hr class="m-0" />

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.enrique.comuniowebapp.comuniowebapp.dto.EquipoLaLiga;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EstadisticasJugador;
 
 @Service
@@ -64,6 +65,50 @@ public class EstadisticasService {
         }
 
         return EstadisticasJugadores;
+    }
+
+    public List<EquipoLaLiga> getClasificacionLaLiga() throws IOException {
+
+        final String URL = "https://www.comuniazo.com/laliga";
+
+        List<EquipoLaLiga> equiposLaLiga = new ArrayList<>();
+
+        Document doc = Jsoup.connect(URL)
+                .userAgent("Mozilla/5.0")
+                .get();
+
+        Element tabla = doc.selectFirst(".content-competition table");
+        if (tabla != null){
+            Elements filas = tabla.select("tr");
+
+            // saltamos cabecera
+            for(int i=1; i < filas.size(); i++){
+                Elements tds = filas.get(i).select("td");
+                if (tds.size() < 10) continue;
+
+                EquipoLaLiga equipo = new EquipoLaLiga();
+
+                // Recuperar la URL del logo
+                Element img = tds.get(1).selectFirst("img");
+                equipo.setLogoUrl(img != null ? img.attr("src") : "");
+
+                // Recuperamos el resto de datos
+                equipo.setPosicion(tds.get(0).text());
+                equipo.setNombre(tds.get(1).text());
+                equipo.setPuntos(tds.get(2).text());
+                equipo.setPj(tds.get(3).text());
+                equipo.setPg(tds.get(4).text());
+                equipo.setPe(tds.get(5).text());
+                equipo.setPp(tds.get(6).text());
+                equipo.setGf(tds.get(7).text());
+                equipo.setGc(tds.get(8).text());
+                equipo.setDg(tds.get(9).text());
+
+                equiposLaLiga.add(equipo);
+            }
+        }
+
+        return equiposLaLiga;
     }
 
     private String conversorPosicion(String posicion){

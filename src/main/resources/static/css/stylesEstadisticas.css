@@ -11037,7 +11037,8 @@ hr {
         font-size: 14px;
 }
 
-/* Estilo para el saldo en la barra lateral */
+/* ESTILO PARA EL SALDO EN LA BARRA LATERAL */
+
 .budget-fixed {
     position: absolute;      /* Fijo en la barra lateral */
     bottom: 20px;            /* Se puede cambiar a 'top: 20px;' si quieres arriba */
@@ -11050,7 +11051,7 @@ hr {
     font-weight: bold;
 }
 
-/* Estilos para AGGRID de la tabla */
+/* ESTILOS PARA AG-GRID DE LA TABLA */
 /* Contenedor principal del tema */
 .ag-theme-alpine,
 .ag-theme-alpine .ag-root-wrapper,
@@ -11112,3 +11113,5 @@ hr {
     font-size: 12px; /* más pequeño en móviles */
   }
 }
+
+/*   */
