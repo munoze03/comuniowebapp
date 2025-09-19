@@ -3,9 +3,6 @@
 const clasificacionLaLigaScript = document.getElementById('equiposLaLigaData');
 const equipos = JSON.parse(clasificacionLaLigaScript.textContent);  //Lo convertimos en un Array
 
-// Ahora "equipos" es un array de objetos JS
-console.log(equipos);
-
 // Grid Options: Contains all of the Data Grid configurations
 const gridClasificacionLaLigaOptions = {
     rowData: equipos.map(equipo => ({

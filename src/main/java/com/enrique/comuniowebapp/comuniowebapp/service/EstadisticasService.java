@@ -38,7 +38,6 @@ public class EstadisticasService {
 
             EstadisticasJugador j = new EstadisticasJugador();
             j.setNombre(cols.get(0).select("strong").text());
-            System.out.println(j.getNombre());
             j.setEnlace(cols.get(0).select("a").attr("href"));
             j.setEquipoLogo(cols.get(0).select("img").attr("src"));
 

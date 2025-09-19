@@ -71,7 +71,7 @@
     <hr class="m-0" />
 
     <!-- Modal de información del jugador -->
-    <div th:replace="fragments/jugadorModal :: jugadorModal"></div>
+    <div th:replace="~{fragments/jugadorModal :: jugadorModal}"></div>
 
     <!-- Inyectamos jugadores desde Thymeleaf en JSON -->
     <script th:inline="javascript">
