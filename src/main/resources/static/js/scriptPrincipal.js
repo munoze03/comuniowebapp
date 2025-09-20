@@ -1249,3 +1249,23 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
 
     container.appendChild(table);
 }
+
+// FUNCIONES PARA CONTROLAR MODAL DE PLANTILLA USUARIOS AL PULSAR EN CLASIFICACION
+document.addEventListener("DOMContentLoaded", function () {
+    const tbody = document.getElementById("tbody");
+    const modalContent = document.getElementById("plantillaUsuarioModal");
+
+    tbody.addEventListener("click", function (e) {
+        let row = e.target.closest("tr"); // detecta la fila
+
+        if (row) {
+            let userId = row.getAttribute("data-userid"); // saca el id
+            console.log(userId);
+            //modalContent.textContent = "Has pulsado en el usuario con ID: " + userId;
+
+            // Muestra el modal de Bootstrap
+            let modal = new bootstrap.Modal(document.getElementById("plantillaUsuario"));
+            modal.show();
+        }
+    });
+});

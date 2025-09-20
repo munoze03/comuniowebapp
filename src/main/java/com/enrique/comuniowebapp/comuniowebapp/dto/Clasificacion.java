@@ -6,6 +6,7 @@ public class Clasificacion {
     private int totalPoints;
     private int totalPointsLastMatchday;
     private int livePoints;
+    private String userId;
 
     public int getPosicion() {
         return posicion;
@@ -36,6 +37,12 @@ public class Clasificacion {
     }
     public void setLivePoints(int livePoints) {
         this.livePoints = livePoints;
+    }
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     
 }

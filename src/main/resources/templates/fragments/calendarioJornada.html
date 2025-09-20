@@ -20,8 +20,15 @@
 
                             <!-- Info central -->
                             <div class="match-info">
-                                <div class="fw-bold text-uppercase small mb-1" th:text="${partido.fechaHora}"></div>
-                                <img th:if="${partido.urlTV != ''}" th:src="${partido.urlTV}" alt="TV" width="45">
+                                <!-- Mostrar fecha/hora si NO hay TV -->
+                                <div th:if="${partido.urlTV == ''}">
+                                    <div class="fw-bold text-uppercase small mb-1" th:text="${partido.resultado}"></div>
+                                </div>
+
+                                <!-- Mostrar logo si hay TV -->
+                                <div th:if="${partido.urlTV != ''}">
+                                    <img th:src="${partido.urlTV}" alt="TV" width="45">
+                                </div>
                             </div>
 
                             <!-- Equipo visitante -->

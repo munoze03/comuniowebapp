@@ -27,13 +27,23 @@ public class EstadisticasController {
     }
 
     @GetMapping("/estadisticas")
-    public void cargarEstadisticas(HttpSession session, Model model) throws IOException {
+    public String cargarEstadisticas(HttpSession session, Model model) throws IOException {
+
+        UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+
+        // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
+        if (userInfo == null) {
+        // redirigir al login si no hay sesión
+        return "redirect:/api/login";
+        }
 
         cargarEstadisticasJugadores(session, model);
         cargarClasificacionLaLiga(session, model);
         cargarPartidosJornada(session, model);
         cargarCalendarioLaLiga(session, model);
         
+        
+        return "estadisticas";
     }
 
     public String cargarClasificacionLaLiga(HttpSession session, Model model) throws IOException {

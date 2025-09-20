@@ -137,6 +137,11 @@ public class EstadisticasService {
             partido.setFechaHora(partidoEl.selectFirst(".mid .date") != null ? partidoEl.selectFirst(".mid .date").text() : "");
             partido.setUrlTV(partidoEl.selectFirst(".mid .tvs img") != null ? partidoEl.selectFirst(".mid .tvs img").attr("src") : "");
 
+            // En caso de que UrlTV sea "" recuperamos resultado
+            if(partido.getUrlTV() == ""){
+            partido.setResultado(partidoEl.selectFirst(".mid .score") != null ? partidoEl.selectFirst(".mid .score").text() : "");
+            }
+
             calendarioJornada.add(partido);
         }
 

@@ -405,6 +405,7 @@ public class ComunioUserService {
 
             Clasificacion c = new Clasificacion();
             c.setName((String) user.get("name"));
+            c.setUserId(String.valueOf((int) user.get("id")));
             c.setPosicion((int) user.get("position"));
             c.setTotalPoints((int) item.get("totalPoints"));
             c.setLivePoints((int) item.get("livePoints"));
@@ -927,6 +928,18 @@ public class ComunioUserService {
     }
 
     public Map<String, Object> getHistoricoPuntosJugador(String jugadorName){
+
+        //Controlamos las excepciones de los jugadores
+        switch (jugadorName) {
+            case "roberto-fernandez":
+                jugadorName="roberto-fernandez-2";
+                break;
+            case "miguel-rubio":
+                jugadorName="miguel-angel-rubio";
+                break;
+            default:
+                break;
+        }
 
         String url = String.format("https://www.comuniazo.com/comunio-apuestas/jugadores/%s", jugadorName);
         Map<String, Object> result = new HashMap<>();

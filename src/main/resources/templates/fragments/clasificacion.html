@@ -46,7 +46,8 @@
                     </thead>
                     <!-- tbody live -->
                     <tbody id="tbody" >
-                        <tr th:each="c, stat : ${clasificacion}">
+                        <tr th:each="c, stat : ${clasificacion}"
+                            th:attr="data-userid=${c.userId}">
                             <td><span th:text="${stat.count}"></span></td>
                             <td th:text="${#strings.capitalize(c.name)}"></td>
                             <td class="tipo-total" th:text="${c.totalPoints}"></td>
@@ -58,7 +59,8 @@
 
                     <!-- tbody mes -->
                     <tbody id="tbodyMes" class="d-none">
-                        <tr th:each="c, stat : ${clasificacion}">
+                        <tr th:each="c, stat : ${clasificacion}"
+                            th:attr="data-userid=${c.userId}">
                             <td><span th:text="${stat.count}"></span></td>
                             <td th:text="${#strings.capitalize(c.name)}"></td>
                             <td class="tipo-total" th:text="${c.totalPoints}"></td>
@@ -72,4 +74,6 @@
         </div>
     </section>
     <hr class="m-0" />
+    <!-- Modal de información del jugador -->
+    <div th:replace="~{fragments/plantillaUsuarioModal :: plantillaUsuarioModal}"></div>
 </div>
