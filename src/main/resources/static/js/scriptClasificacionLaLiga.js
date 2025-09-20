@@ -17,88 +17,52 @@ const gridClasificacionLaLigaOptions = {
         pj: parseInt(equipo.pj),
         pp: parseInt(equipo.pp),
     })),
-    columnDefs: [
-        { field: "posicion",
-            headerName: "",
-            width: 45 
-        },
-        { field: "logoUrl",
-            headerName: "",
-            cellRenderer: (params) => {
-                const img = document.createElement("img");
-                img.src = params.value;
-                img.style.width = "22px";
-                img.style.height = "22px";
-                return img;
-            },
-            width: 45,
-            sortable: false,
-            filter: false
-        },
-        { field: "nombre",
-            headerName: "",
-            width: 126,
-            sortable: false,
-            filter: false
-        },
-        { field: "puntos",
-            headerName: "PUNTOS",
-            comparator: (valueA, valueB) => valueA - valueB,
-            flex: 1,
-            cellClass: "text-center",
-            headerClass: "text-center" 
-        },
-        { field: "pj",
-            headerName: "PJ",
-            comparator: (a, b) => a - b,
-            flex: 1,
-            cellClass: "text-center",
-            headerClass: "text-center" 
-        },
-        { field: "pg",
-            headerName: "PG",
-            comparator: (valueA, valueB) => valueA - valueB,
-            flex: 1,
-            cellClass: "text-center",
-            headerClass: "text-center"
-        },
-        { field: "pe",
-            headerName: "PE",
-            comparator: (valueA, valueB) => valueA - valueB,
-            flex: 1,
-            cellClass: "text-center",
-            headerClass: "text-center"
-        },
-        { field: "pp",
-            headerName: "PP",
-            comparator: (valueA, valueB) => valueA - valueB,
-            flex: 1,
-            cellClass: "text-center",
-            headerClass: "text-center"
-        },
-        { field: "gf",
-            headerName: "GF",
-            comparator: (valueA, valueB) => valueA - valueB,
-            flex: 1,
-            cellClass: "text-center",
-            headerClass: "text-center"
-        },
-        { field: "gc",
-            headerName: "GC",
-            comparator: (valueA, valueB) => valueA - valueB,
-            flex: 1,
-            cellClass: "text-center",
-            headerClass: "text-center"
-        },
-        { field: "dg",
-            headerName: "DG",
-            comparator: (valueA, valueB) => valueA - valueB,
-            flex: 1,
-            cellClass: "text-center",
-            headerClass: "text-center"
-        }
-    ]
+    columnDefs: getColumnDefs()
 };
+
+function getColumnDefs(){
+    if (window.innerWidth < 900) { // si es "estrecho" (vertical)
+        return [
+            { field: "posicion", headerName: "", width: 40 },
+            { field: "logoUrl", headerName: "", cellRenderer: (params) => {
+                    const img = document.createElement("img");
+                    img.src = params.value;
+                    img.style.width = "22px";
+                    img.style.height = "22px";
+                    return img;
+                }, width: 45, sortable: false, filter: false },
+            { field: "nombre", headerName: "", width: 105, sortable: false, filter: false },
+            { field: "puntos", headerName: "PTS", comparator: (valueA, valueB) => valueA - valueB, width: 50, cellClass: "text-center", headerClass: "text-center" },
+            { field: "pj", headerName: "PJ", comparator: (a, b) => a - b, width: 50, cellClass: "text-center", headerClass: "text-center" },
+            { field: "pg", headerName: "PG", comparator: (valueA, valueB) => valueA - valueB, width: 50, cellClass: "text-center", headerClass: "text-center" },
+            { field: "pe", headerName: "PE", comparator: (valueA, valueB) => valueA - valueB, width: 50, cellClass: "text-center", headerClass: "text-center" },
+            { field: "pp", headerName: "PP", comparator: (valueA, valueB) => valueA - valueB, width: 50, cellClass: "text-center", headerClass: "text-center" },
+            { field: "gf", headerName: "GF", comparator: (valueA, valueB) => valueA - valueB, width: 50, cellClass: "text-center", headerClass: "text-center" },
+            { field: "gc", headerName: "GC", comparator: (valueA, valueB) => valueA - valueB, width: 50, cellClass: "text-center", headerClass: "text-center" },
+            { field: "dg", headerName: "DG", comparator: (valueA, valueB) => valueA - valueB, width: 50, cellClass: "text-center", headerClass: "text-center"}
+        ];
+    } else {
+        return [
+            { field: "posicion", headerName: "", width: 45 },
+            { field: "logoUrl", headerName: "", cellRenderer: (params) => {
+                    const img = document.createElement("img");
+                    img.src = params.value;
+                    img.style.width = "22px";
+                    img.style.height = "22px";
+                    return img;
+                }, width: 45, sortable: false, filter: false },
+            { field: "nombre", headerName: "", width: 126, sortable: false, filter: false },
+            { field: "puntos", headerName: "PUNTOS", comparator: (valueA, valueB) => valueA - valueB, flex: 1, cellClass: "text-center", headerClass: "text-center" },
+            { field: "pj", headerName: "PJ", comparator: (a, b) => a - b, flex: 1, cellClass: "text-center", headerClass: "text-center" },
+            { field: "pg", headerName: "PG", comparator: (valueA, valueB) => valueA - valueB, flex: 1, cellClass: "text-center", headerClass: "text-center" },
+            { field: "pe", headerName: "PE", comparator: (valueA, valueB) => valueA - valueB, flex: 1, cellClass: "text-center", headerClass: "text-center" },
+            { field: "pp", headerName: "PP", comparator: (valueA, valueB) => valueA - valueB, flex: 1, cellClass: "text-center", headerClass: "text-center" },
+            { field: "gf", headerName: "GF", comparator: (valueA, valueB) => valueA - valueB, flex: 1, cellClass: "text-center", headerClass: "text-center" },
+            { field: "gc", headerName: "GC", comparator: (valueA, valueB) => valueA - valueB, flex: 1, cellClass: "text-center", headerClass: "text-center" },
+            { field: "dg", headerName: "DG", comparator: (valueA, valueB) => valueA - valueB, flex: 1, cellClass: "text-center", headerClass: "text-center"}
+        ];
+    }
+}
 
 // Your Javascript code to create the Data Grid
 const myGridClasificacionLaLigaElement = document.querySelector('#tablaClasificacionLaLiga');

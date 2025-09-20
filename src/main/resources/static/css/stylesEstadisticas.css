@@ -11147,14 +11147,26 @@ hr {
 .btn-nav {
     background: transparent;
     border: none;
-    font-size: 3rem;         /* más grande */
     color: #198754;          /* verde bootstrap */
     cursor: pointer;
     transition: transform 0.2s ease, color 0.2s ease;
     padding: 0 10px;
+    z-index: 10;
+    font-size: 1.5rem; /* más pequeño en móviles */
+    line-height: 1;            /* para centrar mejor la flecha */
+    padding: 0 5px;            /* un poco de aire lateral */
 }
 
 .btn-nav:hover {
     transform: scale(1.2);
     color: #145c32; /* tono verde más oscuro en hover */
+}
+
+@media (max-width: 576px) {
+    #prevBtn {
+        left: -30px;  /* los sacas fuera del contenedor */
+    }
+    #nextBtn {
+        right: -30px;
+    }
 }
