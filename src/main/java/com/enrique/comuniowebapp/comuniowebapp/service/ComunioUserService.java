@@ -1048,9 +1048,8 @@ public class ComunioUserService {
             p.setUltimosPuntos((String) item.get("lastPoints"));
             p.setLinedup((Boolean) item.get("linedup"));
 
-            if(p.getLinedup() == true){
-                plantilla.add(p);
-            }
+            plantilla.add(p);
+
         }
 
         return plantilla;
