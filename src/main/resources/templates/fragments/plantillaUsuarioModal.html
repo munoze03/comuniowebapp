@@ -4,19 +4,26 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content bg-dark text-white p-3 text-center">
                 <!-- Nombre -->
-                <div class="mb-3">
-                    <h3 id="Nombre" class="text-success fs-2"></h3>
+                <div class="mb-2">
+                    <h3 class="text-success fs-2">Alineación</h3>
                     <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 " data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
 
-                <div>
-                    <h5 class="modal-title text-success" id="plantillaUsuarioLabel">Alineación</h5>
-                </div>
-                <div class="modal-body">
-                    <!-- Nombre -->
-                    
-                    
-
+                <div class="modal-body" id="plantillaUsuarioBody">
+                    <table class="table text-white">
+                        <thead>
+                            <tr class="text-success">
+                                <th>Posición</th>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                                <th>Club</th>
+                                <th>Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaPlantilla">
+                            <!-- Aquí van los jugadores -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -13,7 +13,6 @@ public class Player {
     private int valor;
     private Boolean onMarket;
     private Boolean linedup;
-    
     private String estado;
     private String infoEstado;
     private int partidosJugados;

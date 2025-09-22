@@ -20,19 +20,21 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNavEstadisticas">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
                 <span class="d-block d-lg-none" th:text="'Saldo: ' + ${userInfo.budget + '€'} " ></span>
-<div class="d-none d-lg-block position-relative d-inline-block">
-  <img class="img-fluid img-profile rounded-circle mx-auto mb-2"
-       src="/assets/logoJujas.png"
-       alt="Logo Jujas" />
-  <a href="/main" class="stretched-link"></a>
-</div>            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="d-none d-lg-block position-relative d-inline-block">
+                <img class="img-fluid img-profile rounded-circle mx-auto mb-2"
+                    src="/assets/logoJujas.png"
+                    alt="Logo Jujas" />
+                    <a href="/main" class="stretched-link"></a>
+                </div>            
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsiveEstadisticas" aria-controls="navbarResponsiveEstadisticas" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsiveEstadisticas">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#jugadoresEstadisticas">Jugadores</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#calendarioLaLiga">Calendario La Liga</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#clasificacionLaLiga">Clasificación La Liga</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#calendarioJornada">Calendario Jornada</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/main}">Volver</a></li>
                     <!-- <li class="nav-item" th:if="${userInfo.isLeader == true}"><a class="nav-link js-scroll-trigger" href="#administracion">Administracion</a></li> -->
                 </ul>
             </div>

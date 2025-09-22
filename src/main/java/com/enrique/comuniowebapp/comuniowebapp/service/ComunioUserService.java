@@ -1012,4 +1012,47 @@ public class ComunioUserService {
         return clasificacionMes;
     }
     
+    public List<Player> getPlantillaJugador(String userId, String token){
+        String url = String.format("https://www.comunio.es/api/users/%s/squad?state=infoUser", userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+        List<Map<String, Object>> items = (List<Map<String, Object>>) response.getBody().get("items");
+        
+        List<Player> plantilla = new ArrayList<>();
+        for (Map<String, Object> item : items){
+            Map<String, Object> club = (Map<String, Object>) item.get("club");
+            Map<String, Object> links = (Map<String, Object>) club.get("_links");
+            Map<String, Object> logo = (Map<String, Object>) links.get("logo");
+            Map<String, Object> playerLinks = (Map<String, Object>) item.get("_links");
+            Map<String, Object> foto = (Map<String, Object>) playerLinks.get("photo");
+
+            Player p = new Player();
+            p.setClub((String) club.get("name"));
+            p.setId((int) item.get("id"));
+            p.setHrefClubLogo((String) logo.get("href"));
+            p.setHrefFoto((String) foto.get("href"));
+            p.setName((String) item.get("name"));
+            //Modificamos la posicion para la tarjeta
+            String posicion = ((String) item.get("position")).toLowerCase();
+            switch (posicion) {
+                case "keeper" -> p.setPosicion("PO");
+                case "defender" -> p.setPosicion("DF");
+                case "midfielder" -> p.setPosicion("ME");
+                default -> p.setPosicion("DL");
+            }
+            p.setPuntosTotales((String) item.get("points"));
+            p.setUltimosPuntos((String) item.get("lastPoints"));
+            p.setLinedup((Boolean) item.get("linedup"));
+
+            if(p.getLinedup() == true){
+                plantilla.add(p);
+            }
+        }
+
+        return plantilla;
+    }
 }

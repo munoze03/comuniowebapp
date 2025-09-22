@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
 
@@ -51,6 +52,20 @@ public class ClasificacionController {
         }
 
         return sb.toString();
+
+    }
+
+    @GetMapping("/plantilla/{userId}")
+    @ResponseBody
+    public List<Player> cargarPlantillaUsuario(
+        HttpSession session,
+        @PathVariable String userId) {
+
+        // Recupera token de sesión
+        String token = (String) session.getAttribute("token");
+        
+        // Llamamos al servicio
+        return comunioUserService.getPlantillaJugador(userId, token);
 
     }
 

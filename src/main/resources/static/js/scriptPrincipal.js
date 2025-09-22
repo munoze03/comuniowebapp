@@ -1251,21 +1251,105 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
 }
 
 // FUNCIONES PARA CONTROLAR MODAL DE PLANTILLA USUARIOS AL PULSAR EN CLASIFICACION
+let userId;
+// Funcion que recoge UserId desde el boton de la tabla de clasificacion
 document.addEventListener("DOMContentLoaded", function () {
     const tbody = document.getElementById("tbody");
-    const modalContent = document.getElementById("plantillaUsuarioModal");
+    const modalContent = document.getElementById("modalUserId");
 
     tbody.addEventListener("click", function (e) {
         let row = e.target.closest("tr"); // detecta la fila
 
         if (row) {
-            let userId = row.getAttribute("data-userid"); // saca el id
-            console.log(userId);
-            //modalContent.textContent = "Has pulsado en el usuario con ID: " + userId;
+            userId = row.getAttribute("data-userid"); // saca el id
+
+            console.log("UserID: " + userId);
+            renderPlantillaJugador(userId, "tablaPlantilla");
+
 
             // Muestra el modal de Bootstrap
             let modal = new bootstrap.Modal(document.getElementById("plantillaUsuario"));
             modal.show();
         }
     });
+
 });
+
+async function cargarPlantillaJugador(userId){
+    
+    const response = await fetch(`/clasificacion/plantilla/${userId}`);
+    if (!response.ok) throw new Error("Error en la petición: " + response.status);
+
+    const plantilla = await response.json();
+    return plantilla; // devuelve el objeto data
+}
+
+async function renderPlantillaJugador(userId, containerId) {
+    // Llamamos a la función que carga los datos
+    const plantillaJugador = await cargarPlantillaJugador(userId);
+
+    console.log(plantillaJugador);
+
+    const container = document.getElementById(containerId);
+    if (!container) return; // si no existe el contenedor, salir
+
+    container.innerHTML = ""; // limpiar contenido anterior
+
+    // <tr th:each="c, stat : ${clasificacion}"
+    //     th:attr="data-userid=${c.userId}">
+    //     <td><span th:text="${stat.count}"></span></td>
+    //     <td th:text="${#strings.capitalize(c.name)}"></td>
+    //     <td class="tipo-total" th:text="${c.totalPoints}"></td>
+    //     <td class="tipo-jornada d-none" th:text="${c.totalPointsLastMatchday}"></td>
+    //     <td class="tipo-live d-none" th:text="${c.livePoints}"></td>
+    //     <td class="tipo-mes d-none" th:text="${c.livePoints}"></td>
+    // </tr>
+
+    //<img th:src="${p.hrefFoto}" th:attr="data-id=${p.id}" alt="Foto jugador" class="rounded-circle fotoPlantilla" width="60" height="60"/>
+
+
+    for(let i = 0; i < plantillaJugador.length; i++){
+        const row = document.createElement("tr");
+
+        const tdPosicion = document.createElement("td");
+        tdPosicion.textContent = plantillaJugador[i].posicion;
+        row.appendChild(tdPosicion)
+
+        const tdFoto = document.createElement("td");
+        // Crear el elemento <img>
+        const img = document.createElement("img");
+        img.src = plantillaJugador[i].hrefFoto; // URL de la imagen
+        img.alt = plantillaJugador[i].nombre;
+        img.className = "rounded-circle fotoPlantilla";   
+        img.style.width = "30px";               // ancho opcional
+        img.style.height = "30px";              // alto opcional
+        img.style.objectFit = "cover";          // para que no se deforme
+
+        // Añadir la imagen a la celda
+        tdFoto.appendChild(img);
+        row.appendChild(tdFoto);
+
+
+        const tdNombre = document.createElement("td");
+        tdNombre.textContent = plantillaJugador[i].name;
+        row.appendChild(tdNombre)
+
+
+        const tdClub = document.createElement("td");
+        tdClub.textContent = plantillaJugador[i].club;
+        row.appendChild(tdClub)
+
+        const tdPuntos = document.createElement("td");
+        if(plantillaJugador[i].ultimosPuntos != ""){
+            tdPuntos.textContent = plantillaJugador[i].ultimosPuntos;
+        } else{
+            tdPuntos.textContent = "-"
+        }
+        row.appendChild(tdPuntos)
+
+        container.appendChild(row);
+
+    }
+
+    container.appendChild(row);
+}
