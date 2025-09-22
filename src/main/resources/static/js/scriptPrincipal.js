@@ -1312,6 +1312,7 @@ async function renderAlineacionJugador(userId, containerId) {
 
     for(let i = 0; i < plantillaJugador.length; i++){
         const row = document.createElement("tr");
+        row.classList.add("align-middle");
 
         if((jornadaActiva || liveActiva) && plantillaJugador[i].linedup == true){
             const tdPosicion = document.createElement("td");
@@ -1358,6 +1359,7 @@ async function renderAlineacionJugador(userId, containerId) {
                 row.appendChild(tdPosicion)
 
                 const tdFoto = document.createElement("td");
+                tdFoto.classList.add("ocultar-portrait");
                 // Crear el elemento <img>
                 const img = document.createElement("img");
                 img.src = plantillaJugador[i].hrefFoto; // URL de la imagen

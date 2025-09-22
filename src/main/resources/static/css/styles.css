@@ -11377,3 +11377,11 @@ hr {
         max-width: 20%;      /* solo en escritorio */
     }
 }
+
+/* Estilos para ajustar a moviles en vertical la tabla de alineacion de usuarios en clasificacion
+/* Ocultar columnas en móvil portrait */
+@media (max-width: 576px) and (orientation: portrait) {
+    .ocultar-portrait {
+        display: none !important;
+    }
+}

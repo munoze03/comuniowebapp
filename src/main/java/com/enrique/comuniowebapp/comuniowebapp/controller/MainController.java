@@ -37,11 +37,18 @@ public class MainController {
 
         // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
         if (userInfo == null) {
-        // redirigir al login si no hay sesión
-        return "redirect:/api/login";
+            // redirigir al login si no hay sesión
+            return "redirect:/api/login";
         }
 
         String token = (String) session.getAttribute("token");
+        // Controlamos que no haya caducado el token y sea null
+        if(token == null){
+            // redirigimos al login para volver a loguearnos
+            return "redirect:/api/login";
+        }
+
+
         model.addAttribute("userInfo", userInfo);
 
         //Capturamos las noticias
