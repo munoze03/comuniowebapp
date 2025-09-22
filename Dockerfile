@@ -6,10 +6,9 @@ WORKDIR /app
 
 # Copy the application code
 COPY . .
-RUN chmod +x mvnw
-RUN ./mvnw clean package -DskipTests
 
-# Build the application (requires Maven or Grandle)
+# Dar permisos al wrapper y construir
+RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
 # Stage 2: Run the application
