@@ -1347,6 +1347,8 @@ async function renderAlineacionJugador(userId, containerId) {
                 row.appendChild(tdPosicion)
 
                 const tdFoto = document.createElement("td");
+                tdFoto.classList.add("ocultar-portrait");
+
                 // Crear el elemento <img>
                 const img = document.createElement("img");
                 img.src = plantillaJugador[i].hrefFoto; // URL de la imagen
