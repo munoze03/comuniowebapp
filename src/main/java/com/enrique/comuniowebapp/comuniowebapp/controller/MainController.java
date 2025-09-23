@@ -47,8 +47,8 @@ public class MainController {
             // redirigimos al login para volver a loguearnos
             return "redirect:/api/login";
         }
-
-
+        
+        //Cargamos los datos del usuario en el modelo
         model.addAttribute("userInfo", userInfo);
 
         //Capturamos las noticias

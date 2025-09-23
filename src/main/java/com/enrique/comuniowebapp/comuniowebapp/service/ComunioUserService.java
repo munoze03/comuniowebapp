@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -937,6 +938,9 @@ public class ComunioUserService {
             case "miguel-rubio":
                 jugadorName="miguel-angel-rubio";
                 break;
+            case "abdon-prats":
+                jugadorName="abdon";
+                break;
             default:
                 break;
         }
@@ -1039,10 +1043,22 @@ public class ComunioUserService {
             //Modificamos la posicion para la tarjeta
             String posicion = ((String) item.get("position")).toLowerCase();
             switch (posicion) {
-                case "keeper" -> p.setPosicion("PO");
-                case "defender" -> p.setPosicion("DF");
-                case "midfielder" -> p.setPosicion("ME");
-                default -> p.setPosicion("DL");
+                case "keeper":
+                    p.setPosicion("PO");
+                    p.setPosicionNumber(1);
+                    break;
+                case "defender":
+                    p.setPosicion("DF");
+                    p.setPosicionNumber(2);
+                    break;
+                case "midfielder":
+                    p.setPosicion("ME");
+                    p.setPosicionNumber(3);
+                    break;
+                default:
+                    p.setPosicion("DL");
+                    p.setPosicionNumber(4);
+                    break;
             }
             p.setPuntosTotales((String) item.get("points"));
             p.setUltimosPuntos((String) item.get("lastPoints"));
@@ -1051,6 +1067,9 @@ public class ComunioUserService {
             plantilla.add(p);
 
         }
+
+        // Ordenamos la plantilla por posicion
+        plantilla.sort(Comparator.comparingInt(Player::getPosicionNumber));
 
         return plantilla;
     }

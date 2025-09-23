@@ -5,8 +5,16 @@
             <div class="modal-content bg-dark text-white p-3 text-center">
                 <!-- Nombre -->
                 <div class="mb-2">
-                    <h3 class="text-success fs-2">Alineación</h3>
+                    <h3 id="alineacionUsuario" class="text-success fs-2">Alineación</h3>
                     <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 " data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <!-- Spinner de Bootstrap -->
+                <div id="loading" class="d-none text-center my-3">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-2">Cargando...</p>
                 </div>
 
                 <div class="modal-body" id="plantillaUsuarioBody">

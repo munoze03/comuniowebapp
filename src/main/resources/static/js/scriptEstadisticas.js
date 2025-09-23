@@ -44,6 +44,8 @@ function getColumnDefs(){
                     const container = document.createElement("div");
                     container.style.display = "flex";
                     container.style.gap = "2px"; // espacio entre celdas
+                    container.style.height = "100%";   // 🔹 Ocupar toda la celda
+                    container.style.alignItems = "center"; // 🔹 Centrar verticalmente  
                     
                     valores.forEach(val => {
                     const cell = document.createElement("div");
@@ -99,6 +101,8 @@ function getColumnDefs(){
                     const container = document.createElement("div");
                     container.style.display = "flex";
                     container.style.gap = "2px"; // espacio entre celdas
+                    container.style.height = "100%";   // 🔹 Ocupar toda la celda
+                    container.style.alignItems = "center"; // 🔹 Centrar verticalmente  
                     
                     valores.forEach(val => {
                     const cell = document.createElement("div");

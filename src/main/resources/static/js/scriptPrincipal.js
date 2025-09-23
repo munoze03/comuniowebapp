@@ -632,13 +632,18 @@ function mostrarInfoJugador(jugador) {
     const seccionCambioJugador = document.getElementById("seccionCambioJugador");
 
 
+
     if (jugador.id) {
         infoJugador.classList.remove("d-none");
         infoVacio.classList.add("d-none");
         const jugadorName = jugador.name.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
-        
+        const spanPosicion = document.getElementById("jugadorPosicion");
 
-        
+        // Reiniciamos las clases de los colores de posicion
+        spanPosicion.classList.remove("pos-PO");
+        spanPosicion.classList.remove("pos-DF");
+        spanPosicion.classList.remove("pos-ME");
+        spanPosicion.classList.remove("pos-DL");
 
         //document.getElementById("").textContent = jugador.position;
         //document.getElementById("jugadorId").textContent = jugador.id;
@@ -654,9 +659,13 @@ function mostrarInfoJugador(jugador) {
         //document.getElementById("").textContent = jugador.livePoints;
         //document.getElementById("").textContent = jugador.lastPoint;
         document.getElementById("jugadorPosicion").textContent = jugador.type;
+        console.log(jugador.type);
         //document.getElementById("jugadorTactic").textContent = jugador.tactic;
         document.getElementById("jugadorPrecio").textContent = jugador.price.toLocaleString('es-ES');
         //document.getElementById("jugadorPrecio").textContent = jugador.price;
+
+        // Pintamos el fondo de la posicion del jugador
+        spanPosicion.classList.add("pos-" + jugador.type);
 
         switch (jugador.estado) {
             case "ACTIVE":
@@ -736,6 +745,7 @@ function mostrarInfoJugador(jugador) {
 
     const modal = new bootstrap.Modal(document.getElementById("jugadorModal"));
     modal.show();
+
 }
 
 function convertirPlayerAlineacion(player, position, tactic) {
@@ -1252,6 +1262,7 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
 
 // FUNCIONES PARA CONTROLAR MODAL DE PLANTILLA USUARIOS AL PULSAR EN CLASIFICACION
 let userId;
+let userName;
 // Funcion que recoge UserId desde el boton de la tabla de clasificacion
 document.addEventListener("DOMContentLoaded", function () {
     const tbody = document.getElementById("tbody");
@@ -1261,16 +1272,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!row) return;
 
-        // // Verificar si está activa la pestaña "Jornada" o "Live"
-        // const btnJornada = document.getElementById("btnJornada");
-        // const btnLive = document.getElementById("btnLive");
+        // Verificar si está activa la pestaña "Jornada" o "Live"
+        const btnJornada = document.getElementById("btnJornada");
+        const btnLive = document.getElementById("btnLive");
 
-        // const jornadaActiva = btnJornada.classList.contains("btn-success");
-        // const liveActiva = btnLive.classList.contains("btn-success");
+        const jornadaActiva = btnJornada.classList.contains("btn-success");
+        const liveActiva = btnLive.classList.contains("btn-success");
 
         // if (jornadaActiva || liveActiva) {
             userId = row.getAttribute("data-userid"); // saca el id
+            userName = row.getAttribute("data-username"); // saca el nombre
 
+            // Establecemos el nombre del usuario en el modal
+            const alineacionUsuario = document.getElementById("alineacionUsuario");
+            if(jornadaActiva || liveActiva){
+                alineacionUsuario.textContent = `Alineación de ${userName}`;
+            }else{
+                alineacionUsuario.textContent = `Plantilla de ${userName}`;
+            }
+
+            // Llamamos a la función que renderiza la alineación del jugador
             renderAlineacionJugador(userId, "tablaPlantilla");
 
             // Muestra el modal de Bootstrap
@@ -1291,75 +1312,41 @@ async function cargarAlineacionJugador(userId){
 }
 
 async function renderAlineacionJugador(userId, containerId) {
-    // Llamamos a la función que carga los datos
-    const plantillaJugador = await cargarAlineacionJugador(userId);
+    const loading = document.getElementById("loading");
 
-    // Verificar si está activa la pestaña "Jornada" o "Live"
-    const btnJornada = document.getElementById("btnJornada");
-    const btnLive = document.getElementById("btnLive");
-    const btnTotal = document.getElementById("btnTotal");
-    const btnMes = document.getElementById("btnMes");
+    try {
+        // Mostrar spinner
+        loading.classList.remove("d-none");
 
-    const jornadaActiva = btnJornada.classList.contains("btn-success");
-    const liveActiva = btnLive.classList.contains("btn-success");
-    const totalActiva = btnTotal.classList.contains("btn-success");
-    const mesActiva = btnMes.classList.contains("btn-success");
+        // Llamamos a la función que carga los datos
+        const plantillaJugador = await cargarAlineacionJugador(userId);
 
-    const container = document.getElementById(containerId);
-    if (!container) return; // si no existe el contenedor, salir
+        // Verificar si está activa la pestaña "Jornada" o "Live"
+        const btnJornada = document.getElementById("btnJornada");
+        const btnLive = document.getElementById("btnLive");
+        const btnTotal = document.getElementById("btnTotal");
+        const btnMes = document.getElementById("btnMes");
 
-    container.innerHTML = ""; // limpiar contenido anterior
+        const jornadaActiva = btnJornada.classList.contains("btn-success");
+        const liveActiva = btnLive.classList.contains("btn-success");
+        const totalActiva = btnTotal.classList.contains("btn-success");
+        const mesActiva = btnMes.classList.contains("btn-success");
 
-    for(let i = 0; i < plantillaJugador.length; i++){
-        const row = document.createElement("tr");
-        row.classList.add("align-middle");
+        const container = document.getElementById(containerId);
+        if (!container) return; // si no existe el contenedor, salir
 
-        if((jornadaActiva || liveActiva) && plantillaJugador[i].linedup == true){
-            const tdPosicion = document.createElement("td");
-            tdPosicion.textContent = plantillaJugador[i].posicion;
-            row.appendChild(tdPosicion)
+        container.innerHTML = ""; // limpiar contenido anterior
 
-            const tdFoto = document.createElement("td");
-            // Crear el elemento <img>
-            const img = document.createElement("img");
-            img.src = plantillaJugador[i].hrefFoto; // URL de la imagen
-            img.alt = plantillaJugador[i].nombre;
-            img.className = "rounded-circle fotoPlantilla";   
-            img.style.width = "30px";               // ancho opcional
-            img.style.height = "30px";              // alto opcional
-            img.style.objectFit = "cover";          // para que no se deforme
+        for(let i = 0; i < plantillaJugador.length; i++){
+            const row = document.createElement("tr");
+            row.classList.add("align-middle");
 
-            // Añadir la imagen a la celda
-            tdFoto.appendChild(img);
-            row.appendChild(tdFoto);
-
-
-            const tdNombre = document.createElement("td");
-            tdNombre.textContent = plantillaJugador[i].name;
-            row.appendChild(tdNombre)
-
-
-            const tdClub = document.createElement("td");
-            tdClub.textContent = plantillaJugador[i].club;
-            row.appendChild(tdClub)
-
-            const tdPuntos = document.createElement("td");
-            if(plantillaJugador[i].ultimosPuntos != ""){
-                tdPuntos.textContent = plantillaJugador[i].ultimosPuntos;
-            } else{
-                tdPuntos.textContent = "-"
-            }
-            row.appendChild(tdPuntos)
-
-            container.appendChild(row);``
-        }else{
-            if(totalActiva || mesActiva){
+            if((jornadaActiva || liveActiva) && plantillaJugador[i].linedup == true){
                 const tdPosicion = document.createElement("td");
                 tdPosicion.textContent = plantillaJugador[i].posicion;
                 row.appendChild(tdPosicion)
 
                 const tdFoto = document.createElement("td");
-                tdFoto.classList.add("ocultar-portrait");
                 // Crear el elemento <img>
                 const img = document.createElement("img");
                 img.src = plantillaJugador[i].hrefFoto; // URL de la imagen
@@ -1392,10 +1379,54 @@ async function renderAlineacionJugador(userId, containerId) {
                 row.appendChild(tdPuntos)
 
                 container.appendChild(row);``
-            }
-            
-        }
-        
+            }else{
+                if(totalActiva || mesActiva){
+                    const tdPosicion = document.createElement("td");
+                    tdPosicion.textContent = plantillaJugador[i].posicion;
+                    row.appendChild(tdPosicion)
 
+                    const tdFoto = document.createElement("td");
+                    tdFoto.classList.add("ocultar-portrait");
+                    // Crear el elemento <img>
+                    const img = document.createElement("img");
+                    img.src = plantillaJugador[i].hrefFoto; // URL de la imagen
+                    img.alt = plantillaJugador[i].nombre;
+                    img.className = "rounded-circle fotoPlantilla";   
+                    img.style.width = "30px";               // ancho opcional
+                    img.style.height = "30px";              // alto opcional
+                    img.style.objectFit = "cover";          // para que no se deforme
+
+                    // Añadir la imagen a la celda
+                    tdFoto.appendChild(img);
+                    row.appendChild(tdFoto);
+
+
+                    const tdNombre = document.createElement("td");
+                    tdNombre.textContent = plantillaJugador[i].name;
+                    row.appendChild(tdNombre)
+
+
+                    const tdClub = document.createElement("td");
+                    tdClub.textContent = plantillaJugador[i].club;
+                    row.appendChild(tdClub)
+
+                    const tdPuntos = document.createElement("td");
+                    if(plantillaJugador[i].puntosTotales != ""){
+                        tdPuntos.textContent = plantillaJugador[i].puntosTotales;
+                    } else{
+                        tdPuntos.textContent = "-"
+                    }
+                    row.appendChild(tdPuntos)
+
+                    container.appendChild(row);``
+                }
+            }
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        // Ocultar spinner
+        loading.classList.add("d-none");
     }
+    
 }

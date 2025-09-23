@@ -23,15 +23,21 @@
                                 <div class="player-points">
                                     <span th:text="${p.puntosTotales}">10</span>
                                 </div>
+
+                                <!-- Posición -->
+                                <div class="player-position"
+                                    th:classappend="' pos-' + ${p.posicion}">
+                                    <span th:text="${p.posicion}">DF</span>
+                                </div>
                             </div>
 
                             <div>
                                 <h5 class="text-light mb-1" th:text="${p.name}">Nombre del jugador</h5>
 
-                                <!-- Posición -->
+                                <!-- Valor -->
                                 <p class="mb-0 text-white-50">
-                                    <span class="label-text">Posición:</span>
-                                    <span th:text="${p.posicion}">posición</span>
+                                    <span class="label-text">Valor:</span>
+                                    <span th:text="${#numbers.formatInteger(p.valor, 0, 'POINT')} + ' €'">0 €</span>
                                 </p>
 
                                 <!-- Puntos -->
@@ -40,11 +46,6 @@
                                     class="jugadorHistoricoPuntos">
                                 </div>
 
-                                <!-- Valor -->
-                                <p class="mb-0 text-white-50">
-                                    <span class="label-text">Valor:</span>
-                                    <span th:text="${#numbers.formatInteger(p.valor, 0, 'POINT')} + ' €'">0 €</span>
-                                </p>
                             </div>
                         </div>
                         <!-- Botón a la derecha -->

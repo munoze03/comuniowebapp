@@ -10,6 +10,7 @@ public class Player {
     private String ultimosPuntos;
     private String mediaPuntos;
     private String posicion;
+    private int posicionNumber;
     private int valor;
     private Boolean onMarket;
     private Boolean linedup;
@@ -141,6 +142,12 @@ public class Player {
     }
     public void setTarjetasRojas(int tarjetasRojas) {
         this.tarjetasRojas = tarjetasRojas;
+    }
+    public int getPosicionNumber() {
+        return posicionNumber;
+    }
+    public void setPosicionNumber(int posicionNumber) {
+        this.posicionNumber = posicionNumber;
     }
     
 }

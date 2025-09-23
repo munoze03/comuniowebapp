@@ -27,7 +27,8 @@
 
                                 <!-- Mostrar logo si hay TV -->
                                 <div th:if="${partido.urlTV != ''}">
-                                    <img th:src="${partido.urlTV}" alt="TV" width="45">
+                                    <div class="fw-bold text-uppercase small mb-2" th:text="${partido.fechaHora}"></div>
+                                    <img th:src="${partido.urlTV}" alt="TV" width="35">
                                 </div>
                             </div>
 

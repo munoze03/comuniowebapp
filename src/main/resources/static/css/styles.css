@@ -11385,3 +11385,21 @@ hr {
         display: none !important;
     }
 }
+
+/* Estilo para colocar recuadro de posicion en la foto de los jugadores */
+.player-position {
+    position: absolute;
+    bottom: -4px;   /* esquina inferior */
+    left: 0;     /* esquina izquierda */
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 4px;
+    border-radius: 3px;
+    line-height: 1;
+}
+
+/* Estilos colores de posiciones */
+.pos-DL { background-color: red !important; color: white; }
+.pos-ME { background-color: green !important; color: white; }
+.pos-DF { background-color: var(--bs-blue) !important; color: white; }
+.pos-PO { background-color: orange !important; color: white; }
