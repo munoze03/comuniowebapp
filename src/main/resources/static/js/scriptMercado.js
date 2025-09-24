@@ -128,3 +128,42 @@ function guardarOferta(id) {
 
     hidden.value = input.value.replace(/\./g, ""); // limpio puntos de miles
 }
+
+// Scripts para mostrar modalJugador en mercado
+document.querySelectorAll('.fotoMercado').forEach(img => {
+    img.addEventListener('click', function() {
+        const playerId = this.dataset.id;
+        const player = window.mercado.find(p => p.id == playerId);
+        if (!player) return;
+        // Aquí puedes llamar a tu función pasando userData
+        mostrarInfoJugadorMercado(player);
+    });
+});
+
+// Script para adaptar mercado para modalJugador
+function mostrarInfoJugadorMercado(player) {
+    const jugador = {
+                estado: player.estado,
+                infoEstado: player.infoEstado,
+                partidosJugados: player.partidosJugados,
+                golesTotales: player.golesTotales,
+                golesPenalti: player.golesPenalti,
+                mediaPuntos: player.mediaPuntos,
+                tarjetasAmarillas: player.tarjetasAmarillas,
+                tarjetasAmarRoja: player.tarjetasAmarRoja,
+                tarjetasRojas: player.tarjetasRojas,
+                price: player.price,
+                id: player.id,
+                name: player.namePlayer,
+                clubName: player.club,
+                photo: player.urlPhoto,
+                clubLogo: player.urlPhotoClub,
+                points: player.puntos,
+                livePoints: player.price,
+                lastPoints: player.recommendedPrice,
+                type: player.position,
+                position: player.position,
+                tactic: "0" 
+            };
+    mostrarInfoJugador(jugador) 
+}

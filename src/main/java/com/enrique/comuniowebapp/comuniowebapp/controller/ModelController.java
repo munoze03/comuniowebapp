@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+import com.enrique.comuniowebapp.comuniowebapp.service.MainService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/model")
 public class ModelController {
 
-    private final ComunioUserService comunioUserService;
+    private final MainService comunioUserService;
 
-    public ModelController(ComunioUserService comunioUserService) {
+    public ModelController(MainService comunioUserService) {
         this.comunioUserService = comunioUserService;
     }
 

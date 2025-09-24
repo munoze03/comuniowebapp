@@ -19,19 +19,19 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.TokenResponse;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Transactions;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+import com.enrique.comuniowebapp.comuniowebapp.service.AuthService;
+import com.enrique.comuniowebapp.comuniowebapp.service.MainService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
 
-    ComunioUserService comunioUserService;
-    ComunioAuthService comunioAuthService;
-    ComunioUserService userService;
+    MainService comunioUserService;
+    AuthService comunioAuthService;
+    MainService userService;
 
-    public MainController(ComunioUserService userService, ComunioAuthService comunioAuthService){
+    public MainController(MainService userService, AuthService comunioAuthService){
         this.userService = userService;
         this.comunioAuthService = comunioAuthService;
     }

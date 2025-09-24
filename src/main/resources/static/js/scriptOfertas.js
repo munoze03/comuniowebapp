@@ -39,3 +39,53 @@ document.addEventListener('DOMContentLoaded', () => {
     buttons.recibidas.addEventListener('click', () => mostrar('recibidas'));
     buttons.pasadas.addEventListener('click', () => mostrar('pasadas'));
 });
+
+// Scripts para mostrar modalJugador en ofertas
+document.querySelectorAll('.fotoOfertas').forEach(img => {
+    img.addEventListener('click', function() {
+        const playerId = this.dataset.id;
+        const player = window.ofertas.find(p => p.id == playerId);
+        if (!player) return;
+        // Aquí puedes llamar a tu función pasando userData
+        mostrarInfoJugadorOfertas(player);
+    });
+});
+
+// Script para adaptar ofertas para modalJugador
+function mostrarInfoJugadorOfertas(player) {
+    const jugador = {
+                estado: player.estadoJugador,
+                infoEstado: player.infoEstado,
+                partidosJugados: player.partidosJugados,
+                golesTotales: player.golesTotales,
+                golesPenalti: player.golesPenalti,
+                mediaPuntos: player.mediaPuntos,
+                tarjetasAmarillas: player.tarjetasAmarillas,
+                tarjetasAmarRoja: player.tarjetasAmarRoja,
+                tarjetasRojas: player.tarjetasRojas,
+                price: player.valor,
+                id: player.id,
+                name: player.name,
+                clubName: player.clubName,
+                photo: player.fotoJugador,
+                clubLogo: player.logoClub,
+                points: player.points,
+                livePoints: player.valor,
+                lastPoints: player.valor,
+                type: player.position,
+                position: player.position,
+                tactic: "0" 
+            };
+    mostrarInfoJugador(jugador) 
+}
+
+// Scripts para mostrar modalJugador en historialOfertas
+document.querySelectorAll('.fotoHistorialOfertas').forEach(img => {
+    img.addEventListener('click', function() {
+        const playerId = this.dataset.id;
+        const player = window.historialOfertas.find(p => p.id == playerId);
+        if (!player) return;
+        // Aquí puedes llamar a tu función pasando userData
+        mostrarInfoJugadorOfertas(player);
+    });
+});

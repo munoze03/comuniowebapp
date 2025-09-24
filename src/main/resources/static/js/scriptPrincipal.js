@@ -156,148 +156,6 @@ function mostrarInfoJugador(jugador) {
 
 }
 
-function convertirPlayerAlineacion(player, position, tactic) {
-    return {
-        position: position,
-        id: player.id,
-        name: player.name,
-        photo: player.hrefFoto,
-        clubName: player.clubName || player.club,
-        clubLogo: player.hrefClubLogo,
-        points: parseInt(player.puntosTotales),
-        livePoints: player.ultimosPuntos,
-        lastPoints: (player.ultimosPuntos === "" || player.ultimosPuntos == null) ? "-" : player.ultimosPuntos,
-        type: player.posicion || player.type,
-        tactic: tactic,
-        tarjetasAmarillas: player.tarjetasAmarillas,
-        tarjetasRojas: player.tarjetasRojas,
-        tarjetasAmarRoja: player.tarjetasAmarRoja,
-        estado: player.estado,
-        infoEstado: player.infoEstado,
-        partidosJugados: player.partidosJugados,
-        golesTotales: player.golesTotales,
-        golesPenalti: player.golesPenalti,
-        price : player.valor,
-        mediaPuntos: player.mediaPuntos
-    };
-}
-
-// Script para adaptar plantilla para modalJugador
-function mostrarInfoJugadorPlantilla(player) {
-    const jugador = {
-                estado: player.estado,
-                infoEstado: player.infoEstado,
-                partidosJugados: player.partidosJugados,
-                golesTotales: player.golesTotales,
-                golesPenalti: player.golesPenalti,
-                mediaPuntos: player.mediaPuntos,
-                tarjetasAmarillas: player.tarjetasAmarillas,
-                tarjetasAmarRoja: player.tarjetasAmarRoja,
-                tarjetasRojas: player.tarjetasRojas,
-                price: player.valor,
-                id: player.id,
-                name: player.name,
-                clubName: player.club,
-                photo: player.hrefFoto,
-                clubLogo: player.hrefClubLogo,
-                points: player.puntosTotales,
-                livePoints: player.price,
-                lastPoints: player.recommendedPrice,
-                type: player.posicion,
-                position: player.posicion,
-                tactic: "0" 
-            };
-    mostrarInfoJugador(jugador) 
-}
-
-// Scripts para mostrar modalJugador en mercado
-document.querySelectorAll('.fotoMercado').forEach(img => {
-    img.addEventListener('click', function() {
-        const playerId = this.dataset.id;
-        const player = window.mercado.find(p => p.id == playerId);
-        if (!player) return;
-        // Aquí puedes llamar a tu función pasando userData
-        mostrarInfoJugadorMercado(player);
-    });
-});
-
-// Script para adaptar mercado para modalJugador
-function mostrarInfoJugadorMercado(player) {
-    const jugador = {
-                estado: player.estado,
-                infoEstado: player.infoEstado,
-                partidosJugados: player.partidosJugados,
-                golesTotales: player.golesTotales,
-                golesPenalti: player.golesPenalti,
-                mediaPuntos: player.mediaPuntos,
-                tarjetasAmarillas: player.tarjetasAmarillas,
-                tarjetasAmarRoja: player.tarjetasAmarRoja,
-                tarjetasRojas: player.tarjetasRojas,
-                price: player.price,
-                id: player.id,
-                name: player.namePlayer,
-                clubName: player.club,
-                photo: player.urlPhoto,
-                clubLogo: player.urlPhotoClub,
-                points: player.puntos,
-                livePoints: player.price,
-                lastPoints: player.recommendedPrice,
-                type: player.position,
-                position: player.position,
-                tactic: "0" 
-            };
-    mostrarInfoJugador(jugador) 
-}
-
-// Scripts para mostrar modalJugador en ofertas
-document.querySelectorAll('.fotoOfertas').forEach(img => {
-    img.addEventListener('click', function() {
-        const playerId = this.dataset.id;
-        const player = window.ofertas.find(p => p.id == playerId);
-        if (!player) return;
-        // Aquí puedes llamar a tu función pasando userData
-        mostrarInfoJugadorOfertas(player);
-    });
-});
-// Script para adaptar ofertas para modalJugador
-function mostrarInfoJugadorOfertas(player) {
-    const jugador = {
-                estado: player.estadoJugador,
-                infoEstado: player.infoEstado,
-                partidosJugados: player.partidosJugados,
-                golesTotales: player.golesTotales,
-                golesPenalti: player.golesPenalti,
-                mediaPuntos: player.mediaPuntos,
-                tarjetasAmarillas: player.tarjetasAmarillas,
-                tarjetasAmarRoja: player.tarjetasAmarRoja,
-                tarjetasRojas: player.tarjetasRojas,
-                price: player.valor,
-                id: player.id,
-                name: player.name,
-                clubName: player.clubName,
-                photo: player.fotoJugador,
-                clubLogo: player.logoClub,
-                points: player.points,
-                livePoints: player.valor,
-                lastPoints: player.valor,
-                type: player.position,
-                position: player.position,
-                tactic: "0" 
-            };
-    mostrarInfoJugador(jugador) 
-}
-
-// Scripts para mostrar modalJugador en historialOfertas
-document.querySelectorAll('.fotoHistorialOfertas').forEach(img => {
-    img.addEventListener('click', function() {
-        const playerId = this.dataset.id;
-        const player = window.historialOfertas.find(p => p.id == playerId);
-        if (!player) return;
-        // Aquí puedes llamar a tu función pasando userData
-        mostrarInfoJugadorOfertas(player);
-    });
-});
-
 // Script para volver a abrir el modal del jugador al cerrar el de historial de valor
 document.addEventListener("DOMContentLoaded", function () {
   var historialModal = document.getElementById("historialModal");
@@ -419,7 +277,6 @@ async function cargarHistorialPuntos(jugadorName){
     return await response.json(); // devuelve el objeto data
 }
 
-
 async function renderHistoricoPuntosModal(jugadorName, containerId = "jugadorHistoricoPuntos") {
     // Llamamos a la función que carga los datos
     jugadorName = jugadorName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
@@ -484,7 +341,6 @@ async function renderHistoricoPuntosModal(jugadorName, containerId = "jugadorHis
     container.appendChild(table);
 }
 
-
 // Ejecutar automáticamente para todos los contenedores con data-jugador
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-jugador]").forEach(div => {
@@ -521,9 +377,7 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
         // Tomamos las últimas 5 jornadas y damos la vuelta
         jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
     }
-
     
-
     jornadas.forEach(valor => {
         // Celda de puntos
         const tdPuntos = document.createElement("td");

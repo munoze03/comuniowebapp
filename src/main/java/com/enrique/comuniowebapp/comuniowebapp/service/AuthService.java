@@ -20,12 +20,12 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.TokenResponse;
 
 
 @Service
-public class ComunioAuthService {
+public class AuthService {
 
     private final RestTemplate restTemplate;
     
 
-    public ComunioAuthService(RestTemplateBuilder builder){
+    public AuthService(RestTemplateBuilder builder){
         this.restTemplate = builder.build();
     }
 

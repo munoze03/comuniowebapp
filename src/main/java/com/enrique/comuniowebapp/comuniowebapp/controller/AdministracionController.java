@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.AdministracionForm;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+import com.enrique.comuniowebapp.comuniowebapp.service.MainService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,9 +21,9 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/administracion")
 public class AdministracionController {
 
-    private final ComunioUserService comunioUserService;
+    private final MainService comunioUserService;
 
-    public AdministracionController(ComunioUserService comunioUserService) {
+    public AdministracionController(MainService comunioUserService) {
         this.comunioUserService = comunioUserService;
     }
 

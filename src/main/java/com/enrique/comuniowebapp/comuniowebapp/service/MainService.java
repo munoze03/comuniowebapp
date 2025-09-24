@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 
 @Service
-public class ComunioUserService {
+public class MainService {
 
     @Autowired
     private RestTemplate restTemplate;  

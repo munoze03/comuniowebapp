@@ -15,8 +15,8 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.LoginRequest;
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginResponse;
 import com.enrique.comuniowebapp.comuniowebapp.dto.TokenResponse;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+import com.enrique.comuniowebapp.comuniowebapp.service.AuthService;
+import com.enrique.comuniowebapp.comuniowebapp.service.MainService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -24,10 +24,10 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/api")
 public class ComunioController {
 
-    private final ComunioAuthService authService;
-    private final ComunioUserService userService;
+    private final AuthService authService;
+    private final MainService userService;
 
-    public ComunioController(ComunioAuthService authService, ComunioUserService userService){
+    public ComunioController(AuthService authService, MainService userService){
         this.authService = authService;
         this.userService = userService;
     }

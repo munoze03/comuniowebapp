@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Clasificacion;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+import com.enrique.comuniowebapp.comuniowebapp.service.MainService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -20,9 +20,9 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/clasificacion")
 public class ClasificacionController {
 
-    private final ComunioUserService comunioUserService;
+    private final MainService comunioUserService;
 
-    public ClasificacionController(ComunioUserService comunioUserService) {
+    public ClasificacionController(MainService comunioUserService) {
         this.comunioUserService = comunioUserService;
     }
 

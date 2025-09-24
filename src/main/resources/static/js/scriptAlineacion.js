@@ -267,3 +267,29 @@ document.getElementById("formAlineacion").addEventListener("submit", function(e)
         document.getElementById("formAlineacion").appendChild(input);
     });
 });
+
+function convertirPlayerAlineacion(player, position, tactic) {
+    return {
+        position: position,
+        id: player.id,
+        name: player.name,
+        photo: player.hrefFoto,
+        clubName: player.clubName || player.club,
+        clubLogo: player.hrefClubLogo,
+        points: parseInt(player.puntosTotales),
+        livePoints: player.ultimosPuntos,
+        lastPoints: (player.ultimosPuntos === "" || player.ultimosPuntos == null) ? "-" : player.ultimosPuntos,
+        type: player.posicion || player.type,
+        tactic: tactic,
+        tarjetasAmarillas: player.tarjetasAmarillas,
+        tarjetasRojas: player.tarjetasRojas,
+        tarjetasAmarRoja: player.tarjetasAmarRoja,
+        estado: player.estado,
+        infoEstado: player.infoEstado,
+        partidosJugados: player.partidosJugados,
+        golesTotales: player.golesTotales,
+        golesPenalti: player.golesPenalti,
+        price : player.valor,
+        mediaPuntos: player.mediaPuntos
+    };
+}

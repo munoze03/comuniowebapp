@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+import com.enrique.comuniowebapp.comuniowebapp.service.MainService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -17,10 +17,10 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/ofertas")
 public class OfertasController {
 
-    private final ComunioUserService comunioUserService;
+    private final MainService comunioUserService;
 
 
-    public OfertasController(ComunioUserService comunioUserService) {
+    public OfertasController(MainService comunioUserService) {
         this.comunioUserService = comunioUserService;
     }
 

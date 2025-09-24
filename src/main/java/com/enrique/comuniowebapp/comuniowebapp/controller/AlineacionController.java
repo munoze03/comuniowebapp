@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.AlineacionForm;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
-import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
+import com.enrique.comuniowebapp.comuniowebapp.service.MainService;
 
 
 import jakarta.servlet.http.HttpSession;
@@ -20,10 +20,10 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/alineacion")
 public class AlineacionController {
 
-    private final ComunioUserService comunioUserService;
+    private final MainService comunioUserService;
 
 
-    public AlineacionController(ComunioUserService comunioUserService) {
+    public AlineacionController(MainService comunioUserService) {
         this.comunioUserService = comunioUserService;
     }
 
