@@ -1,5 +1,6 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -15,8 +16,10 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
+import com.enrique.comuniowebapp.comuniowebapp.dto.TokenResponse;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Transactions;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
+import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,11 +28,14 @@ import jakarta.servlet.http.HttpSession;
 public class MainController {
 
     ComunioUserService comunioUserService;
+    ComunioAuthService comunioAuthService;
     ComunioUserService userService;
 
-    public MainController(ComunioUserService userService){
+    public MainController(ComunioUserService userService, ComunioAuthService comunioAuthService){
         this.userService = userService;
+        this.comunioAuthService = comunioAuthService;
     }
+    
 
 
     @GetMapping("/main")
@@ -46,44 +52,49 @@ public class MainController {
         }
 
         // Capturamos el token de la sesion
-        String token = (String) session.getAttribute("token");
+        String accessToken = (String) session.getAttribute("token");
+        String refreshToken = (String) session.getAttribute("refreshToken");
+        Instant tokenExpiry = (Instant) session.getAttribute("tokenExpiry");
+
+        if (accessToken == null || Instant.now().isAfter(tokenExpiry)) {
+            TokenResponse newTokens = comunioAuthService.refreshAccessToken(refreshToken);
+
+            accessToken = newTokens.getAccessToken();
+            session.setAttribute("accessToken", accessToken);
+            session.setAttribute("refreshToken", newTokens.getRefreshToken());
+            session.setAttribute("tokenExpiry", Instant.now().plusSeconds(newTokens.getExpiresIn()));
+        }
+
+        // Ahora lo pasamos a una variable final
+        final String token = accessToken;
 
         // Hacemos las llamadas a todas las apis asincronamente y todas a la vez
         // para mejorar la velocidad de carga de la pagina
         //Capturamos las noticias
-        //List<News> news = userService.getUserNews(token, userInfo.getCommunityId(), userInfo.getId());
         CompletableFuture<List<News>> newsFuture = CompletableFuture.supplyAsync(() -> userService.getUserNews(token, userInfo.getCommunityId(), userInfo.getId()));
 
         //Capturamos el mercado de fichajes
-        //List<Mercado> mercado = userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId(), userInfo.getName());
         CompletableFuture<List<Mercado>> mercadoFuture = CompletableFuture.supplyAsync(() -> userService.getMercado(token, userInfo.getCommunityId(), userInfo.getId(), userInfo.getName()));
 
         //Capturamos la clasificacion
-        //List<Clasificacion> clasificacion = userService.getClasificacion(token, userInfo.getCommunityId());
         CompletableFuture<List<Clasificacion>> clasificacionFuture = CompletableFuture.supplyAsync(() -> userService.getClasificacion(token, userInfo.getCommunityId()));
 
         //Capturamos la alineacion
-        //List<Alineacion> alineacion = userService.getAlineacion(token, userInfo.getCommunityId(), userInfo.getId());
         CompletableFuture<List<Alineacion>> alineacionFuture = CompletableFuture.supplyAsync(() -> userService.getAlineacion(token, userInfo.getCommunityId(), userInfo.getId()));
 
         //Capturamos la plantilla
-        //List<Player> plantilla = userService.getPlantilla(token, userInfo.getCommunityId(), userInfo.getId());
         CompletableFuture<List<Player>> plantillaFuture = CompletableFuture.supplyAsync(() -> userService.getPlantilla(token, userInfo.getCommunityId(), userInfo.getId()));
 
         //Capturamos las ofertas activas
-        //List<Oferta> ofertas = userService.getOfertas(token, userInfo.getCommunityId(), userInfo.getId());
         CompletableFuture<List<Oferta>> ofertasFuture = CompletableFuture.supplyAsync(() -> userService.getOfertas(token, userInfo.getCommunityId(), userInfo.getId()));
 
         //Capturamos el historial de ofertas
-        //List<Oferta> historialOfertas = userService.getHistorialOfertas(token, userInfo.getCommunityId(), userInfo.getId());
         CompletableFuture<List<Oferta>> historialOfertasFuture = CompletableFuture.supplyAsync(() -> userService.getHistorialOfertas(token, userInfo.getCommunityId(), userInfo.getId()));
 
         //Capturamos el historial de transacciones
-        //List<Transactions> historialTransacciones = userService.getTransacciones(token, userInfo.getCommunityId(), userInfo.getId());
         CompletableFuture<List<Transactions>> historialTransaccionesFuture = CompletableFuture.supplyAsync(() -> userService.getTransacciones(token, userInfo.getCommunityId(), userInfo.getId()));
 
         //Capturamos los datos de los usuarios
-        //List<UserInfo> datosUsuarios = userService.getListadoIds(token, userInfo.getCommunityId());
         CompletableFuture<List<UserInfo>> datosUsuariosFuture = CompletableFuture.supplyAsync(() -> userService.getListadoIds(token, userInfo.getCommunityId()));
         
 
@@ -95,7 +106,6 @@ public class MainController {
         session.setAttribute("news", newsFuture.get());
         //Cargamos las noticias en el modelo
         model.addAttribute("newsList", newsFuture.get());
-
 
         //Ordenamos la plantilla por posicion
         mercadoFuture.get().sort(Comparator.comparingInt(j -> {
@@ -112,19 +122,16 @@ public class MainController {
         //Cargamos el mercado en el modelo
         model.addAttribute("mercadoList", mercadoFuture.get());
 
-        
         //Guardamos la clasificacion en la sesion
         session.setAttribute("clasificacion", clasificacionFuture.get());  
         //Cargamos la clasificacion en el modelo
         model.addAttribute("clasificacion", clasificacionFuture.get());        
-        
         
         //Guardamos la alineacion en la sesion
         session.setAttribute("alineacion", alineacionFuture.get());
         //Cargamos la alineacion en el modelo
         model.addAttribute("alineacion", alineacionFuture.get());
 
-        
         //Ordenamos la plantilla por posicion
         plantillaFuture.get().sort(Comparator.comparingInt(j -> {
             switch (j.getPosicion()) {
@@ -140,7 +147,6 @@ public class MainController {
         //Cargamos la plantilla en el modelo
         model.addAttribute("plantilla", plantillaFuture.get());
 
-        
         //Guardamos las ofertas en la sesion
         session.setAttribute("ofertas", ofertasFuture.get());  
         //Cargamos las ofertas en el modelo

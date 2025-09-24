@@ -31,12 +31,6 @@
                     </div>
                 </div>
 
-                <!-- Puntos Live 
-                <div class="selector-tactica">
-                    <label for="livePoints">Puntos Live:</label>
-                    <span id="livePoints" style="color: #20c997; font-weight: bold;">0</span>
-                </div> -->
-
                 <!-- Formulario de alineación -->
                 <form th:action="@{/alineacion/modificar}" method="post" class="mb-2 selector-tactica" id="formAlineacion">
                     <!-- Input oculto para táctica seleccionada -->
@@ -85,4 +79,6 @@
             document.getElementById("inputTacticHidden").value = tacticaSeleccionada;
         });
     </script>
+    <!-- JS -->
+    <script th:src="@{/js/scriptAlineacion.js}"></script>  
 </div>

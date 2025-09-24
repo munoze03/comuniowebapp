@@ -1,6 +1,8 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
 
+import java.time.Instant;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginRequest;
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginResponse;
+import com.enrique.comuniowebapp.comuniowebapp.dto.TokenResponse;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioAuthService;
 import com.enrique.comuniowebapp.comuniowebapp.service.ComunioUserService;
@@ -37,16 +40,20 @@ public class ComunioController {
     @PostMapping("/login")
     public String login(@ModelAttribute LoginRequest request, @RequestParam(required=false) boolean rememberMe, Model model, HttpSession session){
         try{
-            String token = authService.getToken(request.getUsername(), request.getPassword());
-            UserInfo userInfo = userService.getUserInfo(token);
+            TokenResponse tokenResponse = authService.getToken(request.getUsername(), request.getPassword());
+            UserInfo userInfo = userService.getUserInfo(tokenResponse.getAccessToken());
+
 
 
             //Guardamos userInfo con los datos para pasarlos a otros controladores por session
             session.setAttribute("userInfo", userInfo); 
-            session.setAttribute("token", token);
+            session.setAttribute("token", tokenResponse.getAccessToken());
+            session.setAttribute("refreshToken", tokenResponse.getRefreshToken());
+            session.setAttribute("tokenExpiry", Instant.now().plusSeconds(tokenResponse.getExpiresIn()));
+
 
             LoginResponse response = new LoginResponse();
-            response.setToken(token);
+            response.setToken(tokenResponse.getAccessToken());
             response.setUserId(userInfo.getId());
             response.setName(userInfo.getName());
             response.setFirstName(userInfo.getFirstName());
