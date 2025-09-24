@@ -2,19 +2,19 @@
 <div th:fragment="jugadorModal">
     <div class="modal fade" id="jugadorModal" tabindex="-1" aria-labelledby="jugadorModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content bg-dark text-white p-3 text-center"> <!-- texto centrado -->
+            <div class="modal-content bg-dark text-white p-3 text-center">
 
                 <div id="infoJugador">
                     <!-- Nombre -->
-                    <div class="mb-3">
-                    <h3 id="jugadorNombre" class="text-success mb-1 fs-2"></h3>
+                    <div class="mb-1">
+                    <h3 id="jugadorNombre" class="text-success fs-2"></h3>
                     <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 " data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
 
                     <!-- Estado -->
                     <div class="badge bg-success d-inline-flex align-items-center gap-2 mb-2">
-                    <span id="jugadorEstado">SIN PROBLEMAS</span>
-                    <span id="jugadorInfoEstado">SIN PROBLEMAS</span>
+                        <span id="jugadorEstado">SIN PROBLEMAS</span>
+                        <span id="jugadorInfoEstado">SIN PROBLEMAS</span>
                     </div>
 
                     <div class="d-flex mb-3 justify-content-center align-items-center">
