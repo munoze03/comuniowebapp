@@ -36,6 +36,12 @@
                                     <div class="player-points">
                                         <span th:text="${o.points}">10</span>
                                     </div>
+
+                                    <!-- Posición -->
+                                    <div class="player-position"
+                                        th:classappend="' pos-' + ${o.position}">
+                                        <span th:text="${o.position}">DF</span>
+                                    </div>
                                 </div>
 
                                 <div>
@@ -93,6 +99,12 @@
                                     <!-- Barra de puntos -->
                                     <div class="player-points">
                                         <span th:text="${o.points}">10</span>
+                                    </div>
+
+                                    <!-- Posición -->
+                                    <div class="player-position"
+                                        th:classappend="' pos-' + ${o.position}">
+                                        <span th:text="${o.position}">DF</span>
                                     </div>
                                 </div>
 
@@ -152,6 +164,12 @@
                                     <!-- Barra de puntos -->
                                     <div class="player-points">
                                         <span th:text="${o.points}">10</span>
+                                    </div>
+
+                                    <!-- Posición -->
+                                    <div class="player-position"
+                                        th:classappend="' pos-' + ${o.position}">
+                                        <span th:text="${o.position}">DF</span>
                                     </div>
                                 </div>
 

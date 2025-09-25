@@ -36,7 +36,10 @@ public class MainController {
         this.comunioAuthService = comunioAuthService;
     }
     
-
+    @GetMapping("/")
+    public String Home(){
+        return "index";
+    }
 
     @GetMapping("/main")
     public String mostrarMain(HttpSession session, Model model) throws InterruptedException, ExecutionException{

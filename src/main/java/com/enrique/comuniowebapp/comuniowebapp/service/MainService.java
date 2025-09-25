@@ -54,7 +54,6 @@ public class MainService {
         Map data = response.getBody();
 
         UserInfo info = new UserInfo();
-        //info.setId(String.valueOf(data.get("user")));
         info.setId(String.valueOf(((Map) data.get("user")).get("id")));
         info.setName(String.valueOf(((Map) data.get("user")).get("name")));
         info.setFirstName(String.valueOf(((Map) data.get("user")).get("firstName")));
@@ -66,7 +65,7 @@ public class MainService {
         info.setEmail(String.valueOf(((Map) data.get("user")).get("email")));
         info.setCommunityId(String.valueOf(((Map) data.get("community")).get("id")));
         info.setCommunityName(String.valueOf(((Map) data.get("community")).get("name")));
-        info.setBudget(String.valueOf(((Map) data.get("user")).get("budget")));
+        info.setBudget(Integer.parseInt(String.valueOf(((Map) data.get("user")).get("budget"))));
         info.setIsLeader(Boolean.valueOf((boolean) ((Map) data.get("user")).get("isLeader")));
 
         return info;
@@ -177,7 +176,7 @@ public class MainService {
                 o.setEsRealizadaPorMi(false);
             }
             o.setPoints((int) tradable.get("points"));
-            o.setPosition((String)tradable.get("position"));
+            o.setPosition(traducirPosicion((String)tradable.get("position")));
 
             // Llamamos a la api de info del jugador para rellenar mas campos
             String urlPlayer = String.format("https://www.comunio.es/api/communities/%s/users/%s/players/%s",communityId, userId, o.getIdPlayer());
@@ -270,6 +269,7 @@ public class MainService {
             o.setUserId((int) user.get("id"));
             o.setNombreContraparte((String) tradingPartner.get("name"));
             o.setCredito((int) response.getBody().get("credit"));
+            o.setPosition(traducirPosicion((String)tradable.get("position")));
             if(o.getUserId()==Integer.parseInt(userId)){
                 o.setEsRealizadaPorMi(true);
             }else{

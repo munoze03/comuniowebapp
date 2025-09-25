@@ -11125,7 +11125,7 @@ hr {
     left: 50%;               /* Centrado horizontal */
     transform: translateX(-50%);
     background-color: rgba(40, 167, 69, 0.9); /* Verde semitransparente */
-    padding: 4px 8px;
+    padding: 4px 4px;
     border-radius: 10px;
     pointer-events: none;    /* No se puede pulsar */
     font-weight: bold;

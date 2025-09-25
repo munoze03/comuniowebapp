@@ -304,7 +304,7 @@ async function renderHistoricoPuntosModal(jugadorName, containerId = "jugadorHis
         }));
     } else {
         // Tomamos las últimas 5 jornadas y damos la vuelta
-        jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+        jornadas = [...historicoPuntos.boxPoints.jornadas].reverse().slice(-5).reverse();
     }
 
     jornadas.forEach(valor => {
@@ -375,7 +375,7 @@ async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoric
         }));
     } else {
         // Tomamos las últimas 5 jornadas y damos la vuelta
-        jornadas = [...historicoPuntos.boxPoints.jornadas].slice(-5).reverse();
+        jornadas = [...historicoPuntos.boxPoints.jornadas].reverse().slice(-5).reverse();
     }
     
     jornadas.forEach(valor => {

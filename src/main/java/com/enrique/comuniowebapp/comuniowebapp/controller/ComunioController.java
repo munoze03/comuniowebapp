@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginRequest;
 import com.enrique.comuniowebapp.comuniowebapp.dto.LoginResponse;
@@ -38,7 +39,7 @@ public class ComunioController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginRequest request, @RequestParam(required=false) boolean rememberMe, Model model, HttpSession session){
+    public String login(@ModelAttribute LoginRequest request, @RequestParam(required=false) boolean rememberMe, Model model, HttpSession session, RedirectAttributes redirectAttributes){
         try{
             TokenResponse tokenResponse = authService.getToken(request.getUsername(), request.getPassword());
             UserInfo userInfo = userService.getUserInfo(tokenResponse.getAccessToken());
@@ -68,11 +69,13 @@ public class ComunioController {
 
             return "redirect:/main";
         } catch (IllegalArgumentException e){
-            model.addAttribute("error", e.getMessage());
-            return "index";
+            redirectAttributes.addFlashAttribute("mensajeVenta", "Usuario o Contraseña incorrectos");
+            redirectAttributes.addFlashAttribute("tipoMensaje", "error");
+            return "redirect:/api/login";
         } catch (Exception e){
-            model.addAttribute("error", "Usuario o Contraseña incorrectos");
-            return "index";
+            redirectAttributes.addFlashAttribute("mensajeVenta", "Usuario o Contraseña incorrectos");
+            redirectAttributes.addFlashAttribute("tipoMensaje", "error");
+            return "redirect:/api/login";
         }
     }
 }
