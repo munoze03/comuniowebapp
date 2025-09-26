@@ -27,3 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Script para mostrar el modal con mensaje
+document.addEventListener('DOMContentLoaded', function () {
+    const modalEl = document.getElementById('modalMensajeVenta');
+    if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+    }
+});

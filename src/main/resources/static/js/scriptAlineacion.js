@@ -173,8 +173,8 @@ function renderAlineacion(jugadores, tactica) {
         if(jugador && jugador.id){
             div.innerHTML = `
                 <img src="${jugador.photo}" class="foto-jugador" title="${jugador.name}">
-                <div class="live-points" style="background-color: ${getBgColorLivePoints(jugador.lastPoints)};">
-                    ${jugador.lastPoints}
+                <div class="live-points" style="background-color: ${getBgColorLivePoints(jugador.livePoints)};">
+                    ${jugador.livePoints}
                 </div>
                 <img src="${jugador.clubLogo}" class="club-logo" alt="${jugador.clubName}">
             `;
@@ -277,7 +277,7 @@ function convertirPlayerAlineacion(player, position, tactic) {
         clubName: player.clubName || player.club,
         clubLogo: player.hrefClubLogo,
         points: parseInt(player.puntosTotales),
-        livePoints: player.ultimosPuntos,
+        livePoints: player.livePoints,
         lastPoints: (player.ultimosPuntos === "" || player.ultimosPuntos == null) ? "-" : player.ultimosPuntos,
         type: player.posicion || player.type,
         tactic: tactic,

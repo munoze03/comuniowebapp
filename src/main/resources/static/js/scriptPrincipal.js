@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 });
 
-// Muestra Mensaje al poner jugador en venta desde plantilla
+// Script para mostrar el modal con mensaje
 document.addEventListener('DOMContentLoaded', function () {
     const modalEl = document.getElementById('modalMensajeVenta');
     if (modalEl) {
@@ -156,40 +156,17 @@ function mostrarInfoJugador(jugador) {
 
 }
 
-// Script para volver a abrir el modal del jugador al cerrar el de historial de valor
-document.addEventListener("DOMContentLoaded", function () {
-  var historialModal = document.getElementById("historialModal");
-  var jugadorModal = new bootstrap.Modal(document.getElementById("jugadorModal"));
+// Script para reabrir el modal del jugador al cerrar el modal del historial de valor
+document.addEventListener("DOMContentLoaded", () => {
+    const historialModalEl = document.getElementById('historialModal');
+    const jugadorModalEl = document.getElementById('jugadorModal');
 
-  historialModal.addEventListener("hidden.bs.modal", function () {
-    jugadorModal.show();
-  });
-});
-
-//Script que controla el boton de historial de valor del modal del jugador
-document.addEventListener("DOMContentLoaded", function () {
-  var jugadorModalEl = document.getElementById("jugadorModal");
-  var historialModalEl = document.getElementById("historialModal");
-
-  var jugadorModal = new bootstrap.Modal(jugadorModalEl);
-  var historialModal = new bootstrap.Modal(historialModalEl);
-
-  // Cada vez que se abra historial, se oculta jugador
-  historialModalEl.addEventListener("show.bs.modal", function () {
-    jugadorModal.hide();
-  });
-
-  // Cada vez que se cierre historial, se vuelve a mostrar jugador
-  historialModalEl.addEventListener("hidden.bs.modal", function () {
-    jugadorModal.show();
-  });
-
-  // Delegación de eventos para cualquier botón dentro del modal de jugador
-  document.addEventListener("click", function (e) {
-    if (e.target && e.target.classList.contains("btnVerHistorial")) {
-      historialModal.show();
-    }
-  });
+    // Evento cuando el modal historial se cierra
+    historialModalEl.addEventListener('hidden.bs.modal', function () {
+        // Reabrir el modal del jugador
+        const jugadorModal = new bootstrap.Modal(jugadorModalEl);
+        jugadorModal.show();
+    });
 });
 
 // Script para capturar los datos del historial de valor del jugador desde el controlador en el modal historial de valor

@@ -39,7 +39,11 @@ public class ComunioController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginRequest request, @RequestParam(required=false) boolean rememberMe, Model model, HttpSession session, RedirectAttributes redirectAttributes){
+    public String login(@ModelAttribute LoginRequest request, 
+        @RequestParam(required=false) boolean rememberMe, 
+        Model model, 
+        HttpSession session, 
+        RedirectAttributes redirectAttributes){
         try{
             TokenResponse tokenResponse = authService.getToken(request.getUsername(), request.getPassword());
             UserInfo userInfo = userService.getUserInfo(tokenResponse.getAccessToken());

@@ -383,6 +383,38 @@ public class MainService {
             m.setLastPoints(String.valueOf((int) responsePlayer.getBody().get("lastPoints")));
             m.setPrecio(String.valueOf((int) responsePlayer.getBody().get("price")));
 
+            // // Extraemos de la web de comuniazo el estado del jugador
+            // String url = String.format("https://www.comuniazo.com/comunio-apuestas/jugadores/%s", jugadorName);
+            // Map<String, Object> result = new HashMap<>();
+
+            // try {
+            //     Document doc = Jsoup.connect(url).get();
+
+            //     // Extraemos box-chart (valores de mercado)
+            //     Element script = doc.select("script").stream()
+            //             .filter(s -> s.html().contains("marketChart(["))
+            //             .findFirst().orElse(null);
+
+            //     if (script != null){
+            //         String scriptHtml = script.html();
+            //         Pattern pattern = Pattern.compile("marketChart\\((\\[.*?\\])", Pattern.DOTALL);
+            //         Matcher matcher = pattern.matcher(scriptHtml);
+
+            //         if (matcher.find()){
+            //             String jsonArray = matcher.group(1);
+            //             ObjectMapper mapper = new ObjectMapper();
+            //             List<Map<String, Object>> valores = mapper.readValue(jsonArray, new TypeReference<>() {});
+            //             result.put("boxChart", valores);
+            //         }
+            //     }
+
+            //     return result;
+
+            // } catch (Exception e) {
+            //     result.put("error", e.getMessage());
+            //     return result;
+            // }
+
             jugadores.add(m);
         }
 

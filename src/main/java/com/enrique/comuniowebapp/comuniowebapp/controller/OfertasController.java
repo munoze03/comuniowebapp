@@ -46,7 +46,7 @@ public class OfertasController {
             redirectAttributes.addFlashAttribute("tipoMensaje", "error");
         }
 
-        return "redirect:/main"; // o donde quieras volver
+        return "redirect:/main"; 
     }
 
     @PostMapping("/quitar")
