@@ -383,37 +383,33 @@ public class MainService {
             m.setLastPoints(String.valueOf((int) responsePlayer.getBody().get("lastPoints")));
             m.setPrecio(String.valueOf((int) responsePlayer.getBody().get("price")));
 
-            // // Extraemos de la web de comuniazo el estado del jugador
-            // String url = String.format("https://www.comuniazo.com/comunio-apuestas/jugadores/%s", jugadorName);
-            // Map<String, Object> result = new HashMap<>();
+            // Extraemos de la web de comuniazo el estado del jugador
+            String urlEstado ="https://www.comuniazo.com/comunio-apuestas/lesionados";
 
-            // try {
-            //     Document doc = Jsoup.connect(url).get();
+            try {
+                // Cargar la página
+                Document doc = Jsoup.connect(urlEstado).get();
 
-            //     // Extraemos box-chart (valores de mercado)
-            //     Element script = doc.select("script").stream()
-            //             .filter(s -> s.html().contains("marketChart(["))
-            //             .findFirst().orElse(null);
+                // Seleccionar todos los <li> dentro de .box-injuries
+                Elements players = doc.select("div.box-injuries li");
 
-            //     if (script != null){
-            //         String scriptHtml = script.html();
-            //         Pattern pattern = Pattern.compile("marketChart\\((\\[.*?\\])", Pattern.DOTALL);
-            //         Matcher matcher = pattern.matcher(scriptHtml);
+                for (Element player : players) {
+                    Element nombreTag = player.selectFirst("strong");
+                    Element injuryTag = player.selectFirst("div.injury");
 
-            //         if (matcher.find()){
-            //             String jsonArray = matcher.group(1);
-            //             ObjectMapper mapper = new ObjectMapper();
-            //             List<Map<String, Object>> valores = mapper.readValue(jsonArray, new TypeReference<>() {});
-            //             result.put("boxChart", valores);
-            //         }
-            //     }
+                    if (nombreTag != null && injuryTag != null) {
+                        String nombre = nombreTag.text();
+                        String injury = injuryTag.text();
 
-            //     return result;
+                        if(nombre.equalsIgnoreCase(m.getNamePlayer())){
+                            m.setInfoEstado(injury);
+                        }
+                    }
+                }
 
-            // } catch (Exception e) {
-            //     result.put("error", e.getMessage());
-            //     return result;
-            // }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             jugadores.add(m);
         }
