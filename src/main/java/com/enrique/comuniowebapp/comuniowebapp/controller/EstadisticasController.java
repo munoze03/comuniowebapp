@@ -30,14 +30,18 @@ public class EstadisticasController {
     public String cargarEstadisticas(HttpSession session, Model model) throws IOException {
 
         UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
-
         // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
         if (userInfo == null) {
         // redirigir al login si no hay sesión
         return "redirect:/api/login";
         }
+        
+        final String token = (String) session.getAttribute("token");
+        final String userId = userInfo.getId();
+        final String communityId = userInfo.getCommunityId();
 
-        cargarEstadisticasJugadores(session, model);
+
+        cargarEstadisticasJugadores(session, model, token, userId, communityId);
         cargarClasificacionLaLiga(session, model);
         cargarPartidosJornada(session, model);
         cargarCalendarioLaLiga(session, model);
@@ -68,7 +72,7 @@ public class EstadisticasController {
         return "estadisticas"; 
     }
 
-    public String cargarEstadisticasJugadores(HttpSession session, Model model) throws IOException {
+    public String cargarEstadisticasJugadores(HttpSession session, Model model, String token, String userId, String communityId) throws IOException {
 
         // Recuperamos Userinfo de la session
         UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
@@ -82,7 +86,7 @@ public class EstadisticasController {
         }
         
         // Llamamos al servicio
-        List<EstadisticasJugador> jugadores = estadisticasService.getEstadisticasJugadores();
+        List<EstadisticasJugador> jugadores = estadisticasService.getEstadisticasJugadores(token, userId, communityId);
         ObjectMapper mapper = new ObjectMapper();
         String jugadoresJson = mapper.writeValueAsString(jugadores);
         model.addAttribute("jugadoresJson", jugadoresJson);

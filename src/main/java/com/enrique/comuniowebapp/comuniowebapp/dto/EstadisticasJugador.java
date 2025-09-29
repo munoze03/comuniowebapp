@@ -16,6 +16,8 @@ public class EstadisticasJugador {
     private String visitanteMedia;
     private String valor;
     private List<String> racha;
+    private String propietario;
+
     public String getNombre() {
         return nombre;
     }
@@ -102,5 +104,11 @@ public class EstadisticasJugador {
         }
         return "rachaGris";
     }
-
+    public String getPropietario() {
+        return propietario;
+    }
+    public void setPropietario(String propietario) {
+        this.propietario = propietario;
+    }
+    
 }

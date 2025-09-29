@@ -3,7 +3,7 @@
 const jugadoresScript = document.getElementById('jugadoresData');
 const jugadores = JSON.parse(jugadoresScript.textContent); //Lo convertimos en un Array
 
-// Grid Options: Contains all of the Data Grid configurations
+// AG-Grid Options: Contains all of the Data Grid configurations
 const gridOptions = {
     rowData: jugadores.map(jugador => ({
         ...jugador,
@@ -11,7 +11,22 @@ const gridOptions = {
         media: parseFloat(jugador.media),
         valor: parseFloat(jugador.valor.replace(/\./g, '')) // si viene como string
         })),
-    columnDefs: getColumnDefs()
+    columnDefs: getColumnDefs(),
+    onRowClicked: params => {
+    // Llenar datos del modal
+    document.getElementById("jugadorNombre").textContent = params.data.nombre;
+    document.getElementById("jugadorPuntos").textContent = params.data.puntos;
+    document.getElementById("jugadorMediaPuntos").textContent = params.data.media;
+    document.getElementById("jugadorPrecio").textContent = new Intl.NumberFormat('es-ES').format(params.data.valor) + "€";
+    document.getElementById("jugadorPosicion").textContent = params.data.posicion;
+    document.getElementById("clubEscudo").src = params.data.equipoLogo;
+
+
+
+    // Mostrar modal (Bootstrap 5)
+    const modal = new bootstrap.Modal(document.getElementById("jugadorModal"));
+    modal.show();
+  }
 };
 
 function getColumnDefs(){
@@ -132,7 +147,7 @@ function getColumnDefs(){
     }
 }
 
-// Your Javascript code to create the Data Grid
+// JS para inicializar la tabla de estadisticas de jugadores
 const myGridElement = document.querySelector('#tablaJugadores');
 agGrid.createGrid(myGridElement, gridOptions);
 

@@ -3,12 +3,21 @@ package com.enrique.comuniowebapp.comuniowebapp.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.CalendarioJornada;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EquipoLaLiga;
@@ -18,10 +27,10 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Jornada;
 @Service
 public class EstadisticasService {
 
-    // @Autowired
-    // private RestTemplate restTemplate;  
+    @Autowired
+    private RestTemplate restTemplate;  
 
-    public List<EstadisticasJugador> getEstadisticasJugadores() throws IOException {
+    public List<EstadisticasJugador> getEstadisticasJugadores(String token, String userId, String communityId) throws IOException {
 
         final String URL = "https://www.comuniazo.com/comunio-apuestas/jugadores";
 
@@ -39,6 +48,7 @@ public class EstadisticasService {
             EstadisticasJugador j = new EstadisticasJugador();
             j.setNombre(cols.get(0).select("strong").text());
             j.setEnlace(cols.get(0).select("a").attr("href"));
+            System.out.println(j.getEnlace());
             j.setEquipoLogo(cols.get(0).select("img").attr("src"));
 
             // 🔹 Extraer la posición desde la clase CSS
@@ -59,6 +69,38 @@ public class EstadisticasService {
                 racha.add(span.text());
             }
             j.setRacha(racha);
+
+            // // Scrapeamos la pagina del jugador para obtener el ID del jugador
+            // final String urlId = j.getEnlace();
+            // String id = "";
+            // Document docUrlId = Jsoup.connect(urlId).get();
+
+            // // Buscar la etiqueta <div class="pic"> y la imagen dentro
+            // Element imgUrlId = docUrlId.selectFirst("div.pic img");
+
+            // if (imgUrlId != null) {
+            //     String src = imgUrlId.attr("src");
+            //     Pattern pattern = Pattern.compile("/players/(\\d+)\\.png");
+            //     Matcher matcher = pattern.matcher(src);
+
+            //     if (matcher.find()) {
+            //         id = matcher.group(1); // El ID del jugador
+            //     }
+            // }
+
+            // // Ahora llamamos a la API de comunio para obtener el propietario del jugador
+
+            // String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/players/%s", communityId, userId, id);
+
+            // HttpHeaders headers = new HttpHeaders();
+            // headers.setBearerAuth(token);
+            // HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+            // ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+            // Map<String, Object> owner = (Map<String, Object>) response.getBody().get("owner");
+
+            // j.setPropietario((String) owner.get("name"));
+
 
             EstadisticasJugadores.add(j);
         }
