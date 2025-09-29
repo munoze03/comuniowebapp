@@ -969,6 +969,9 @@ public class MainService {
             case "abdon-prats":
                 jugadorName="abdon";
                 break;
+            case "frenkie-de-jong":
+                jugadorName="de-jong";
+                break;
             default:
                 break;
         }

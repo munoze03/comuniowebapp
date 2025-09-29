@@ -322,11 +322,12 @@ async function renderHistoricoPuntosModal(jugadorName, containerId = "jugadorHis
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-jugador]").forEach(div => {
         const jugadorName = div.dataset.jugador;
-        renderHistoricoPuntos(jugadorName, div.id);
+        const context = div.dataset.context;
+        renderHistoricoPuntos(jugadorName, div.id, context);
     });
 });
 
-async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoricoPuntos") {
+async function renderHistoricoPuntos(jugadorName, containerId = "jugadorHistoricoPuntos", context) {
     // Llamamos a la función que carga los datos
     jugadorName = jugadorName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
     const historicoPuntos = await cargarHistorialPuntos(jugadorName);

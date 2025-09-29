@@ -41,8 +41,9 @@
                                 </p>
 
                                 <!-- Puntos -->
-                                <div th:id="'jugadorHistoricoPuntos-' + ${p.id}" 
+                                <div th:id="'jugadorHistoricoPuntos-' + ${p.id} + '-plantilla'" 
                                     th:data-jugador="${p.name}" 
+                                    th:data-context="plantilla"
                                     class="jugadorHistoricoPuntos">
                                 </div>
 
