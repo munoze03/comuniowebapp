@@ -96,6 +96,7 @@ public class MainService {
             n.setDate(formatearFecha(date));
 
             String title = (String) entry.get("title");
+            System.out.println(title);
             switch (title.toLowerCase()) {
                 case "transaction" -> title = "Transacción";
                 default -> {
@@ -109,20 +110,35 @@ public class MainService {
             Map<String, Object> message = (Map<String, Object>) entry.get("message");
             String messageHtml = (String) message.get("text");
 
-            //Limpiamos el mensaje de links
-            String cleanedHtml = messageHtml.replaceAll("(?i)<a[^>]*>(.*?)</a>", "$1");
-            //Cambiamos palabras en ingles a espanol
-            cleanedHtml = cleanedHtml.replaceAll("transfers for", "cambia por");
-            cleanedHtml = cleanedHtml.replaceAll("TRANSACTION", "TRANSACCION");
-            cleanedHtml = cleanedHtml.replaceAll("from", "de");
-            cleanedHtml = cleanedHtml.replaceAll("to", "a");
-            cleanedHtml = cleanedHtml.replaceAll("<br /><br />", " ");
-            cleanedHtml = cleanedHtml.replaceAll("\\b\\d{1,2}:\\d{2}\\b - ", " ");
-            cleanedHtml = cleanedHtml.replaceAll("The transfer of", "El fichaje del jugador");
-            cleanedHtml = cleanedHtml.replaceAll("for", "por");
-            cleanedHtml = cleanedHtml.replaceAll("was undone by", "ha sido cancelado por");
+            System.out.println(messageHtml);
 
-            n.setMessageHtml(cleanedHtml);
+            if(!title.contains("ideal de")){
+                //Limpiamos el mensaje de links
+                String cleanedHtml = messageHtml.replaceAll("(?i)<a[^>]*>(.*?)</a>", "$1");
+                //Cambiamos palabras en ingles a espanol
+                cleanedHtml = cleanedHtml.replaceAll("transfers for", "cambia por");
+                cleanedHtml = cleanedHtml.replaceAll("TRANSACTION", "TRANSACCION");
+                cleanedHtml = cleanedHtml.replaceAll("from", "de");
+                cleanedHtml = cleanedHtml.replaceAll("to", "a");
+                cleanedHtml = cleanedHtml.replaceAll("<br /><br />", " ");
+                cleanedHtml = cleanedHtml.replaceAll("\\b\\d{1,2}:\\d{2}\\b - ", " ");
+                cleanedHtml = cleanedHtml.replaceAll("The transfer of", "El fichaje del jugador");
+                cleanedHtml = cleanedHtml.replaceAll("for", "por");
+                cleanedHtml = cleanedHtml.replaceAll("was undone by", "ha sido cancelado por");
+
+                n.setMessageHtml(cleanedHtml);
+            } else{
+                messageHtml = messageHtml.replaceAll("./tradablePhoto", "https://classic.comunio.es/tradablePhoto");
+                messageHtml = messageHtml.replaceAll("../primera_division/", "https://comunio.es/primera_division/");
+                messageHtml = messageHtml.replaceAll("border:1px solid black;", "");
+                messageHtml = messageHtml.replaceAll("style=\"vertical-align: bottom;", "style=\"vertical-align: middle;");
+
+                
+
+                n.setMessageHtml(messageHtml);
+            }
+
+            
 
             news.add(n);
         }
