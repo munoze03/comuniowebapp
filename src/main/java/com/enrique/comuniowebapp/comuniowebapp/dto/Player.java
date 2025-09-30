@@ -22,6 +22,7 @@ public class Player {
     private int tarjetasAmarillas;
     private int tarjetasAmarRoja;
     private int tarjetasRojas;
+    private String propietario;
 
     public String getName() {
         return name;
@@ -99,6 +100,27 @@ public class Player {
         return estado;
     }
     public void setEstado(String estado) {
+
+        switch (estado) {
+            case "ACTIVE":
+                estado = "SIN PROBLEMAS";
+                break;
+
+            case "INJURED":
+                estado = "LESIONADO -";
+                break;
+
+            case "WEAKENED":
+                estado = "TOCADO";
+                break;
+
+            case "NOT SELECTED":
+                estado = "NO CONVOCADO";
+                break;
+
+            default:
+                break;
+        }
         this.estado = estado;
     }
     public String getInfoEstado() {
@@ -148,6 +170,12 @@ public class Player {
     }
     public void setPosicionNumber(int posicionNumber) {
         this.posicionNumber = posicionNumber;
+    }
+    public String getPropietario() {
+        return propietario;
+    }
+    public void setPropietario(String propietario) {
+        this.propietario = propietario;
     }
     
 }

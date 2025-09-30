@@ -10,25 +10,43 @@ const gridOptions = {
         puntos: parseInt(jugador.puntos),
         media: parseFloat(jugador.media),
         valor: parseFloat(jugador.valor.replace(/\./g, '')) // si viene como string
-        })),
+    })),
     columnDefs: getColumnDefs(),
     onRowClicked: params => {
-    // Llenar datos del modal
-    document.getElementById("jugadorNombre").textContent = params.data.nombre;
-    document.getElementById("jugadorPuntos").textContent = params.data.puntos;
-    document.getElementById("jugadorMediaPuntos").textContent = params.data.media;
-    document.getElementById("jugadorPrecio").textContent = new Intl.NumberFormat('es-ES').format(params.data.valor) + "€";
-    document.getElementById("jugadorPosicion").textContent = params.data.posicion;
-    document.getElementById("clubEscudo").src = params.data.equipoLogo;
+        // Llenar datos del modal
+        document.getElementById("jugadorNombre").textContent = params.data.nombre;
+        document.getElementById("jugadorPuntos").textContent = params.data.puntos;
+        document.getElementById("jugadorMediaPuntos").textContent = params.data.media;
+        document.getElementById("jugadorPrecio").textContent = new Intl.NumberFormat('es-ES').format(params.data.valor) + "€";
+        document.getElementById("jugadorPosicion").textContent = params.data.posicion;
+        document.getElementById("jugadorPosicion").classList.add("pos-" + params.data.posicion);
+        document.getElementById("clubEscudo").src = params.data.equipoLogo;
+        // Llamamos a la API para obtener más datos del jugador
+        fetch(`/estadisticas/datosJugador/${params.data.nombre}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("jugadorFoto").src = data.hrefFoto;
+            document.getElementById("jugadorEstado").textContent = data.estado;
+            document.getElementById("jugadorInfoEstado").textContent = data.infoEstado;
+            document.getElementById("jugadorGolesTotales").textContent = data.golesTotales;
+            document.getElementById("jugadorGolesPenalti").textContent = data.golesPenalti;
+            document.getElementById("jugadorTarjetasAmarillas").textContent = data.tarjetasAmarillas;
+            document.getElementById("jugadorTarjetasRojas").textContent = data.tarjetasRojas;
+            document.getElementById("jugadorTarjetasAmarRoja").textContent = data.tarjetasAmarRoja;
+            document.getElementById("jugadorPartidosJugados").textContent = data.partidosJugados
+            document.getElementById("jugadorHistoricoPuntos").textContent = data.propietario.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+            document.getElementById("jugadorHistoricoPuntosTitulo").innerHTML = "<strong>Propietario:</strong>";
+        })
+        .catch(error => console.error("Error:", error));
 
 
-
-    // Mostrar modal (Bootstrap 5)
-    const modal = new bootstrap.Modal(document.getElementById("jugadorModal"));
-    modal.show();
-  }
+        // Mostrar modal (Bootstrap 5)
+        const modal = new bootstrap.Modal(document.getElementById("jugadorModal"));
+        modal.show();
+    }
 };
 
+// Funcion para definir las columnas del AG-Grid
 function getColumnDefs(){
     if (window.innerWidth < 900) { // si es "estrecho" (vertical)
         return [
@@ -150,6 +168,22 @@ function getColumnDefs(){
 // JS para inicializar la tabla de estadisticas de jugadores
 const myGridElement = document.querySelector('#tablaJugadores');
 agGrid.createGrid(myGridElement, gridOptions);
+
+// Funcion para cargar los datos del jugador para abrir el modal al pulsar en el jugador
+function cogerDatosJugador(){
+    const IdJugador = 2969;
+
+    fetch('/estadisticas/datosJugador', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nombre: "Pedri", valor: 25000000 })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Guardado:", data))
+    .catch(err => console.error(err));
+}
 
 // FUNCIONES PARA CALENDARIO LA LIGA
 document.addEventListener("DOMContentLoaded", () => {

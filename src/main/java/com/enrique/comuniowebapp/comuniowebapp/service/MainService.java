@@ -923,6 +923,26 @@ public class MainService {
     }
 
     public Map<String, Object> cargarHistoricoValorJugador(String jugadorName){
+        
+        //Controlamos las excepciones de los jugadores
+        switch (jugadorName) {
+            case "roberto-fernandez":
+                jugadorName="roberto-fernandez-2";
+                break;
+            case "miguel-rubio":
+                jugadorName="miguel-angel-rubio";
+                break;
+            case "abdon-prats":
+                jugadorName="abdon";
+                break;
+            case "frenkie-de-jong":
+                jugadorName="de-jong";
+                break;
+            case "pablo-ibanez":
+                jugadorName = "pablo-ibanez-2";
+            default:
+                break;
+        }
 
         String url = String.format("https://www.comuniazo.com/comunio-apuestas/jugadores/%s", jugadorName);
         Map<String, Object> result = new HashMap<>();
@@ -972,6 +992,8 @@ public class MainService {
             case "frenkie-de-jong":
                 jugadorName="de-jong";
                 break;
+            case "pablo-ibanez":
+                jugadorName = "pablo-ibanez-2";
             default:
                 break;
         }

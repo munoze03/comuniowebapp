@@ -5,6 +5,7 @@ import java.util.List;
 public class EstadisticasJugador {
 
     private String nombre;
+    private int id;
     private String enlace;
     private String equipoLogo;
     private String posicion;
@@ -109,6 +110,12 @@ public class EstadisticasJugador {
     }
     public void setPropietario(String propietario) {
         this.propietario = propietario;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
     
 }

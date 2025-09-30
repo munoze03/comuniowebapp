@@ -23,6 +23,7 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.CalendarioJornada;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EquipoLaLiga;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EstadisticasJugador;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Jornada;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 
 @Service
 public class EstadisticasService {
@@ -69,38 +70,6 @@ public class EstadisticasService {
                 racha.add(span.text());
             }
             j.setRacha(racha);
-
-            // // Scrapeamos la pagina del jugador para obtener el ID del jugador
-            // final String urlId = j.getEnlace();
-            // String id = "";
-            // Document docUrlId = Jsoup.connect(urlId).get();
-
-            // // Buscar la etiqueta <div class="pic"> y la imagen dentro
-            // Element imgUrlId = docUrlId.selectFirst("div.pic img");
-
-            // if (imgUrlId != null) {
-            //     String src = imgUrlId.attr("src");
-            //     Pattern pattern = Pattern.compile("/players/(\\d+)\\.png");
-            //     Matcher matcher = pattern.matcher(src);
-
-            //     if (matcher.find()) {
-            //         id = matcher.group(1); // El ID del jugador
-            //     }
-            // }
-
-            // // Ahora llamamos a la API de comunio para obtener el propietario del jugador
-
-            // String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/players/%s", communityId, userId, id);
-
-            // HttpHeaders headers = new HttpHeaders();
-            // headers.setBearerAuth(token);
-            // HttpEntity<Void> entity = new HttpEntity<>(headers);
-
-            // ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
-            // Map<String, Object> owner = (Map<String, Object>) response.getBody().get("owner");
-
-            // j.setPropietario((String) owner.get("name"));
-
 
             EstadisticasJugadores.add(j);
         }
@@ -233,7 +202,7 @@ public class EstadisticasService {
         
         switch (posicion.toLowerCase()) {
             case "pos-4":
-                return "DE";
+                return "DL";
             case "pos-3":
                 return "ME";
             case "pos-2":
@@ -245,5 +214,54 @@ public class EstadisticasService {
         }
     }
 
-    
+    public String recuperarIdJugador(String nombre) throws IOException{
+
+        // Scrapeamos la pagina del jugador para obtener el ID del jugador
+        String urlId = String.format("https://www.comuniazo.com/comunio-apuestas/jugadores/%s", nombre);
+        String id = "";
+        Document docUrlId = Jsoup.connect(urlId).get();
+
+        // Buscar la etiqueta <div class="pic"> y la imagen dentro
+        Element imgUrlId = docUrlId.selectFirst("div.pic img");
+
+        if (imgUrlId != null) {
+            String src = imgUrlId.attr("src");
+            Pattern pattern = Pattern.compile("/players/(\\d+)\\.png");
+            Matcher matcher = pattern.matcher(src);
+
+            if (matcher.find()) {
+                id = matcher.group(1); // El ID del jugador
+            }
+        }
+        return id;
+    }
+
+    public Player getDatosJugador(String token, String userId, String communityId, String idJugador) throws IOException{
+        Player p = new Player();
+        String url = String.format("https://www.comunio.es/api/communities/%s/users/%s/players/%s", communityId, userId, idJugador);
+
+        HttpHeaders headersPlayer = new HttpHeaders();
+            headersPlayer.setBearerAuth(token);
+            HttpEntity<Void> entityPlayer = new HttpEntity<>(headersPlayer);
+
+            ResponseEntity<Map> responsePlayer = restTemplate.exchange(url, HttpMethod.GET, entityPlayer, Map.class);
+            Map<String, Object> general = (Map<String, Object>) responsePlayer.getBody().get("general");
+            Map<String, Object> cards = (Map<String, Object>) responsePlayer.getBody().get("cards");
+            Map<String, Object> links = (Map<String, Object>) responsePlayer.getBody().get("_links");
+            Map<String, Object> photo = (Map<String, Object>) links.get("photo");
+            Map<String, Object> owner = (Map<String, Object>) responsePlayer.getBody().get("owner");
+
+            p.setEstado((String) responsePlayer.getBody().get("status"));
+            p.setInfoEstado((String) responsePlayer.getBody().get("statusInfo"));
+            p.setPartidosJugados((int) general.get("playedGames"));
+            p.setGolesTotales((int) general.get("totalGoals"));
+            p.setGolesPenalti((int) general.get("totalPenalties"));
+            p.setTarjetasAmarillas((int) cards.get("yellow"));
+            p.setTarjetasAmarRoja((int) cards.get("yellowRed"));
+            p.setTarjetasRojas((int) cards.get("red"));
+            p.setHrefFoto((String) photo.get("href"));
+            p.setPropietario((String) owner.get("name"));
+
+        return p;
+    }
 }

@@ -1,16 +1,20 @@
 package com.enrique.comuniowebapp.comuniowebapp.controller;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.CalendarioJornada;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EquipoLaLiga;
 import com.enrique.comuniowebapp.comuniowebapp.dto.EstadisticasJugador;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Jornada;
+import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.EstadisticasService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +52,28 @@ public class EstadisticasController {
         
         
         return "estadisticas";
+    }
+
+    @GetMapping("/estadisticas/datosJugador/{jugadorName}")
+    @ResponseBody
+    public Player cargarDatosJugador(HttpSession session, Model model, @PathVariable String jugadorName) throws IOException {
+
+        UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+        
+        final String token = (String) session.getAttribute("token");
+        final String userId = userInfo.getId();
+        final String communityId = userInfo.getCommunityId();
+        Player p = new Player();
+
+        jugadorName = Normalizer.normalize(jugadorName.trim().toLowerCase(), Normalizer.Form.NFD).replaceAll("[\\p{InCombiningDiacriticalMarks}]+", "").replaceAll("\\s+", "-");
+        
+        // Recuperamos el ID del jugador a partir del nombre llamando al servicio
+        String idJugador = estadisticasService.recuperarIdJugador(jugadorName);
+
+        // Llamamos al servicio para obtener los datos del jugador
+        p = estadisticasService.getDatosJugador(token, userId, communityId, idJugador);
+
+        return p;
     }
 
     public String cargarClasificacionLaLiga(HttpSession session, Model model) throws IOException {
