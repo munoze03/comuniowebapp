@@ -136,10 +136,10 @@ function cambiarJugador(sale, entra) {
 
     // Renderiza y cierra modal
     const tactica = document.getElementById("tactica").value;
-    renderAlineacion(window.jugadores, tactica);
     const modalEl = document.getElementById("jugadorModal");
     const modal = bootstrap.Modal.getInstance(modalEl);
     modal.hide();
+    renderAlineacion(window.jugadores, tactica);
 }
 
 // Renderizado de la alineación
@@ -277,7 +277,7 @@ function convertirPlayerAlineacion(player, position, tactic) {
         clubName: player.clubName || player.club,
         clubLogo: player.hrefClubLogo,
         points: parseInt(player.puntosTotales),
-        livePoints: player.livePoints,
+        livePoints: (player.livePoints === "" || player.livePoints == null) ? "-" : player.livePoints,
         lastPoints: (player.ultimosPuntos === "" || player.ultimosPuntos == null) ? "-" : player.ultimosPuntos,
         type: player.posicion || player.type,
         tactic: tactic,

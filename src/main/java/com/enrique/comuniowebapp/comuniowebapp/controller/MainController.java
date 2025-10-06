@@ -45,14 +45,17 @@ public class MainController {
     public String mostrarMain(HttpSession session, Model model) throws InterruptedException, ExecutionException{
 
         UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
-        //Cargamos los datos del usuario en el modelo
-        model.addAttribute("userInfo", userInfo);
 
         // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
         if (userInfo == null) {
             // redirigir al login si no hay sesión
             return "redirect:/api/login";
         }
+        
+        //Cargamos los datos del usuario en el modelo
+        model.addAttribute("userInfo", userInfo);
+
+        
 
         // Capturamos el token de la sesion
         String accessToken = (String) session.getAttribute("token");

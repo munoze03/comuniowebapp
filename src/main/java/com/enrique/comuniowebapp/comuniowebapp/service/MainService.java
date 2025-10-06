@@ -132,9 +132,7 @@ public class MainService {
                 messageHtml = messageHtml.replaceAll("../primera_division/", "https://comunio.es/primera_division/");
                 messageHtml = messageHtml.replaceAll("border:1px solid black;", "");
                 messageHtml = messageHtml.replaceAll("style=\"vertical-align: bottom;", "style=\"vertical-align: middle;");
-
                 
-
                 n.setMessageHtml(messageHtml);
             }
 
