@@ -56,6 +56,7 @@ function mostrarInfoJugador(jugador) {
         infoVacio.classList.add("d-none");
         const jugadorName = jugador.name.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
         const spanPosicion = document.getElementById("jugadorPosicion");
+        const spanEstado = document.getElementById("iconoLesion");
 
         // Reiniciamos las clases de los colores de posicion
         spanPosicion.classList.remove("pos-PO");
@@ -80,23 +81,32 @@ function mostrarInfoJugador(jugador) {
         switch (jugador.estado) {
             case "ACTIVE":
                 jugador.estado = "SIN PROBLEMAS";
+                spanEstado.innerHTML = ""
                 break;
 
             case "INJURED":
                 jugador.estado = "LESIONADO -";
+                spanEstado.innerHTML = '<img src="/assets/iconoLesion.png" alt="Lesionado" width="20" height="20">';
+                spanEstado.style.display = "inline-block";
                 break;
 
             case "WEAKENED":
                 jugador.estado = "TOCADO";
+                spanEstado.innerHTML = '<img src="/assets/iconoDuda.png" alt="Duda" width="16" height="20">';
+                spanEstado.style.display = "inline-block";
                 break;
 
             case "NOT SELECTED":
                 jugador.estado = "NO CONVOCADO";
                 break;
 
+            case "MISCELLANEOUS":
+                jugador.estado = "OTROS";
+                spanEstado.innerHTML = '<img src="/assets/iconoOtros.png" alt="Duda" width="20" height="20">';
+                spanEstado.style.display = "inline-block";
+                break;
+
             default:
-                // Si quieres, aquí puedes dejar el estado tal cual
-                // o poner un valor por defecto
                 jugador.estado = jugador.estado;
                 break;
         }
