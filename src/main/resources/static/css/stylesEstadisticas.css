@@ -11053,12 +11053,20 @@ hr {
 
 /* ESTILOS PARA AG-GRID DE LA TABLA */
 /* Contenedor principal del tema */
-.ag-theme-alpine,
-.ag-theme-alpine .ag-root-wrapper,
-.ag-theme-alpine .ag-root,
-.ag-theme-alpine .ag-body-viewport {
-  background-color: transparent !important;
-  border: none !important;
+/* Quitar la línea debajo del encabezado */
+.ag-theme-alpine .ag-header,
+.ag-theme-alpine .ag-header-viewport,
+.ag-theme-alpine .ag-header-cell,
+.ag-theme-alpine .ag-header-cell-label,
+.ag-theme-alpine .ag-root-wrapper {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+/* Quitar pseudo-elementos que dibujan línea */
+.ag-theme-alpine .ag-header::after,
+.ag-theme-alpine .ag-header-cell::after {
+    content: none !important;
 }
 
 /* Encabezado */
@@ -11080,7 +11088,7 @@ hr {
 }
 
 .ag-theme-alpine .ag-header-cell {
-  border-bottom: none !important;
+  border-bottom: none !important; /* quita la línea inferior */
   box-shadow: none !important; /* por si hay sombra */
 }
 
@@ -11094,11 +11102,11 @@ hr {
 }
 
 .ag-theme-alpine .ag-row {
-  height: 70px !important;
+  height: 70px !important; /* altura fija para todas las filas */
 }
 
 .ag-theme-alpine .ag-cell {
-  line-height: 50px !important; /* centra verticalmente el texto */
+  line-height: normal !important; /* centra verticalmente el texto */
 }
 
 /* Contenedor del grid */

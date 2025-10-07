@@ -67,6 +67,8 @@ public class EstadisticasController {
 
         jugadorName = Normalizer.normalize(jugadorName.trim().toLowerCase(), Normalizer.Form.NFD).replaceAll("[\\p{InCombiningDiacriticalMarks}]+", "").replaceAll("\\s+", "-");
         
+        System.out.println("Nombre del jugador recibido: " + jugadorName);
+
         // Recuperamos el ID del jugador a partir del nombre llamando al servicio
         String idJugador = estadisticasService.recuperarIdJugador(jugadorName);
 
@@ -161,4 +163,5 @@ public class EstadisticasController {
         return "estadisticas"; 
     }
 
+    
 }

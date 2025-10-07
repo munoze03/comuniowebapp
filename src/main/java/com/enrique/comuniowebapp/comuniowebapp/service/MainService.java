@@ -96,7 +96,6 @@ public class MainService {
             n.setDate(formatearFecha(date));
 
             String title = (String) entry.get("title");
-            System.out.println(title);
             switch (title.toLowerCase()) {
                 case "transaction" -> title = "Transacción";
                 default -> {
@@ -110,7 +109,6 @@ public class MainService {
             Map<String, Object> message = (Map<String, Object>) entry.get("message");
             String messageHtml = (String) message.get("text");
 
-            System.out.println(messageHtml);
 
             if(!title.contains("ideal de")){
                 //Limpiamos el mensaje de links

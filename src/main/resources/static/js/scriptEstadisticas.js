@@ -78,7 +78,6 @@ function getColumnDefs(){
                     container.style.display = "flex";
                     container.style.gap = "2px"; // espacio entre celdas
                     container.style.height = "100%";   // 🔹 Ocupar toda la celda
-                    container.style.alignItems = "center"; // 🔹 Centrar verticalmente  
                     
                     valores.forEach(val => {
                     const cell = document.createElement("div");
@@ -135,7 +134,6 @@ function getColumnDefs(){
                     container.style.display = "flex";
                     container.style.gap = "2px"; // espacio entre celdas
                     container.style.height = "100%";   // 🔹 Ocupar toda la celda
-                    container.style.alignItems = "center"; // 🔹 Centrar verticalmente  
                     
                     valores.forEach(val => {
                     const cell = document.createElement("div");
@@ -168,22 +166,6 @@ function getColumnDefs(){
 // JS para inicializar la tabla de estadisticas de jugadores
 const myGridElement = document.querySelector('#tablaJugadores');
 agGrid.createGrid(myGridElement, gridOptions);
-
-// Funcion para cargar los datos del jugador para abrir el modal al pulsar en el jugador
-function cogerDatosJugador(){
-    const IdJugador = 2969;
-
-    fetch('/estadisticas/datosJugador', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ nombre: "Pedri", valor: 25000000 })
-    })
-    .then(res => res.json())
-    .then(data => console.log("Guardado:", data))
-    .catch(err => console.error(err));
-}
 
 // FUNCIONES PARA CALENDARIO LA LIGA
 document.addEventListener("DOMContentLoaded", () => {

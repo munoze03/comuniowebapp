@@ -216,6 +216,9 @@ public class EstadisticasService {
 
     public String recuperarIdJugador(String nombre) throws IOException{
 
+        // Comrpobamos que el nombre del jugador no sea una excepcion en Comuniazo
+        nombre = excepcionesNombresJugadores(nombre);
+
         // Scrapeamos la pagina del jugador para obtener el ID del jugador
         String urlId = String.format("https://www.comuniazo.com/comunio-apuestas/jugadores/%s", nombre);
         String id = "";
@@ -263,5 +266,22 @@ public class EstadisticasService {
             p.setPropietario((String) owner.get("name"));
 
         return p;
+    }
+
+    public String excepcionesNombresJugadores(String nombre) {
+        switch (nombre.toLowerCase()) {
+            case "carlos-alvarez":
+                return "carlos-alvarez-2";
+            case "militao":
+                return "eder-militao";
+            case "frenkie-de-jong":
+                return "de-jong";
+            case "muriqui":
+                return "muriqi";
+            case "inaki-williams":
+                return "williams";
+            default:
+                return nombre;
+        }
     }
 }
