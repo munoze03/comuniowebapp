@@ -36,7 +36,7 @@ public class EstadisticasController {
         UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
         // Controlamos si userInfo es null para que no de error por si ha caducado la sesion
         if (userInfo == null) {
-        // redirigir al login si no hay sesión
+        // redirigir al login si no hay sesións
         return "redirect:/api/login";
         }
         
