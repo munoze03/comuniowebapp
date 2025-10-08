@@ -100,27 +100,6 @@ public class Player {
         return estado;
     }
     public void setEstado(String estado) {
-
-        switch (estado) {
-            case "ACTIVE":
-                estado = "SIN PROBLEMAS";
-                break;
-
-            case "INJURED":
-                estado = "LESIONADO -";
-                break;
-
-            case "WEAKENED":
-                estado = "TOCADO";
-                break;
-
-            case "NOT SELECTED":
-                estado = "NO CONVOCADO";
-                break;
-
-            default:
-                break;
-        }
         this.estado = estado;
     }
     public String getInfoEstado() {

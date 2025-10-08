@@ -36,6 +36,7 @@ const gridOptions = {
             document.getElementById("jugadorPartidosJugados").textContent = data.partidosJugados
             document.getElementById("jugadorHistoricoPuntos").textContent = data.propietario.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
             document.getElementById("jugadorHistoricoPuntosTitulo").innerHTML = "<strong>Propietario:</strong>";
+            iconoEstado(data.estado);
         })
         .catch(error => console.error("Error:", error));
 
@@ -189,4 +190,49 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         showSlide(currentIndex);
-    });
+});
+
+function iconoEstado(estado){
+    const spanEstado = document.getElementById("iconoLesion");
+    switch (estado) {
+        case "SIN PROBLEMAS":
+            spanEstado.innerHTML = "";
+            break;
+
+        case "LESIONADO -":
+            spanEstado.innerHTML = '<img src="/assets/iconoLesion.png" alt="Lesionado" width="30px" height="30px">';
+            spanEstado.style.display = "inline-block";
+            break;
+
+        case "TOCADO":
+            spanEstado.innerHTML = '<i class="bi bi-question-circle-fill fs-4 text-warning"></i>';
+            spanEstado.style.display = "inline-block";
+            break;
+
+        case "NO CONVOCADO":
+            break;
+
+        case "OTROS":
+            spanEstado.innerHTML = '<img src="/assets/iconoOtros.png" alt="Duda" width="30px" height="30px">';
+            spanEstado.style.display = "inline-block";
+            break;
+
+        case "SANCIONADO":
+            spanEstado.innerHTML = '<i class="bi bi-file-fill fs-4 text-danger"></i>';
+            spanEstado.style.display = "inline-block";
+            break;
+        
+        case "NO CONVOCADO":
+            spanEstado.innerHTML = '<img src="/assets/iconoOtros.png" alt="Duda" width="30px" height="30px">';
+            spanEstado.style.display = "inline-block";
+            break;
+
+        case "ROJA DIRECTA":
+            spanEstado.innerHTML = '<i class="bi bi-file-fill fs-4 text-danger"></i>';
+            spanEstado.style.display = "inline-block";
+            break;
+
+        default:
+            break;
+    }
+}

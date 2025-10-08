@@ -78,21 +78,23 @@ function mostrarInfoJugador(jugador) {
         // Pintamos el fondo de la posicion del jugador
         spanPosicion.classList.add("pos-" + jugador.type);
 
+        console.log(jugador.estado);
+
         switch (jugador.estado) {
             case "ACTIVE":
                 jugador.estado = "SIN PROBLEMAS";
-                spanEstado.innerHTML = ""
+                spanEstado.innerHTML = "";
                 break;
 
             case "INJURED":
                 jugador.estado = "LESIONADO -";
-                spanEstado.innerHTML = '<img src="/assets/iconoLesion.png" alt="Lesionado" width="20" height="20">';
+                spanEstado.innerHTML = '<img src="/assets/iconoLesion.png" alt="Lesionado" width="25px" height="25px">';
                 spanEstado.style.display = "inline-block";
                 break;
 
             case "WEAKENED":
                 jugador.estado = "TOCADO";
-                spanEstado.innerHTML = '<img src="/assets/iconoDuda.png" alt="Duda" width="16" height="20">';
+                spanEstado.innerHTML = '<i class="bi bi-question-circle-fill fs-4 text-warning"></i>';
                 spanEstado.style.display = "inline-block";
                 break;
 
@@ -102,7 +104,13 @@ function mostrarInfoJugador(jugador) {
 
             case "MISCELLANEOUS":
                 jugador.estado = "OTROS";
-                spanEstado.innerHTML = '<img src="/assets/iconoOtros.png" alt="Duda" width="20" height="20">';
+                spanEstado.innerHTML = '<img src="/assets/iconoOtros.png" alt="Duda" width="30" height="20">';
+                spanEstado.style.display = "inline-block";
+                break;
+
+            case "YELLOW_RED_BANNED":
+                jugador.estado = "SANCIONADO";
+                spanEstado.innerHTML = '<i class="bi bi-file-fill fs-4 text-danger"></i>';
                 spanEstado.style.display = "inline-block";
                 break;
 

@@ -254,7 +254,8 @@ public class EstadisticasService {
             Map<String, Object> photo = (Map<String, Object>) links.get("photo");
             Map<String, Object> owner = (Map<String, Object>) responsePlayer.getBody().get("owner");
 
-            p.setEstado((String) responsePlayer.getBody().get("status"));
+            String estado = (String) responsePlayer.getBody().get("status");
+            p.setEstado(traducirEstado(estado));
             p.setInfoEstado((String) responsePlayer.getBody().get("statusInfo"));
             p.setPartidosJugados((int) general.get("playedGames"));
             p.setGolesTotales((int) general.get("totalGoals"));
@@ -283,5 +284,46 @@ public class EstadisticasService {
             default:
                 return nombre;
         }
+    }
+
+    public String traducirEstado(String estado){
+        switch (estado) {
+            case "ACTIVE":
+                estado = "SIN PROBLEMAS";
+                break;
+
+            case "INJURED":
+                estado = "LESIONADO -";
+                break;
+
+            case "WEAKENED":
+                estado = "TOCADO";
+                break;
+
+            case "NOT SELECTED":
+                estado = "NO CONVOCADO";
+                break;
+
+            case "MISCELLANEOUS":
+                estado = "OTROS";
+                break;
+
+            case "YELLOW_RED_BANNED":
+                estado = "SANCIONADO";
+                break;
+
+            case "SUSPENDED":
+                estado = "NO CONVOCADO";
+                break;
+
+            case "RED_BANNED":
+                estado = "ROJA DIRECTA";
+                break;
+
+            default:
+                break;
+        }
+
+        return estado;
     }
 }
