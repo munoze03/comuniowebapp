@@ -10820,10 +10820,7 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-body {
-  padding-top: 3.375rem;
-  color: #6c757d;
-}
+
 
 @media (min-width: 992px) {
   body {
@@ -10977,6 +10974,8 @@ body {
     background-size: cover;
     color: #fff;
     font-family: 'Muli', sans-serif;
+    padding-top: 3.375rem;
+    color: #6c757d;
 }
 
 .resume-section {
