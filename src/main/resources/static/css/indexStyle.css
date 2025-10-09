@@ -7,17 +7,16 @@ html, body {
 }
 
 body {
-  background: url('https://static.vecteezy.com/system/resources/thumbnails/003/396/140/small_2x/soccer-ball-in-net-with-spotlight-or-stadium-light-background-free-photo.jpg') no-repeat center center;
-  background-size: cover;
-  position: relative;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 77, 77, 0.9);
-  z-index: -1;
+  margin: 0;
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-line-height);
+  color: var(--bs-body-color);
+  text-align: var(--bs-body-text-align);
+  background-color: var(--bs-body-bg);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .login-box {
@@ -25,17 +24,7 @@ body::before {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: url(https://static.vecteezy.com/system/resources/thumbnails/003/396/140/small_2x/soccer-ball-in-net-with-spotlight-or-stadium-light-background-free-photo.jpg) no-repeat center;
-  background-size: cover;
   position: relative;
-}
-
-.login-box::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 77, 77, 0.9);
-  z-index: 1;
 }
 
 .card {
@@ -43,17 +32,9 @@ body::before {
   z-index: 2;
   width: 100%;
   max-width: 700px;
-  background: transparent;
   padding: 40px;
   box-sizing: border-box;
   border: none;
-}
-
-.title {
-  text-align: center;
-  color: white;
-  font-size: 32px;
-  margin-bottom: 30px;
 }
 
 .login-space .group {
@@ -69,8 +50,8 @@ body::before {
 }
 
 .group .label {
-  font-size: 12px;
-  color: #aaa;
+  font-size: 14px;
+  color: #198754;
   margin-bottom: 5px;
 }
 
@@ -88,7 +69,7 @@ body::before {
 }
 
 .group .button {
-  background: #1161ee;
+  background: #198754;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -98,6 +79,7 @@ body::before {
   align-items: center;
   gap: 10px;
   font-size: 14px;
+  color: #198754;
 }
 
 .group label .icon {
@@ -134,7 +116,7 @@ body::before {
 }
 
 .check:checked + label .icon {
-  background: #1161ee;
+  background: #198754;
 }
 
 .check:checked + label .icon:before {
@@ -199,7 +181,7 @@ input.check {
 .custom-modal-button {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background-color: #1161ee;
+  background-color: #198754;
   color: white;
   border-radius: 8px;
   text-decoration: none;
@@ -207,7 +189,7 @@ input.check {
 }
 
 .custom-modal-button:hover {
-  background-color: #1161ee;
+  background-color: #198754;
 }
 
 /* RESPONSIVE */
@@ -222,3 +204,12 @@ input.check {
   }
 }
 
+.title{
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.logo {
+  width: 200px;
+  height: 200px;
+}
