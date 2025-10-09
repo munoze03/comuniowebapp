@@ -66,6 +66,7 @@ function mostrarInfoJugador(jugador) {
 
         // Guardamos jugador en window para recuperarlo al abrir el modal de historico valor
         window.jugadorSeleccionado = jugador;
+        console.log(jugador);
 
         document.getElementById("jugadorNombre").textContent = jugador.name;
         document.getElementById("jugadorFoto").src = jugador.photo;

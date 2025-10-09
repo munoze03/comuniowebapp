@@ -40,8 +40,10 @@ const gridOptions = {
         })
         .catch(error => console.error("Error:", error));
 
+        // Guardo el nombre del jugador en window para recuperarlo en el modal de historial de valor
+        window.jugadorSeleccionado = params.data.nombre;
 
-        // Mostrar modal (Bootstrap 5)
+        // Mostramos modalJugador
         const modal = new bootstrap.Modal(document.getElementById("jugadorModal"));
         modal.show();
     }
@@ -236,3 +238,92 @@ function iconoEstado(estado){
             break;
     }
 }
+
+// Script para capturar los datos del historial de valor del jugador desde el controlador en el modal historial de valor
+document.addEventListener('DOMContentLoaded', function () {
+    const historialModal = document.getElementById('historialModal');
+
+    historialModal.addEventListener('show.bs.modal', function (event) {
+        const jugadorName = window.jugadorSeleccionado.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-");
+        document.getElementById('Nombre').textContent = window.jugador;
+
+        fetch(`/model/cargarHistoricoValor/${jugadorName}`)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error("Error en la petición: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const container = document.getElementById('historialLista');
+            container.innerHTML = ''; // Limpiar
+
+            // Parsear boxChart si viene como string
+            const boxChart = typeof data.boxChart === "string" ? JSON.parse(data.boxChart) : data.boxChart;
+
+            // Crear wrapper para scroll
+            const scrollWrapper = document.createElement('div');
+            scrollWrapper.style.maxHeight = '300px'; // ajusta según el alto deseado
+            scrollWrapper.style.overflowY = 'auto';
+            scrollWrapper.style.display = 'block';
+
+            // Crear tabla
+            const table = document.createElement('table');
+            table.className = 'table table-striped table-dark'; // clases de Bootstrap opcionales
+
+            // Encabezado
+            const thead = document.createElement('thead');
+            thead.innerHTML = `
+                <tr>
+                    <th>Fecha</th>
+                    <th>Valor (€)</th>
+                    <th>Diferencia (€)</th>
+                </tr>`;
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+
+            /** =========================
+             * TABLA 1 - Últimos 10 valores
+             * ========================= */
+            const historial = boxChart.reverse();
+
+            for (let i = 0; i < historial.length; i++) {
+                const item = historial[i];
+                const prevItem = i > 0 ? historial[i - 1] : null;
+                const diff = prevItem ? prevItem.value - item.value : 0; // diferencia
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.date}</td>
+                    <td>${item.value.toLocaleString()} €</td>
+                    <td style="color:${diff >= 0 ? 'lightgreen' : 'red'}">
+                        ${diff >= 0 ? '+' : ''}${diff.toLocaleString()} €
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            table.appendChild(tbody);
+            container.appendChild(table);
+            scrollWrapper.appendChild(table);
+            container.appendChild(scrollWrapper);
+
+        })
+        .catch(err => console.error("Error en fetch:", err));
+
+    });
+});
+
+// Script para reabrir el modal del jugador al cerrar el modal del historial de valor
+document.addEventListener("DOMContentLoaded", () => {
+    const historialModalEl = document.getElementById('historialModal');
+    const jugadorModalEl = document.getElementById('jugadorModal');
+
+    // Evento cuando el modal historial se cierra
+    historialModalEl.addEventListener('hidden.bs.modal', function () {
+        // Reabrir el modal del jugador
+        const jugadorModal = new bootstrap.Modal(jugadorModalEl);
+        jugadorModal.show();
+    });
+});

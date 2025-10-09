@@ -53,7 +53,7 @@ public class AuthService {
     }
 
     public TokenResponse refreshAccessToken(String refreshToken) {
-        String url = "https://www.comunio.es/api/oauth/token";
+        String url = "https://www.comunio.es/api/oauth/refresh";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
