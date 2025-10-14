@@ -16,7 +16,6 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Mercado;
 import com.enrique.comuniowebapp.comuniowebapp.dto.News;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Oferta;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
-import com.enrique.comuniowebapp.comuniowebapp.dto.TokenResponse;
 import com.enrique.comuniowebapp.comuniowebapp.dto.Transactions;
 import com.enrique.comuniowebapp.comuniowebapp.dto.UserInfo;
 import com.enrique.comuniowebapp.comuniowebapp.service.AuthService;
@@ -59,16 +58,11 @@ public class MainController {
 
         // Capturamos el token de la sesion
         String accessToken = (String) session.getAttribute("token");
-        String refreshToken = (String) session.getAttribute("refreshToken");
         Instant tokenExpiry = (Instant) session.getAttribute("tokenExpiry");
 
         if (accessToken == null || Instant.now().isAfter(tokenExpiry)) {
-            TokenResponse newTokens = comunioAuthService.refreshAccessToken(refreshToken);
-
-            accessToken = newTokens.getAccessToken();
-            session.setAttribute("accessToken", accessToken);
-            session.setAttribute("refreshToken", newTokens.getRefreshToken());
-            session.setAttribute("tokenExpiry", Instant.now().plusSeconds(newTokens.getExpiresIn()));
+            // redirigir al login si no hay sesión
+            return "redirect:/api/login";
         }
 
         // Ahora lo pasamos a una variable final

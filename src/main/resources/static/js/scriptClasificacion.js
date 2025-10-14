@@ -273,7 +273,7 @@ async function renderAlineacionJugador(userId, containerId) {
                 const imgClub = document.createElement("img");
                 imgClub.src = plantillaJugador[i].hrefClubLogo; // URL de la imagen
                 imgClub.alt = plantillaJugador[i].club;
-                imgClub.className = "rounded-circle fotoPlantilla";   
+                imgClub.className = "fotoPlantilla";   
                 imgClub.style.width = "30px";               // ancho opcional
                 imgClub.style.height = "30px";              // alto opcional
                 imgClub.style.objectFit = "cover";          // para que no se deforme

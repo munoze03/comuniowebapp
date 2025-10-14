@@ -81,6 +81,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Datos de Plantilla -->
+            <div class="info-container">
+                <h3 class="info-item subheadingFecha mb-1">
+                    Nº Jugadores:&nbsp;
+                    <span th:text="${userInfo.teamCount}"></span>
+                </h3>
+                <h3 class="info-item subheadingFecha mb-1">
+                    Valor:&nbsp;
+                    <span th:text="${#numbers.formatInteger(userInfo.teamValue, 0, 'POINT')} + '€'"></span>
+                </h3>
+            </div>
         </div>
     </section>
     <hr class="m-0" />

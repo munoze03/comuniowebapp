@@ -2,6 +2,7 @@
     <section class="resume-section" id="administracion">
         <div class="resume-section-content">
             <h2 class="mb-3 text-center">Administración</h2>
+
             <!-- Acordeón principal -->
             <div class="accordion mb-3" id="accordionPrincipal">
 
@@ -14,17 +15,20 @@
                             Deshacer Fichaje
                         </button>
                     </h2>
+
                     <div id="collapseDeshacer" class="accordion-collapse collapse" 
                         aria-labelledby="headingDeshacer" data-bs-parent="#accordionPrincipal">
                         <div class="accordion-body">
 
-                            <!-- Aquí tu código de transacciones -->
+                            <!-- Mensaje si no hay transacciones -->
                             <div th:if="${#lists.isEmpty(historialTransacciones)}">
                                 <p class="lead mb-5">No hay historial de transacciones disponibles.</p>
                             </div>
 
+                            <!-- Lista de transacciones -->
                             <div th:if="${!#lists.isEmpty(historialTransacciones)}">
-                                <form id="transaccionesForm" method="post" action="/administracion/anularFichajeAdministracion">
+                                <form id="transaccionesForm" method="post" 
+                                        th:action="@{/administracion/anularFichajeAdministracion}">
                                     <div id="transaccionesContainer">
                                         <div th:each="t, iterStat : ${historialTransacciones}" 
                                             th:classappend="${iterStat.index >= 5} ? 'd-none extra-transacciones' : ''" 
@@ -43,7 +47,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Botón eliminar al final de la lista -->
+                                    <!-- Botones -->
                                     <div class="mt-3">
                                         <button type="submit" class="btn btn-danger btn-sm">Eliminar seleccionados</button>
                                         <button type="button" class="btn btn-outline-light btn-sm" id="mostrarMasBtn" onclick="toggleTransacciones(this)">Mostrar más</button>
@@ -64,27 +68,31 @@
                             Administración de miembros 
                         </button>
                     </h2>
+
                     <div id="collapseSanciones" class="accordion-collapse collapse" 
                         aria-labelledby="headingSanciones" data-bs-parent="#accordionPrincipal">
                         <div class="accordion-body">
+
+                            <!-- Mensaje si no hay usuarios -->
                             <div th:if="${#lists.isEmpty(datosUsuarios)}">
                                 <p class="lead mb-5">No hay historial de transacciones disponibles.</p>
                             </div>
 
+                            <!-- Lista de usuarios -->
                             <div th:if="${!#lists.isEmpty(datosUsuarios)}">
                                 <table class="table text-white">
                                     <thead>
                                         <tr class="text-success">
                                             <th>Nombre</th>
-                                            <th style="text-align: center;">Administrador</th>
-                                            <th style="text-align: center;">Actividad</th>
+                                            <th class="text-center">Administrador</th>
+                                            <th class="text-center">Actividad</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="d, stat : ${datosUsuarios}">
+                                        <tr th:each="d : ${datosUsuarios}">
                                             <td th:text="${#strings.capitalize(d.firstName)} + ' ' + ${#strings.capitalize(d.lastName)}"></td>
-                                            <td style="text-align: center;" th:text="${d.isLeader} ? 'Sí' : 'No'"></td>
-                                            <td style="text-align: center;">
+                                            <td class="text-center" th:text="${d.isLeader} ? 'Sí' : 'No'"></td>
+                                            <td class="text-center">
                                                 <span class="orange-dot" th:if="${d.lastAction == 'naranja'}">●</span>
                                                 <span class="green-dot" th:if="${d.lastAction == 'verde'}">●</span>
                                             </td>
@@ -105,15 +113,17 @@
                             Sanciones y Abonos
                         </button>
                     </h2>
+
                     <div id="collapseMiembros" class="accordion-collapse collapse" 
                         aria-labelledby="headingMiembros" data-bs-parent="#accordionPrincipal">
                         <div class="accordion-body">
-                            <form th:action="@{/administracion/abonoSancion}" th:value="${administracionForm}" method="post">
+                            <form th:action="@{/administracion/abonoSancion}" th:object="${administracionForm}" method="post">
+                                
                                 <div class="row mb-3 align-items-end">
                                     <!-- Selector Tipo -->
                                     <div class="col-md-4">
                                         <label for="tipo" class="form-label text-white">Tipo</label>
-                                        <select class="form-select" id="tipo" name="tipo">
+                                        <select class="form-select" id="tipo" name="tipo" required>
                                             <option value="" disabled selected>Selecciona tipo...</option>
                                             <option value="Abono">Abono</option>
                                             <option value="Sanción">Sanción</option>
@@ -123,29 +133,32 @@
                                     <!-- Selector Miembro -->
                                     <div class="col-md-4">
                                         <label for="usuario" class="form-label text-white">Usuario</label>
-                                        <select class="form-select" id="usuario" name="id">
+                                        <select class="form-select" id="usuario" name="id" required>
                                             <option value="" disabled selected>Selecciona usuario...</option>
-                                            <option th:each="d : ${datosUsuarios}" th:value="${d.id}" th:text="${#strings.capitalize(d.firstName)} + ' ' + ${#strings.capitalize(d.lastName)}"></option>
+                                            <option th:each="d : ${datosUsuarios}" th:value="${d.id}" 
+                                                    th:text="${#strings.capitalize(d.firstName)} + ' ' + ${#strings.capitalize(d.lastName)}">
+                                            </option>
                                         </select>
                                     </div> 
 
                                     <!-- Cantidad -->
                                     <div class="col-md-4">
                                         <label for="cantidad" class="form-label text-white">Cantidad</label>
-                                        <input type="number" class="form-control" min="0" id="cantidad" name="cantidad" placeholder="Introduce cantidad">
+                                        <input type="number" class="form-control" min="0" id="cantidad" name="cantidad" placeholder="Introduce cantidad" required />
                                     </div>
                                 </div>
 
                                 <!-- Concepto -->
                                 <div class="mb-3">
                                     <label for="concepto" class="form-label text-white">Concepto</label>
-                                    <textarea class="form-control" id="concepto" name="concepto" rows="4" placeholder="Motivo o descripción"></textarea>
+                                    <textarea class="form-control" id="concepto" name="concepto" rows="4" placeholder="Motivo o descripción" required></textarea>
                                 </div>
 
                                 <!-- Botón -->
                                 <div class="mb-3 text-center">
                                     <button type="submit" class="btn btn-success ">Guardar</button>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -154,6 +167,9 @@
             </div>
         </div>
     </section>
+
     <hr class="m-0" />
+    
+    <!-- Scripts -->
     <script src="/js/scriptAdministracion.js"></script>
 </div>

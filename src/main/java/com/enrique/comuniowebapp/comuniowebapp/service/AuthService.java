@@ -6,12 +6,9 @@ import java.util.Map;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.enrique.comuniowebapp.comuniowebapp.dto.TokenResponse;
@@ -50,26 +47,6 @@ public class AuthService {
         tokenResponse.setExpiresIn((int) response.getBody().get("expires_in"));
 
         return tokenResponse;
-    }
-
-    public TokenResponse refreshAccessToken(String refreshToken) {
-        String url = "https://www.comunio.es/api/oauth/refresh";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "refresh_token");
-        params.add("refresh_token", refreshToken);
-        params.add("client_id", "TU_CLIENT_ID");
-        params.add("client_secret", "TU_CLIENT_SECRET");
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-
-        ResponseEntity<TokenResponse> response = restTemplate.exchange(
-                url, HttpMethod.POST, request, TokenResponse.class);
-
-        return response.getBody();
     }
 
 }

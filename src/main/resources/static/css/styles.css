@@ -11121,14 +11121,20 @@ hr {
 /* Estilo para el saldo en la barra lateral */
 .budget-fixed {
     position: absolute;      /* Fijo en la barra lateral */
-    bottom: 20px;            /* Se puede cambiar a 'top: 20px;' si quieres arriba */
+    bottom: 40px;            /* Se puede cambiar a 'top: 20px;' si quieres arriba */
     left: 50%;               /* Centrado horizontal */
+    justify-content: center;          /* centra el texto dentro del cuadro */
     transform: translateX(-50%);
-    background-color: rgba(40, 167, 69, 0.9); /* Verde semitransparente */
-    padding: 4px 4px;
-    border-radius: 10px;
+    background-color: rgba(0, 128, 0, 0.1);
+    border: 1px solid rgba(0, 128, 0, 0.4);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 7px 7px;
+    border-radius: 20px;
     pointer-events: none;    /* No se puede pulsar */
     font-weight: bold;
+    text-align: center;
+    color: white;
+    font-size: small;
 }
 
 /* Estilos de alineacion */
@@ -11403,3 +11409,34 @@ hr {
 .pos-ME { background-color: green !important; color: white; }
 .pos-DF { background-color: var(--bs-blue) !important; color: white; }
 .pos-PO { background-color: orange !important; color: white; }
+
+/* Estilo para valor de plantilla en PLANTILLA*/
+.info-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* dos columnas iguales */
+    gap: 15px;                       /* espacio entre los cuadros */
+    justify-items: center;            /* centra cada cuadro horizontalmente */
+    align-items: center;              /* centra verticalmente */
+    width: 100%;
+}
+
+.info-item {
+    display: flex;
+    justify-content: center;          /* centra el texto dentro del cuadro */
+    align-items: center;
+    width: 85%;                       /* para que no ocupen todo el ancho */
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: rgba(0, 128, 0, 0.1);
+    border: 1px solid rgba(0, 128, 0, 0.4);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-weight: 500;
+    text-align: center;
+}
+/* efecto hover opcional 
+.info-item:hover {
+    background-color: rgba(0, 128, 0, 0.3);
+    transform: scale(1.03);
+    transition: 0.2s ease;
+}*/
+

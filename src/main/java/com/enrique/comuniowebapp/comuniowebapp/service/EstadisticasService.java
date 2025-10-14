@@ -11,7 +11,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,8 +27,11 @@ import com.enrique.comuniowebapp.comuniowebapp.dto.Player;
 @Service
 public class EstadisticasService {
 
-    @Autowired
-    private RestTemplate restTemplate;  
+    private final RestTemplate restTemplate;
+
+    public EstadisticasService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public List<EstadisticasJugador> getEstadisticasJugadores(String token, String userId, String communityId) throws IOException {
 
@@ -49,7 +51,6 @@ public class EstadisticasService {
             EstadisticasJugador j = new EstadisticasJugador();
             j.setNombre(cols.get(0).select("strong").text());
             j.setEnlace(cols.get(0).select("a").attr("href"));
-            System.out.println(j.getEnlace());
             j.setEquipoLogo(cols.get(0).select("img").attr("src"));
 
             // 🔹 Extraer la posición desde la clase CSS
@@ -149,7 +150,7 @@ public class EstadisticasService {
             partido.setUrlTV(partidoEl.selectFirst(".mid .tvs img") != null ? partidoEl.selectFirst(".mid .tvs img").attr("src") : "");
 
             // En caso de que UrlTV sea "" recuperamos resultado
-            if(partido.getUrlTV() == ""){
+            if(partido.getUrlTV().isEmpty()){
             partido.setResultado(partidoEl.selectFirst(".mid .score") != null ? partidoEl.selectFirst(".mid .score").text() : "");
             }
 
@@ -201,16 +202,11 @@ public class EstadisticasService {
     private String conversorPosicion(String posicion){
         
         switch (posicion.toLowerCase()) {
-            case "pos-4":
-                return "DL";
-            case "pos-3":
-                return "ME";
-            case "pos-2":
-                return "DF";
-            case "pos-1":
-                return "PO";
-            default:
-                return "-";
+            case "pos-4": return "DL";
+            case "pos-3": return "ME";
+            case "pos-2": return "DF";
+            case "pos-1": return "PO";
+            default: return "-";
         }
     }
 
