@@ -11072,7 +11072,7 @@ hr {
 .ag-theme-alpine .ag-cell {
   border: none !important;
   background-color: transparent !important;
-  color: white; /* para que el texto se vea sobre tu fondo */
+  color: black; /* para que el texto se vea sobre tu fondo */
 }
 
 .ag-theme-alpine .ag-header-cell {
